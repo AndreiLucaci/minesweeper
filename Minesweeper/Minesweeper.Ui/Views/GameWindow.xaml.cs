@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Windows;
-using Minesweeper.Ui.Views;
+﻿using System.Windows;
 
 namespace Minesweeper.Ui
 {
@@ -12,13 +10,6 @@ namespace Minesweeper.Ui
         public GameWindow()
         {
             InitializeComponent();
-
-            Initialize(100);
-        }
-
-        private void Initialize(int nr)
-        {
-
         }
     }
 }
