@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using CommonServiceLocator;
+using Minesweeper.Engine;
+using Prism.Ioc;
+using Prism.Unity;
 
 namespace Minesweeper.Ui
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterWithEngineTypes();
+        }
+
+        protected override Window CreateShell()
+        {
+            return ServiceLocator.Current.GetInstance<GameWindow>();
+        }
     }
 }
