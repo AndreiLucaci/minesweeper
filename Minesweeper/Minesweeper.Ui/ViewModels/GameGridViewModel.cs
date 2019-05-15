@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Minesweeper.Engine.Services.Contracts;
+using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Models;
 using Prism.Mvvm;

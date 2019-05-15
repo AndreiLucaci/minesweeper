@@ -1,6 +1,6 @@
-﻿using Minesweeper.Models;
+﻿using Minesweeper.Infrastructure;
 
-namespace Minesweeper.Engine.Services.Contracts
+namespace Minesweeper.Engine.Contracts
 {
     public interface IGameConfigurationService
     {

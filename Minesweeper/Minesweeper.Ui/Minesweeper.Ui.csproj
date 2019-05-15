@@ -79,7 +79,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Pair.cs" />
-    <Compile Include="Models\Point.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
     <Compile Include="Views\Cell.xaml.cs">
       <DependentUpon>Cell.xaml</DependentUpon>

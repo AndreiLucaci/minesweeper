@@ -1,4 +1,4 @@
-﻿using Minesweeper.Models;
+﻿using Minesweeper.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
 
