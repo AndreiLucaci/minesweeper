@@ -1,5 +1,5 @@
-﻿using Minesweeper.Engine.Services;
-using Minesweeper.Engine.Services.Contracts;
+﻿using Minesweeper.Engine.Contracts;
+using Minesweeper.Engine.Services;
 using Prism.Ioc;
 
 namespace Minesweeper.Engine

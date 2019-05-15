@@ -1,4 +1,4 @@
-﻿namespace Minesweeper.Models
+﻿namespace Minesweeper.Infrastructure
 {
     public class GameConfiguration
     {

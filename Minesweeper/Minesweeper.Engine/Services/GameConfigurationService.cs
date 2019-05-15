@@ -1,5 +1,5 @@
-﻿using Minesweeper.Engine.Services.Contracts;
-using Minesweeper.Models;
+﻿using Minesweeper.Engine.Contracts;
+using Minesweeper.Infrastructure;
 
 namespace Minesweeper.Engine.Services
 {

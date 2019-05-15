@@ -40,9 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameConfiguration.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Cell.cs" />
+    <Compile Include="CellState.cs" />
+    <Compile Include="CellType.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Minesweeper.Infrastructure\Minesweeper.Infrastructure.csproj">
+      <Project>{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}</Project>
+      <Name>Minesweeper.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

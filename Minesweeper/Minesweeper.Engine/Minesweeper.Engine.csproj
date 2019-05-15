@@ -43,12 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IWorldManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInitializer.cs" />
     <Compile Include="Services\GameConfigurationService.cs" />
-    <Compile Include="Services\Contracts\IGameConfigurationService.cs" />
+    <Compile Include="Contracts\IGameConfigurationService.cs" />
+    <Compile Include="WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Minesweeper.Infrastructure\Minesweeper.Infrastructure.csproj">
+      <Project>{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}</Project>
+      <Name>Minesweeper.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Minesweeper.Models\Minesweeper.Models.csproj">
       <Project>{F03894A8-7EA4-4800-9A60-BCA901EE9432}</Project>
       <Name>Minesweeper.Models</Name>

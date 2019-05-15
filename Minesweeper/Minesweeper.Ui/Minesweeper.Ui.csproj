@@ -78,8 +78,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants\BrushesStyles.cs" />
+    <Compile Include="Constants\GameConstants.cs" />
+    <Compile Include="Constants\CellStyles.cs" />
+    <Compile Include="Events\CellClickEvent.cs" />
+    <Compile Include="Events\CellRedrawEvent.cs" />
     <Compile Include="Models\Pair.cs" />
-    <Compile Include="Models\Point.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
     <Compile Include="Views\Cell.xaml.cs">
       <DependentUpon>Cell.xaml</DependentUpon>
@@ -136,9 +140,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Minesweeper.Engine\Minesweeper.Engine.csproj">
       <Project>{24298BA6-D085-4184-B376-5BF2E264099A}</Project>
