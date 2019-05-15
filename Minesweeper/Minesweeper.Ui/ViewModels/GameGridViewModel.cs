@@ -1,28 +1,22 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
+using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Models;
+using Minesweeper.Ui.Constants;
+using Minesweeper.Ui.Events;
+using Prism.Events;
 using Prism.Mvvm;
 
 namespace Minesweeper.Ui.ViewModels
 {
     public class GameGridViewModel : BindableBase
     {
-        private readonly IGameConfigurationService _gameConfigurationService;
-
-        private readonly int _multiplier = 20;
 	    private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
 
-	    public GameGridViewModel(IGameConfigurationService gameConfigurationService)
-        {
-            Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
-
-            _gameConfigurationService = gameConfigurationService;
-
-            GameConfiguration = _gameConfigurationService.BeginnerConfiguration;
-
-	        InitializeCells();
-        }
+		private readonly IEventAggregator _eventAggregator;
+	    private readonly IWorldManager _worldManager;
 
 	    public ObservableCollection<CellViewModel> Cells
 	    {
@@ -30,26 +24,60 @@ namespace Minesweeper.Ui.ViewModels
 		    set { SetProperty(ref _cells, value, nameof(Cells)); }
 	    }
 
-	    public int GameWidth => GameConfiguration.Width * _multiplier;
+		public int GameWidth => GameConfiguration.Width * GameConstants.GameViewWidth;
 
-        public int GameHeight => GameConfiguration.Height * _multiplier;
+	    public int GameHeight => GameConfiguration.Height * GameConstants.GameViewHeight;
 
-        public GameConfiguration GameConfiguration { get; }
+	    public GameConfiguration GameConfiguration { get; }
 
-	    private void InitializeCells()
+		public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
+        {
+	        _eventAggregator = eventAggregator;
+	        Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
+
+            var configurationService = gameConfigurationService;
+	        GameConfiguration = configurationService.BeginnerConfiguration;
+
+			_worldManager = new WorldManager(configurationService.BeginnerConfiguration);
+
+	        SubscribeToEvents();
+
+			InitializeCells();
+        }
+
+	    ~GameGridViewModel()
 	    {
-		    for (var i = 0; i < GameConfiguration.Width; i++)
-		    {
-			    for (var j = 0; j < GameConfiguration.Height; j++)
-			    {
-				    var cell = new CellViewModel
-				    {
-					    Position = new Point(i, j)
-				    };
-
-					Cells.Add(cell);
-			    }
-		    }
+		    UnsubscribeToEvents();
 	    }
+
+	    private void SubscribeToEvents()
+	    {
+		    _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
+	    }
+
+	    private void UnsubscribeToEvents()
+	    {
+		    _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
+	    }
+
+		private void InitializeCells()
+	    {
+			_worldManager.InitializeWorld();
+
+			Cells = new ObservableCollection<CellViewModel>(_worldManager.Cells.Select(x => new CellViewModel
+			{
+				Cell = x
+			}));
+	    }
+
+	    private void OnCellClicked(Cell cell)
+	    {
+		    _worldManager.OpenCell(cell);
+
+		    foreach (var worldManagerCell in _worldManager.Cells)
+		    {
+			    _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
+			}
+		}
 	}
 }

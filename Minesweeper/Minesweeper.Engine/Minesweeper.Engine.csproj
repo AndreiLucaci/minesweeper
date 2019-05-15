@@ -46,8 +46,6 @@
     <Compile Include="Contracts\IWorldManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInitializer.cs" />
-    <Compile Include="Contracts\IEngine.cs" />
-    <Compile Include="Engine.cs" />
     <Compile Include="Services\GameConfigurationService.cs" />
     <Compile Include="Contracts\IGameConfigurationService.cs" />
     <Compile Include="WorldManager.cs" />

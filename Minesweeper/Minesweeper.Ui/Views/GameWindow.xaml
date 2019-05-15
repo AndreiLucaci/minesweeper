@@ -10,6 +10,6 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="450" Width="800">
     <Grid Name="Grid">
-		<views:GameGrid DataContext="{Binding }"></views:GameGrid>
+		<views:GameGrid></views:GameGrid>
 	</Grid>
 </Window>

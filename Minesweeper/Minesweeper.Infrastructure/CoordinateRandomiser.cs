@@ -27,7 +27,7 @@ namespace Minesweeper.Infrastructure
 		{
 			var rnd = new Random(DateTime.Now.Millisecond);
 
-			var point = new Point(rnd.Next(0, gameConfiguration.Width + 1), rnd.Next(0, gameConfiguration.Height));
+			var point = new Point(rnd.Next(0, gameConfiguration.Width), rnd.Next(0, gameConfiguration.Height));
 
 			return point;
 		}

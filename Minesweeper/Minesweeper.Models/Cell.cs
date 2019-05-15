@@ -14,6 +14,10 @@ namespace Minesweeper.Models
 
 		public bool IsOpened { get; set; }
 
+		public CellState CellState { get; set; } = CellState.Untouched;
+
+		public int NumberOfAdjacentMines { get; set; } = -1;
+
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as Cell);
@@ -23,6 +27,11 @@ namespace Minesweeper.Models
 		{
 			return other != null &&
 				   EqualityComparer<Point>.Default.Equals(Coordinates, other.Coordinates);
+		}
+
+		public override int GetHashCode()
+		{
+			return (Coordinates != null ? Coordinates.GetHashCode() : 0);
 		}
 
 		public static bool operator ==(Cell cell1, Cell cell2)
