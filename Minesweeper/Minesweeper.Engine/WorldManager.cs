@@ -84,7 +84,7 @@ namespace Minesweeper.Engine
 
 		private bool IsEndGame()
 		{
-			return Cells.Where(x => x.CellType != CellType.Mine).All(x => x.IsOpened);
+			return Cells.Where(x => x.CellType == CellType.EmptyCell).All(x => x.CellState == CellState.Opened);
 		}
 
 		#endregion

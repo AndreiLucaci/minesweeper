@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
@@ -16,7 +17,7 @@ namespace Minesweeper.Ui.ViewModels
 	    private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
 
 		private readonly IEventAggregator _eventAggregator;
-	    private readonly IWorldManager _worldManager;
+	    private IWorldManager _worldManager;
 
 	    public ObservableCollection<CellViewModel> Cells
 	    {
@@ -24,28 +25,55 @@ namespace Minesweeper.Ui.ViewModels
 		    set { SetProperty(ref _cells, value, nameof(Cells)); }
 	    }
 
-		public int GameWidth => GameConfiguration.Width * GameConstants.GameViewWidth;
+		public int GameWidth
+		{
+			get { return GameConfiguration.Width * GameConstants.GameViewWidth; }
+		}
 
-	    public int GameHeight => GameConfiguration.Height * GameConstants.GameViewHeight;
+	    public int GameHeight
+	    {
+		    get { return GameConfiguration.Height * GameConstants.GameViewHeight; }
+	    }
 
-	    public GameConfiguration GameConfiguration { get; }
+	    public GameConfiguration GameConfiguration { get; set; }
 
-		public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
-        {
-	        _eventAggregator = eventAggregator;
-	        Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
+	    public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
+	    {
+		    Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
+		    Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
 
-            var configurationService = gameConfigurationService;
-	        GameConfiguration = configurationService.ExpertConfiguration;
+		    _eventAggregator = eventAggregator;
 
-			_worldManager = new WorldManager(GameConfiguration);
+		    var configurationService = gameConfigurationService;
+		    GameConfiguration = configurationService.BeginnerConfiguration;
 
-	        SubscribeToEvents();
+		    StartNewGame();
 
-			InitializeCells();
+		    SubscribeToEvents();
+	    }
 
-	        RedrawWorld();
-        }
+	    private void StartNewGame()
+	    {
+		    _worldManager = new WorldManager(GameConfiguration);
+		    InitializeCells();
+		    NotifyView();
+	    }
+
+	    private void NotifyView()
+	    {
+		    RaisePropertyChanged(nameof(GameWidth));
+		    RaisePropertyChanged(nameof(GameHeight));
+
+			_eventAggregator.GetEvent<ResizeWidthEvent>().Publish(GameWidth);
+			_eventAggregator.GetEvent<ResizeHeightEvent>().Publish(GameHeight);
+	    }
+
+	    private void OnStartNewGame(GameConfiguration gameConfiguration)
+	    {
+		    GameConfiguration = gameConfiguration;
+
+		    StartNewGame();
+	    }
 
 	    ~GameGridViewModel()
 	    {
@@ -55,12 +83,14 @@ namespace Minesweeper.Ui.ViewModels
 	    private void SubscribeToEvents()
 	    {
 		    _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
+		    _eventAggregator.GetEvent<StartNewGame>().Subscribe(OnStartNewGame);
 	    }
 
 	    private void UnsubscribeToEvents()
 	    {
 		    _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
-	    }
+		    _eventAggregator.GetEvent<StartNewGame>().Unsubscribe(OnStartNewGame);
+		}
 
 		private void InitializeCells()
 	    {

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using CommonServiceLocator;
 using Minesweeper.Engine;
+using Minesweeper.Ui.ViewModels;
 using Prism.Ioc;
 using Prism.Unity;
 
@@ -18,7 +19,11 @@ namespace Minesweeper.Ui
 
         protected override Window CreateShell()
         {
-            return ServiceLocator.Current.GetInstance<GameWindow>();
+            var window = ServiceLocator.Current.GetInstance<GameWindow>();
+
+	        window.DataContext = ServiceLocator.Current.GetInstance<GameWindowViewModel>();
+
+			return window;
         }
     }
 }

@@ -7,32 +7,33 @@
         xmlns:regions="http://prismlibrary.com/"
         xmlns:controls="clr-namespace:Minesweeper.Ui.Views"
         xmlns:views="clr-namespace:Minesweeper.Ui.Views"
+        xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
         mc:Ignorable="d"
-        Title="GameWindow" Height="450" Width="800">
-    <Grid Name="Grid">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="40"></RowDefinition>
-			<RowDefinition Height="*"></RowDefinition>
-		</Grid.RowDefinitions>
-		<Menu Grid.Row="0" Height="22" Name="menu1" Margin="10, 10, 5, 5" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-			<MenuItem Header="_File">
-				<MenuItem Header="_Beginner" IsCheckable="true">
+        d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
+        Title="GameWindow" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
+	<DockPanel>
+		<Menu Width="Auto" Height="20" DockPanel.Dock="Top">
+			<MenuItem Header="_New Game">
+				<MenuItem Header="_Beginner" Command="{Binding BeginnerNewGameCommand}">
 					<MenuItem.ToolTip>
 						<ToolTip>Starts a new game on Beginner level.</ToolTip>
 					</MenuItem.ToolTip>
 				</MenuItem>
-				<MenuItem Header="_Intermediate" IsCheckable="true">
+				<MenuItem Header="_Advanced" Command="{Binding AdvancedNewGameCommand}">
 					<MenuItem.ToolTip>
-						<ToolTip>Starts a new game on Intermediate level.</ToolTip>
+						<ToolTip>Starts a new game on Advanced level.</ToolTip>
 					</MenuItem.ToolTip>
 				</MenuItem>
-				<MenuItem Header="_Expert" IsCheckable="true" >
+				<MenuItem Header="_Expert" Command="{Binding ExpertNewGameCommand}">
 					<MenuItem.ToolTip>
 						<ToolTip>Starts a new game on Expert level.</ToolTip>
 					</MenuItem.ToolTip>
 				</MenuItem>
 			</MenuItem>
 		</Menu>
-		<views:GameGrid Grid.Row="1"></views:GameGrid>
-	</Grid>
+
+		<Grid Name="Grid">
+			<views:GameGrid></views:GameGrid>
+		</Grid>
+	</DockPanel>
 </Window>
