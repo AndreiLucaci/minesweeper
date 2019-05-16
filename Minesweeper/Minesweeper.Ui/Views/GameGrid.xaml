@@ -10,7 +10,7 @@
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewModels:GameGridViewModel,IsDesignTimeCreatable=True}">
-	<Grid Width="{Binding GameWidth, Mode=OneWay}" Height="{Binding GameHeight, Mode=OneWay}" Background="Blue">
+	<Grid Width="{Binding GameWidth, Mode=OneWay}" Height="{Binding GameHeight, Mode=OneWay}">
 		<ItemsControl ItemsSource="{Binding Cells, Mode=TwoWay}" FlowDirection="LeftToRight">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>

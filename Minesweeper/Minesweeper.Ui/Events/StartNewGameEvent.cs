@@ -3,7 +3,7 @@ using Prism.Events;
 
 namespace Minesweeper.Ui.Events
 {
-	public class StartNewGame : PubSubEvent<GameConfiguration>
+	public class StartNewGameEvent : PubSubEvent<GameConfiguration>
 	{
 	}
 }

@@ -16,7 +16,7 @@ namespace Minesweeper.Models
 			set
 			{
 				_neighbours = value;
-				ComputeNumberOfMines();
+				OriginalNumberOfMines = WorkingNumberOfMines = ComputeNumberOfMinesWithoutFlags();
 			}
 		}
 
@@ -28,7 +28,36 @@ namespace Minesweeper.Models
 
 		public CellState CellState { get; set; } = CellState.Untouched;
 
-		public int NumberOfAdjacentMines { get; set; }
+		public override string ToString()
+		{
+			return $"{{x: {Coordinates.X}, y: {Coordinates.Y}}} - {CellType} - {CellState}";
+		}
+
+		public int NumberOfAdjacentMines => ComputeNumberOfMinesWithoutFlags();
+		public int NumberOfAdjacentMinesWithFlags => ComputeNumberOfMinesWithFlags();
+		public int NumberOfAdjacentFlags => ComputeNumberOfFlags();
+
+		public int WorkingNumberOfMines { get; set; }
+		public int OriginalNumberOfMines { get; set; }
+
+		public int ComputeFlagNumberOfMines()
+		{
+			return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
+		}
+		public int ComputeNumberOfMines()
+		{
+			return Neighbours.Count(x => x.CellType == CellType.Mine);
+		}
+
+		public int ComputeNumberOfFlaggedMines()
+		{
+			return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine && x.CellType == CellType.Mine);
+		}
+
+        public int ComputeNumberOfUnopenedNeighbours()
+        {
+            return Neighbours.Count(x => x.CellState == CellState.Untouched);
+        }
 
 		public override bool Equals(object obj)
 		{
@@ -56,9 +85,25 @@ namespace Minesweeper.Models
 			return !(cell1 == cell2);
 		}
 
-		private void ComputeNumberOfMines()
+		private int ComputeNumberOfMinesWithFlags()
 		{
-			NumberOfAdjacentMines = Neighbours.Count(x => x.CellType == CellType.Mine);
+			var numberOfMines = Math.Abs(NumberOfAdjacentMines - NumberOfAdjacentFlags);
+
+			return numberOfMines;
+		}
+
+		private int ComputeNumberOfMinesWithoutFlags()
+		{
+			var numberOfMines = Neighbours.Count(neighbour => neighbour.CellType == CellType.Mine);
+
+			return numberOfMines;
+		}
+
+		private int ComputeNumberOfFlags()
+		{
+			var numberOfFlags = Neighbours.Count(neighbour => neighbour.CellState == CellState.FlaggedAsMine);
+
+			return numberOfFlags;
 		}
 	}
 }

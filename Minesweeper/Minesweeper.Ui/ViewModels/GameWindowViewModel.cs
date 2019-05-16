@@ -85,7 +85,7 @@ namespace Minesweeper.Ui.ViewModels
 
 		private void StartNewGame(GameConfiguration gameConfiguration)
 		{
-			_eventAggregator.GetEvent<StartNewGame>().Publish(gameConfiguration);
+			_eventAggregator.GetEvent<StartNewGameEvent>().Publish(gameConfiguration);
 		}
 
 		private void SetUpInitialWindowSize()

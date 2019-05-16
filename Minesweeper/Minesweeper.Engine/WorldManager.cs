@@ -1,167 +1,227 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Models;
 
 namespace Minesweeper.Engine
 {
-	public class WorldManager : IWorldManager
-	{
-		private readonly GameConfiguration _configuration;
-		
-		public HashSet<Cell> Cells { get; set; }
+    public class WorldManager : IWorldManager
+    {
+        private readonly GameConfiguration _configuration;
 
-		public WorldManager(GameConfiguration configuration)
-		{
-			_configuration = configuration;
-		}
+        public HashSet<Cell> Cells { get; set; }
 
-		public void InitializeWorld()
-		{
-			Cells = new HashSet<Cell>(_configuration.Width * _configuration.Height);
+        public WorldManager(GameConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-			InitializeCells();
-			ReorderCells();
-			InitializeNeighbours();
-		}
+        public void InitializeWorld()
+        {
+            Cells = new HashSet<Cell>(_configuration.Width * _configuration.Height);
 
-		public GameState OpenCell(Cell cell)
-		{
-			if (cell.CellState == CellState.FlaggedAsMine)
-			{
-				return GameState.Advance;
-			}
+            InitializeCells();
+            InitializeNeighbours();
 
-			if (cell.CellState == CellState.Opened)
-			{
-				OpenNeighbourCells(cell);
+            ReorderCells();
+        }
 
-				return GameState.Advance;
-			}
+        public void FlagCell(Cell cell)
+        {
+            if (CanFlag(cell))
+            {
+                cell.IsDirty = true;
 
-			if (IsMine(cell))
-			{
-				cell.CellState = CellState.Mine;
-				cell.IsDirty = true;
+                switch (cell.CellState)
+                {
+                    case CellState.FlaggedAsMine:
+                        cell.CellState = CellState.Untouched;
+                        break;
 
-				return GameState.GameOver;
-			}
+                    case CellState.Untouched:
+                        cell.CellState = CellState.FlaggedAsMine;
+                        break;
+                }
+            }
+        }
 
-			OpenCellInternal(cell);
+        private void OpenSingleCell(Cell cell)
+        {
+            if (cell.CellState == CellState.Untouched)
+            {
+                cell.IsDirty = true;
 
-			return IsEndGame() ? GameState.EndGame : GameState.Advance;
-		}
+                if (cell.CellType == CellType.EmptyCell)
+                {
+                    cell.CellState = CellState.Opened;
 
-		public void ResetDirty()
-		{
-			foreach (var cell in Cells)
-			{
-				cell.IsDirty = false;
-			}
-		}
+                    if (cell.ComputeFlagNumberOfMines() == 0)
+                    {
+                        var validNeighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched);
+                        foreach (var i in validNeighbours)
+                        {
+                            OpenSingleCell(i);
+                        }
+                    }
 
-		private void OpenCellInternal(Cell cell)
-		{
-			cell.CellState = CellState.Opened;
+                    var neighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched && x.CellType == CellType.EmptyCell && x.ComputeFlagNumberOfMines() == 0);
+                    foreach (var i in neighbours)
+                    {
+                        OpenSingleCell(i);
+                    }
+                }
 
-			cell.IsDirty = true;
+                if (cell.CellType == CellType.Mine)
+                {
+                    cell.CellState = CellState.Mine;
+                }
+            }
+        }
 
-			if (cell.NumberOfAdjacentMines == 0)
-			{
-				var validNeighbours = cell.Neighbours.Where(CanOpen);
-				foreach (var neighbour in validNeighbours)
-				{
-					OpenCellInternal(neighbour);
-				}
-			}
-		}
+        public GameState OpenCell(Cell cell)
+        {
+            if (cell.CellState == CellState.FlaggedAsMine)
+            {
+                return GameState.Advance;
+            }
 
-		private void OpenNeighbourCells(Cell cell)
-		{
-			cell.IsDirty = true;
+            if (cell.CellState == CellState.Opened && cell.WorkingNumberOfMines > 0)
+            {
+                OpenValidNeighbours(cell);
 
-			var validNeighbours = cell.Neighbours.Where(x => CanOpen(x) && !IsMine(x) && x.NumberOfAdjacentMines == default(int));
+                return GameState.Advance;
+            }
 
-			foreach (var cellNeighbour in validNeighbours)
-			{
-				OpenCellInternal(cellNeighbour);
-			}
-		}
+            if (IsMine(cell))
+            {
+                cell.CellState = CellState.Mine;
+                cell.IsDirty = true;
 
-		#region Checks
+                return GameState.GameOver;
+            }
 
-		private bool CanOpen(Cell cell)
-		{
-			return cell.CellState == CellState.Untouched && cell.CellType == CellType.EmptyCell;
-		}
+            OpenSingleCell(cell);
 
-		private bool IsMine(Cell cell)
-		{
-			return cell.CellType == CellType.Mine;
-		}
+            return IsEndGame() ? GameState.EndGame : GameState.Advance;
+        }
 
-		private bool IsEndGame()
-		{
-			return Cells.Where(x => x.CellType == CellType.EmptyCell).All(x => x.CellState == CellState.Opened);
-		}
+        private void OpenValidNeighbours(Cell cell)
+        {
+            var neighbours = cell.Neighbours.ToList();
 
-		#endregion
+            var mineNeighbours = neighbours.Where(x => x.CellType == CellType.Mine).ToList();
+            var flaggedNeighbours = neighbours.Where(x => x.CellState == CellState.FlaggedAsMine).ToList();
 
-		#region Initialization
+            if (mineNeighbours.Count - flaggedNeighbours.Count == 0)
+            {
+                var untouchedNeighbours = neighbours.Where(x => x.CellState == CellState.Untouched).ToList();
 
-		private void InitializeNeighbours()
-		{
-			foreach (var cell in Cells)
-			{
-				var cells = new HashSet<Cell>();
+                foreach (var i in untouchedNeighbours)
+                {
+                    OpenSingleCell(i);
+                }
+            }
+        }
 
-				for (var i = cell.Coordinates.X - 1; i <= cell.Coordinates.X + 1; i++)
-				{
-					for (var j = cell.Coordinates.Y - 1; j <= cell.Coordinates.Y + 1; j++)
-					{
-						var neighbourCell = Cells.SingleOrDefault(x => x.Coordinates.Equals(new Point(i, j)));
-						if (neighbourCell != null && !neighbourCell.Equals(cell))
-						{
-							cells.Add(neighbourCell);
-						}
-					}
-				}
+        public void ResetDirty()
+        {
+            foreach (var cell in Cells)
+            {
+                cell.IsDirty = false;
+            }
+        }
 
-				cell.Neighbours = cells;
-			}
-		}
+        private void OpenCellInternal(Cell cell, bool openNeighbours = true)
+        {
+            cell.CellState = CellState.Opened;
 
-		private void InitializeCells()
-		{
-			var coordinateRandomizer = new CoordinateRandomiser();
+            cell.IsDirty = true;
 
-			var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(_configuration);
+            if (openNeighbours && cell.WorkingNumberOfMines == 0)
+            {
+                var validNeighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched);
+                foreach (var neighbour in validNeighbours)
+                {
+                    OpenCellInternal(neighbour);
+                }
+            }
+        }
 
-			for (var i = 0; i < _configuration.Width; i++)
-			{
-				for (var j = 0; j < _configuration.Height; j++)
-				{
-					var point = new Point(i, j);
-					var cell = new Cell
-					{
-						CellType = randomPoints.Contains(point) ? CellType.Mine : CellType.EmptyCell,
-						Coordinates = point
-					};
+        #region Checks
 
-					if (!Cells.Contains(cell))
-					{
-						Cells.Add(cell);
-					}
-				}
-			}
-		}
+        private bool IsMine(Cell cell)
+        {
+            return cell.CellType == CellType.Mine && cell.CellState != CellState.FlaggedAsMine;
+        }
 
-		private void ReorderCells()
-		{
-			Cells = new HashSet<Cell>(Cells.OrderBy(x => x.Coordinates.X).ThenBy(x => x.Coordinates.Y));
-		}
+        private bool IsEndGame()
+        {
+            return Cells.Where(x => x.CellType == CellType.EmptyCell).All(x => x.CellState == CellState.Opened);
+        }
 
-		#endregion
-	}
+        private bool CanFlag(Cell cell)
+        {
+            return cell.CellState == CellState.FlaggedAsMine || cell.CellState == CellState.Untouched;
+        }
+
+        #endregion Checks
+
+        #region Initialization
+
+        private void InitializeNeighbours()
+        {
+            foreach (var cell in Cells)
+            {
+                var cells = new HashSet<Cell>();
+
+                for (var i = cell.Coordinates.X - 1; i <= cell.Coordinates.X + 1; i++)
+                {
+                    for (var j = cell.Coordinates.Y - 1; j <= cell.Coordinates.Y + 1; j++)
+                    {
+                        var neighbourCell = Cells.SingleOrDefault(x => x.Coordinates.Equals(new Point(i, j)));
+                        if (neighbourCell != null && !neighbourCell.Equals(cell))
+                        {
+                            cells.Add(neighbourCell);
+                        }
+                    }
+                }
+
+                cell.Neighbours = cells;
+            }
+        }
+
+        private void InitializeCells()
+        {
+            var coordinateRandomizer = new CoordinateRandomiser();
+
+            var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(_configuration);
+
+            for (var i = 0; i < _configuration.Width; i++)
+            {
+                for (var j = 0; j < _configuration.Height; j++)
+                {
+                    var point = new Point(i, j);
+                    var cell = new Cell
+                    {
+                        CellType = randomPoints.Contains(point) ? CellType.Mine : CellType.EmptyCell,
+                        Coordinates = point
+                    };
+
+                    if (!Cells.Contains(cell))
+                    {
+                        Cells.Add(cell);
+                    }
+                }
+            }
+        }
+
+        private void ReorderCells()
+        {
+            Cells = Cells.OrderBy(x => x.Coordinates.Y).ThenBy(x => x.Coordinates.X).ToHashSet();
+        }
+
+        #endregion Initialization
+    }
 }

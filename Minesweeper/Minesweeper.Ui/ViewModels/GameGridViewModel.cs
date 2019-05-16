@@ -83,13 +83,15 @@ namespace Minesweeper.Ui.ViewModels
 	    private void SubscribeToEvents()
 	    {
 		    _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
-		    _eventAggregator.GetEvent<StartNewGame>().Subscribe(OnStartNewGame);
+		    _eventAggregator.GetEvent<CellFlagEvent>().Subscribe(OnCellFlagged);
+		    _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
 	    }
 
 	    private void UnsubscribeToEvents()
 	    {
 		    _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
-		    _eventAggregator.GetEvent<StartNewGame>().Unsubscribe(OnStartNewGame);
+		    _eventAggregator.GetEvent<CellFlagEvent>().Unsubscribe(OnCellFlagged);
+		    _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
 		}
 
 		private void InitializeCells()
@@ -105,6 +107,13 @@ namespace Minesweeper.Ui.ViewModels
 	    private void OnCellClicked(Cell cell)
 	    {
 		    _worldManager.OpenCell(cell);
+
+		    RedrawWorld();
+	    }
+
+	    private void OnCellFlagged(Cell cell)
+	    {
+		    _worldManager.FlagCell(cell);
 
 		    RedrawWorld();
 	    }
