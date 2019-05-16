@@ -74,7 +74,7 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void OnClick()
 	    {
-		    if (this.Cell.CellState == CellState.Untouched)
+		    if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
 		    {
 			    _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
 		    }
