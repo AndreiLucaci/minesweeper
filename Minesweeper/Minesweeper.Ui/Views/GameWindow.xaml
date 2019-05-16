@@ -10,6 +10,29 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="450" Width="800">
     <Grid Name="Grid">
-		<views:GameGrid></views:GameGrid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Menu Grid.Row="0" Height="22" Name="menu1" Margin="10, 10, 5, 5" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+			<MenuItem Header="_File">
+				<MenuItem Header="_Beginner" IsCheckable="true">
+					<MenuItem.ToolTip>
+						<ToolTip>Starts a new game on Beginner level.</ToolTip>
+					</MenuItem.ToolTip>
+				</MenuItem>
+				<MenuItem Header="_Intermediate" IsCheckable="true">
+					<MenuItem.ToolTip>
+						<ToolTip>Starts a new game on Intermediate level.</ToolTip>
+					</MenuItem.ToolTip>
+				</MenuItem>
+				<MenuItem Header="_Expert" IsCheckable="true" >
+					<MenuItem.ToolTip>
+						<ToolTip>Starts a new game on Expert level.</ToolTip>
+					</MenuItem.ToolTip>
+				</MenuItem>
+			</MenuItem>
+		</Menu>
+		<views:GameGrid Grid.Row="1"></views:GameGrid>
 	</Grid>
 </Window>
