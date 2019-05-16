@@ -40,6 +40,25 @@ namespace Minesweeper.Models
 		public int WorkingNumberOfMines { get; set; }
 		public int OriginalNumberOfMines { get; set; }
 
+		public int ComputeFlagNumberOfMines()
+		{
+			return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
+		}
+		public int ComputeNumberOfMines()
+		{
+			return Neighbours.Count(x => x.CellType == CellType.Mine);
+		}
+
+		public int ComputeNumberOfFlaggedMines()
+		{
+			return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine && x.CellType == CellType.Mine);
+		}
+
+        public int ComputeNumberOfUnopenedNeighbours()
+        {
+            return Neighbours.Count(x => x.CellState == CellState.Untouched);
+        }
+
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as Cell);

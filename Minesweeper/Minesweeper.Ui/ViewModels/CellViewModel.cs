@@ -9,129 +9,129 @@ using Prism.Mvvm;
 
 namespace Minesweeper.Ui.ViewModels
 {
-    public class CellViewModel : BindableBase
-    {
-	    private string _display;
+	public class CellViewModel : BindableBase
+	{
+		private string _display;
 
-	    private Cell _cell;
+		private Cell _cell;
 		private Style _style;
 
-	    private readonly IEventAggregator _eventAggregator;
+		private readonly IEventAggregator _eventAggregator;
 
 		public CellViewModel()
-	    {
-		    ClickCommand = new DelegateCommand(OnClick);
+		{
+			ClickCommand = new DelegateCommand(OnClick);
 			FlagCommand = new DelegateCommand(OnFlag);
 			
-		    _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+			_eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
-		    SubscribeToEvents();
-	    }
+			SubscribeToEvents();
+		}
 
-	    ~CellViewModel()
-	    {
-		    UnsubscribeToEvents();
-	    }
+		~CellViewModel()
+		{
+			UnsubscribeToEvents();
+		}
 		
 		public int Height { get; } = GameConstants.GameViewHeight;
 
-	    public int Width { get; } = GameConstants.GameViewWidth;
+		public int Width { get; } = GameConstants.GameViewWidth;
 
-	    public Cell Cell
-	    {
-		    get => _cell;
-		    set => SetProperty(ref _cell, value, nameof(Cell));
-	    }
+		public Cell Cell
+		{
+			get => _cell;
+			set => SetProperty(ref _cell, value, nameof(Cell));
+		}
 
-	    public string Display
-	    {
-		    get => _display;
-		    set => SetProperty(ref _display, value, nameof(Display));
-	    }
+		public string Display
+		{
+			get => _display;
+			set => SetProperty(ref _display, value, nameof(Display));
+		}
 
 		public DelegateCommand ClickCommand { get; set; }
 		public DelegateCommand FlagCommand { get; set; }
 
-	    public Style Style
-	    {
-		    get => _style;
-		    set => SetProperty(ref _style, value, nameof(Style));
-	    }
+		public Style Style
+		{
+			get => _style;
+			set => SetProperty(ref _style, value, nameof(Style));
+		}
 
 		private void SubscribeToEvents()
 		{
 			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
 		}
 
-	    private void UnsubscribeToEvents()
-	    {
-		    _eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
-	    }
-
-	    private void OnCellRedrawn(Cell cell)
-	    {
-		    if (cell.Equals(Cell))
-		    {
-			    Redrawn(cell);
-		    }
-	    }
-
-	    private void OnClick()
-	    {
-		    if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
-		    {
-			    _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
-		    }
-	    }
-
-	    private void OnFlag()
-	    {
-		    if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
-		    {
-			    _eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
-		    }
-	    }
-
-	    private void Redrawn(Cell cell)
-	    {
-		    switch (cell.CellState)
-		    {
-			    case CellState.Opened:
-				    SetOpen(cell);
-				    break;
-			    case CellState.FlaggedAsMine:
-				    SetFlag();
-				    break;
-			    case CellState.Mine:
-				    SetMine();
-				    break;
-				default:
-					SetUntouched();
-				    break;
-		    }
+		private void UnsubscribeToEvents()
+		{
+			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
 		}
 
-	    private void SetUntouched()
-	    {
-		    Style = null;
-		    Display = string.Empty;
-	    }
+		private void OnCellRedrawn(Cell cell)
+		{
+			if (cell.Equals(Cell))
+			{
+				Redrawn();
+			}
+		}
+
+		private void OnClick()
+		{
+			if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
+			{
+				_eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
+			}
+		}
+
+		private void OnFlag()
+		{
+			if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
+			{
+				_eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
+			}
+		}
+
+		private void Redrawn()
+		{
+			switch (Cell.CellState)
+			{
+				case CellState.Opened:
+					SetOpen();
+					break;
+				case CellState.FlaggedAsMine:
+					SetFlag();
+					break;
+				case CellState.Mine:
+					SetMine();
+					break;
+				default:
+					SetUntouched();
+					break;
+			}
+		}
+
+		private void SetUntouched()
+		{
+			Style = null;
+			Display = string.Empty;
+		}
 
 		private void SetMine()
-	    {
-		    Style = CellStyles.MineStyle;
-		    Display = string.Empty;
-	    }
+		{
+			Style = CellStyles.MineStyle;
+			Display = string.Empty;
+		}
 
 		private void SetFlag()
-	    {
-		    Style = CellStyles.FlaggedStyle;
-		    Display = string.Empty;
-	    }
+		{
+			Style = CellStyles.FlaggedStyle;
+			Display = string.Empty;
+		}
 
-	    private void SetOpen(Cell cell)
-	    {
-		    var mines = cell.WorkingNumberOfMines;
+		private void SetOpen()
+		{
+			var mines = ComputeNumberOfMines();
 
 			switch (mines)
 			{
@@ -161,7 +161,22 @@ namespace Minesweeper.Ui.ViewModels
 					break;
 			}
 
-		    Display = mines == 0 ? string.Empty : mines.ToString();
-	    }
+			Display = mines == 0 ? string.Empty : mines.ToString();
+		}
+
+		private int ComputeNumberOfMines()
+		{
+			var mines = Cell.ComputeNumberOfMines();
+			var perfectFlagged = Cell.ComputeNumberOfFlaggedMines();
+
+			var unopenedNeighbours = Cell.ComputeNumberOfUnopenedNeighbours();
+
+			if (unopenedNeighbours == 0 && mines - perfectFlagged == 0)
+			{
+				return 0;
+			}
+
+			return mines;
+		}
 	}
 }
