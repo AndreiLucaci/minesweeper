@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Minesweeper.Infrastructure;
 
 namespace Minesweeper.Models
 {
 	public class Cell : IEquatable<Cell>
 	{
+		private HashSet<Cell> _neighbours;
 		public Point Coordinates { get; set; }
 
-		public List<Cell> Neighbours { get; set; }
+		public HashSet<Cell> Neighbours
+		{
+			get => _neighbours;
+			set
+			{
+				_neighbours = value;
+				ComputeNumberOfMines();
+			}
+		}
 
 		public CellType CellType { get; set; }
 
 		public bool IsOpened { get; set; }
 
+		public bool IsDirty { get; set; }
+
 		public CellState CellState { get; set; } = CellState.Untouched;
 
-		public int NumberOfAdjacentMines { get; set; } = -1;
+		public int NumberOfAdjacentMines { get; set; }
 
 		public override bool Equals(object obj)
 		{
@@ -42,6 +54,11 @@ namespace Minesweeper.Models
 		public static bool operator !=(Cell cell1, Cell cell2)
 		{
 			return !(cell1 == cell2);
+		}
+
+		private void ComputeNumberOfMines()
+		{
+			NumberOfAdjacentMines = Neighbours.Count(x => x.CellType == CellType.Mine);
 		}
 	}
 }

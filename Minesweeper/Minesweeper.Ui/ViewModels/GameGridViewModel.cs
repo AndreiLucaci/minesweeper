@@ -43,6 +43,8 @@ namespace Minesweeper.Ui.ViewModels
 	        SubscribeToEvents();
 
 			InitializeCells();
+
+	        RedrawWorld();
         }
 
 	    ~GameGridViewModel()
@@ -74,10 +76,15 @@ namespace Minesweeper.Ui.ViewModels
 	    {
 		    _worldManager.OpenCell(cell);
 
+		    RedrawWorld();
+	    }
+
+	    private void RedrawWorld()
+	    {
 		    foreach (var worldManagerCell in _worldManager.Cells)
 		    {
 			    _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
-			}
-		}
-	}
+		    }
+	    }
+    }
 }
