@@ -11,15 +11,18 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class CellViewModel : BindableBase
     {
-	    private Cell _cell;
-	    private readonly IEventAggregator _eventAggregator;
 	    private string _display;
-	    private Style _style;
 
-	    public CellViewModel()
+	    private Cell _cell;
+		private Style _style;
+
+	    private readonly IEventAggregator _eventAggregator;
+
+		public CellViewModel()
 	    {
 		    ClickCommand = new DelegateCommand(OnClick);
-
+			FlagCommand = new DelegateCommand(OnFlag);
+			
 		    _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
 		    SubscribeToEvents();
@@ -47,6 +50,7 @@ namespace Minesweeper.Ui.ViewModels
 	    }
 
 		public DelegateCommand ClickCommand { get; set; }
+		public DelegateCommand FlagCommand { get; set; }
 
 	    public Style Style
 	    {
@@ -80,6 +84,14 @@ namespace Minesweeper.Ui.ViewModels
 		    }
 	    }
 
+	    private void OnFlag()
+	    {
+		    if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
+		    {
+			    _eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
+		    }
+	    }
+
 	    private void Redrawn(Cell cell)
 	    {
 		    switch (cell.CellState)
@@ -101,7 +113,7 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void SetUntouched()
 	    {
-		    Style = CellStyles.UntouchedStyle;
+		    Style = null;
 		    Display = string.Empty;
 	    }
 
@@ -119,7 +131,9 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void SetOpen(Cell cell)
 	    {
-			switch (cell.NumberOfAdjacentMines)
+		    var mines = cell.WorkingNumberOfMines;
+
+			switch (mines)
 			{
 				case 0:
 					Style = CellStyles.OpenStyle;
@@ -147,7 +161,7 @@ namespace Minesweeper.Ui.ViewModels
 					break;
 			}
 
-		    Display = cell.NumberOfAdjacentMines == 0 ? string.Empty : cell.NumberOfAdjacentMines.ToString();
+		    Display = mines == 0 ? string.Empty : mines.ToString();
 	    }
 	}
 }

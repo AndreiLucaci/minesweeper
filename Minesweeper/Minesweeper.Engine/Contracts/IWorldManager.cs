@@ -9,6 +9,8 @@ namespace Minesweeper.Engine.Contracts
 
 		GameState OpenCell(Cell cell);
 
+		void FlagCell(Cell cell);
+
 		HashSet<Cell> Cells { get; set; }
 
 		void ResetDirty();

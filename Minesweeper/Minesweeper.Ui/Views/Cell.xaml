@@ -11,6 +11,11 @@
              d:DataContext="{d:DesignInstance Type=viewModels:CellViewModel,IsDesignTimeCreatable=True}"
 			Height="{Binding Height}" Width="{Binding Width}">
 	<Grid Height="{Binding Height}" Width="{Binding Width}">
-		<Button Command="{Binding ClickCommand}" Content="{Binding Display, Mode=OneWay}" Style="{Binding Style}"></Button>
+		<Button Content="{Binding Display, Mode=OneWay}" Style="{Binding Style}">
+			<Button.InputBindings>
+				<MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" />
+				<MouseBinding Gesture="RightClick" Command="{Binding FlagCommand}" />
+			</Button.InputBindings>
+		</Button>
 	</Grid>
 </UserControl>
