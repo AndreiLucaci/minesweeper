@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Models;
@@ -10,6 +9,8 @@ namespace Minesweeper.Engine
 	public class WorldManager : IWorldManager
 	{
 		private readonly GameConfiguration _configuration;
+		
+		public HashSet<Cell> Cells { get; set; }
 
 		public WorldManager(GameConfiguration configuration)
 		{
@@ -18,50 +19,16 @@ namespace Minesweeper.Engine
 
 		public void InitializeWorld()
 		{
-			Cells = new List<Cell>(_configuration.Width * _configuration.Height);
-
-			InitializeMines();
+			Cells = new HashSet<Cell>(_configuration.Width * _configuration.Height);
 
 			InitializeCells();
-
-			Cells = Cells.OrderBy(x => x.Coordinates.X).ThenBy(x => x.Coordinates.Y).ToList();
-		}
-
-		public string PrintWorld()
-		{
-			var sb = new StringBuilder();
-
-			sb.AppendLine($"+{new string('-', _configuration.Width * 2)}+");
-			for (var i = 0; i < _configuration.Height; i++)
-			{
-				var sbInner = new StringBuilder("|");
-				for (var j = 0; j < _configuration.Width; j++)
-				{
-					sbInner.AppendFormat("{0}|",
-						Cells.Single(x => x.Coordinates.Equals(new Point(j, i))).CellType == CellType.Mine ? "x" : " ");
-				}
-				sb.AppendLine(sbInner.ToString());
-			}
-			sb.AppendLine($"+{new string('-', _configuration.Width * 2)}+");
-
-			return sb.ToString();
-		}
-
-		public bool IsMine(Cell cell)
-		{
-			return cell.CellType == CellType.Mine;
-		}
-
-		public int GetNumberOfAdjacentMines(Cell cell)
-		{
-			var neighbours = GetNeighbours(cell);
-
-			return neighbours.Where(x => x.CellState == CellState.Untouched).Count(IsMine);
+			ReorderCells();
+			InitializeNeighbours();
 		}
 
 		public GameState OpenCell(Cell cell)
 		{
-			if (cell.CellState == CellState.FlaggedAsMine)
+			if (cell.CellState == CellState.FlaggedAsMine || cell.CellState == CellState.Opened)
 			{
 				return GameState.Advance;
 			}
@@ -72,33 +39,35 @@ namespace Minesweeper.Engine
 				return GameState.GameOver;
 			}
 
-			cell.CellState = CellState.Opened;
-			var neighbours = GetNeighbours(cell);
-
-			ProcessNeighbours(neighbours);
+			OpenCellInternal(cell);
 
 			return IsEndGame() ? GameState.EndGame : GameState.Advance;
 		}
 
-		public List<Cell> Cells { get; set; }
-
-		private IEnumerable<Cell> GetNeighbours(Cell cell)
+		private void OpenCellInternal(Cell cell)
 		{
-			var cells = new List<Cell>();
+			cell.CellState = CellState.Opened;
 
-			for (var i = 0; i < cell.Coordinates.X + 1; i++)
+			if (cell.NumberOfAdjacentMines == 0)
 			{
-				for (var j = 0; j < cell.Coordinates.Y + 1; j++)
+				var validNeighbours = cell.Neighbours.Where(CanOpen);
+				foreach (var neighbour in validNeighbours)
 				{
-					var neighbourCell = Cells.SingleOrDefault(x => x.Coordinates.Equals(new Point(i, j)));
-					if (neighbourCell != null && !neighbourCell.Equals(cell))
-					{
-						cells.Add(neighbourCell);
-					}
+					OpenCellInternal(neighbour);
 				}
 			}
+		}
 
-			return cells;
+		#region Checks
+
+		private bool CanOpen(Cell cell)
+		{
+			return cell.CellState == CellState.Untouched && cell.CellType == CellType.EmptyCell;
+		}
+
+		private bool IsMine(Cell cell)
+		{
+			return cell.CellType == CellType.Mine;
 		}
 
 		private bool IsEndGame()
@@ -106,35 +75,47 @@ namespace Minesweeper.Engine
 			return Cells.Where(x => x.CellType != CellType.Mine).All(x => x.IsOpened);
 		}
 
-		private void InitializeMines()
+		#endregion
+
+		#region Initialization
+
+		private void InitializeNeighbours()
 		{
-			var coordinateRandomizer = new CoordinateRandomiser();
-
-			var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(_configuration);
-
-			foreach (var randomPoint in randomPoints)
+			foreach (var cell in Cells)
 			{
-				var cell = new Cell
-				{
-					CellType = CellType.Mine,
-					Coordinates = randomPoint,
-					Neighbours = new List<Cell>()
-				};
+				var cells = new HashSet<Cell>();
 
-				Cells.Add(cell);
+				for (var i = cell.Coordinates.X - 1; i <= cell.Coordinates.X + 1; i++)
+				{
+					for (var j = cell.Coordinates.Y - 1; j <= cell.Coordinates.Y + 1; j++)
+					{
+						var neighbourCell = Cells.SingleOrDefault(x => x.Coordinates.Equals(new Point(i, j)));
+						if (neighbourCell != null && !neighbourCell.Equals(cell))
+						{
+							cells.Add(neighbourCell);
+						}
+					}
+				}
+
+				cell.Neighbours = cells;
 			}
 		}
 
 		private void InitializeCells()
 		{
+			var coordinateRandomizer = new CoordinateRandomiser();
+
+			var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(_configuration);
+
 			for (var i = 0; i < _configuration.Width; i++)
 			{
 				for (var j = 0; j < _configuration.Height; j++)
 				{
+					var point = new Point(i, j);
 					var cell = new Cell
 					{
-						CellType = CellType.EmptyCell,
-						Coordinates = new Point(i, j),
+						CellType = randomPoints.Contains(point) ? CellType.Mine : CellType.EmptyCell,
+						Coordinates = point
 					};
 
 					if (!Cells.Contains(cell))
@@ -145,23 +126,11 @@ namespace Minesweeper.Engine
 			}
 		}
 
-		private void ProcessNeighbours(IEnumerable<Cell> neighbours)
+		private void ReorderCells()
 		{
-			foreach (var neighbour in neighbours)
-			{
-				var numberOfMines = GetNumberOfAdjacentMines(neighbour);
-				neighbour.NumberOfAdjacentMines = numberOfMines;
-
-				if (neighbour.CellState == CellState.Untouched)
-				{
-					neighbour.CellState = CellState.Neighbour;
-				}
-
-				if (numberOfMines == 0 && neighbour.CellState != CellState.FlaggedAsMine)
-				{
-					OpenCell(neighbour);
-				}
-			}
+			Cells = new HashSet<Cell>(Cells.OrderBy(x => x.Coordinates.X).ThenBy(x => x.Coordinates.Y));
 		}
+
+		#endregion
 	}
 }

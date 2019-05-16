@@ -7,14 +7,8 @@ namespace Minesweeper.Engine.Contracts
 	{
 		void InitializeWorld();
 
-		string PrintWorld();
-
-		bool IsMine(Cell cell);
-
-		int GetNumberOfAdjacentMines(Cell cell);
-
 		GameState OpenCell(Cell cell);
 
-		List<Cell> Cells { get; set; }
+		HashSet<Cell> Cells { get; set; }
 	}
 }

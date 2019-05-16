@@ -75,7 +75,10 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void OnClick()
 	    {
-		    _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
+		    if (this.Cell.CellState == CellState.Untouched)
+		    {
+			    _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
+		    }
 	    }
 
 	    private void Redrawn(Cell cell)
@@ -83,10 +86,7 @@ namespace Minesweeper.Ui.ViewModels
 		    switch (cell.CellState)
 		    {
 			    case CellState.Opened:
-				    SetOpen();
-				    break;
-			    case CellState.Neighbour:
-				    SetNeighbour(cell);
+				    SetOpen(cell);
 				    break;
 			    case CellState.FlaggedAsMine:
 				    SetFlag();
@@ -118,10 +118,13 @@ namespace Minesweeper.Ui.ViewModels
 		    Display = string.Empty;
 	    }
 
-	    private void SetNeighbour(Cell cell)
+	    private void SetOpen(Cell cell)
 	    {
 			switch (cell.NumberOfAdjacentMines)
 			{
+				case 0:
+					Style = CellStyles.OpenStyle;
+					break;
 				case 1:
 					Style = CellStyles.OneMineStyle;
 					break;
@@ -145,13 +148,7 @@ namespace Minesweeper.Ui.ViewModels
 					break;
 			}
 
-		    Display = cell.NumberOfAdjacentMines.ToString();
+		    Display = cell.NumberOfAdjacentMines == 0 ? string.Empty : cell.NumberOfAdjacentMines.ToString();
 	    }
-
-		private void SetOpen()
-	    {
-		    Style = CellStyles.OpenStyle;
-		    Display = string.Empty;
-		}
 	}
 }

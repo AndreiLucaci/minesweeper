@@ -83,6 +83,7 @@
     <Compile Include="Constants\CellStyles.cs" />
     <Compile Include="Events\CellClickEvent.cs" />
     <Compile Include="Events\CellRedrawEvent.cs" />
+    <Compile Include="Events\GameNextStateEvent.cs" />
     <Compile Include="Models\Pair.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
     <Compile Include="Views\Cell.xaml.cs">

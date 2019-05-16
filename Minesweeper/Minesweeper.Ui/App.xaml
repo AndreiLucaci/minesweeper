@@ -4,6 +4,48 @@
              xmlns:local="clr-namespace:Minesweeper.Ui"
              xmlns:prism="http://prismlibrary.com/">
 	<prism:PrismApplication.Resources>
-
+		<Style x:Key="UntouchedStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="Gray"></Setter>
+			<Setter Property="Foreground" Value="Gray"></Setter>
+		</Style>
+		<Style x:Key="OpenStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+		</Style>
+		<Style x:Key="FlaggedStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="Purple"></Setter>
+			<Setter Property="Foreground" Value="Gray"></Setter>
+		</Style>
+		<Style x:Key="MineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="Red"></Setter>
+			<Setter Property="Foreground" Value="Gray"></Setter>
+		</Style>
+		<Style x:Key="OneMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Blue"></Setter>
+		</Style>
+		<Style x:Key="TwoMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Green"></Setter>
+		</Style>
+		<Style x:Key="ThreeMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Red"></Setter>
+		</Style>
+		<Style x:Key="FourMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Purple"></Setter>
+		</Style>
+		<Style x:Key="FiveMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Maroon"></Setter>
+		</Style>
+		<Style x:Key="SixMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Turquoise"></Setter>
+		</Style>
+		<Style x:Key="SevenMineStyle" TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="LightGray"></Setter>
+			<Setter Property="Foreground" Value="Black"></Setter>
+		</Style>
 	</prism:PrismApplication.Resources>
 </prism:PrismApplication>
