@@ -36,9 +36,9 @@ namespace Minesweeper.Ui.ViewModels
 	        Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
 
             var configurationService = gameConfigurationService;
-	        GameConfiguration = configurationService.BeginnerConfiguration;
+	        GameConfiguration = configurationService.ExpertConfiguration;
 
-			_worldManager = new WorldManager(configurationService.BeginnerConfiguration);
+			_worldManager = new WorldManager(GameConfiguration);
 
 	        SubscribeToEvents();
 
@@ -81,10 +81,12 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void RedrawWorld()
 	    {
-		    foreach (var worldManagerCell in _worldManager.Cells)
+		    foreach (var worldManagerCell in _worldManager.Cells.Where(x => x.IsDirty))
 		    {
 			    _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
 		    }
+
+			_worldManager.ResetDirty();
 	    }
     }
 }

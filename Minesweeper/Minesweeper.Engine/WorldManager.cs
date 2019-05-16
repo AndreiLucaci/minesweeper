@@ -36,6 +36,8 @@ namespace Minesweeper.Engine
 			if (IsMine(cell))
 			{
 				cell.CellState = CellState.Mine;
+				cell.IsDirty = true;
+
 				return GameState.GameOver;
 			}
 
@@ -44,9 +46,19 @@ namespace Minesweeper.Engine
 			return IsEndGame() ? GameState.EndGame : GameState.Advance;
 		}
 
+		public void ResetDirty()
+		{
+			foreach (var cell in Cells)
+			{
+				cell.IsDirty = false;
+			}
+		}
+
 		private void OpenCellInternal(Cell cell)
 		{
 			cell.CellState = CellState.Opened;
+
+			cell.IsDirty = true;
 
 			if (cell.NumberOfAdjacentMines == 0)
 			{
