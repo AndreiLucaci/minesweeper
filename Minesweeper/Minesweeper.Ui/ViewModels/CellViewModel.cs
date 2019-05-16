@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using CommonServiceLocator;
 using Minesweeper.Models;
 using Minesweeper.Ui.Constants;
