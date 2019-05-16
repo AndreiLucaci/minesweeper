@@ -90,8 +90,8 @@ namespace Minesweeper.Ui.ViewModels
 
 		private void SetUpInitialWindowSize()
 		{
-			Width = _gameConfigurationService.DefaultConfiguration.Width * GameConstants.GameViewWidth + ExtraSpace;
-			Height = _gameConfigurationService.DefaultConfiguration.Height * GameConstants.GameViewHeight + ExtraSpace;
+			Width = _gameConfigurationService.DefaultConfiguration.Width * GameConstants.GameViewWidth;
+			Height = _gameConfigurationService.DefaultConfiguration.Height * GameConstants.GameViewHeight;
 
 			OnResizeWidthEvent(Width);
 			OnResizeHeightEvent(Height);

@@ -28,8 +28,15 @@ namespace Minesweeper.Engine
 
 		public GameState OpenCell(Cell cell)
 		{
-			if (cell.CellState == CellState.FlaggedAsMine || cell.CellState == CellState.Opened)
+			if (cell.CellState == CellState.FlaggedAsMine)
 			{
+				return GameState.Advance;
+			}
+
+			if (cell.CellState == CellState.Opened)
+			{
+				OpenNeighbourCells(cell);
+
 				return GameState.Advance;
 			}
 
@@ -67,6 +74,18 @@ namespace Minesweeper.Engine
 				{
 					OpenCellInternal(neighbour);
 				}
+			}
+		}
+
+		private void OpenNeighbourCells(Cell cell)
+		{
+			cell.IsDirty = true;
+
+			var validNeighbours = cell.Neighbours.Where(x => CanOpen(x) && !IsMine(x) && x.NumberOfAdjacentMines == default(int));
+
+			foreach (var cellNeighbour in validNeighbours)
+			{
+				OpenCellInternal(cellNeighbour);
 			}
 		}
 

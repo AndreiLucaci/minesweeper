@@ -45,7 +45,7 @@ namespace Minesweeper.Ui.ViewModels
 		    _eventAggregator = eventAggregator;
 
 		    var configurationService = gameConfigurationService;
-		    GameConfiguration = configurationService.BeginnerConfiguration;
+		    GameConfiguration = configurationService.DefaultConfiguration;
 
 		    StartNewGame();
 
