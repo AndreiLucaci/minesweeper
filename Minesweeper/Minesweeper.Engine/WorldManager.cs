@@ -28,6 +28,41 @@ namespace Minesweeper.Engine
             ReorderCells();
         }
 
+        public void ReorganizeCells(Cell cell)
+        {
+            for (var i = 0; i < _configuration.Width; i++)
+            {
+                for (var j = 0; j < _configuration.Height; j++)
+                {
+                    var cellAt = Cells.Single(x => x.Coordinates.Equals(new Point(i, j)));
+                    if (cellAt.CellType == CellType.EmptyCell && cellAt.Neighbours.Count == 8 && cellAt.ComputeNumberOfMines() == 0)
+                    {
+                        SwitchCells(cell, cellAt);
+
+                        foreach (var (first, seocond) in cell.Neighbours.Zip(cellAt.Neighbours, (c1, c2) => ( c1, c2 )))
+                        {
+                            SwitchCells(first, seocond);
+                        }
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        private bool SwitchCells(Cell cell1, Cell cell2)
+        {
+            var tempState = cell1.CellState;
+            cell1.CellState = cell2.CellState;
+            cell2.CellState = tempState;
+
+            var tempType = cell1.CellType;
+            cell1.CellType = cell2.CellType;
+            cell2.CellType = tempType;
+
+            return true;
+        }
+
         public void FlagCell(Cell cell)
         {
             if (CanFlag(cell))
@@ -87,14 +122,14 @@ namespace Minesweeper.Engine
                 return GameState.Advance;
             }
 
-            if (cell.CellState == CellState.Opened && cell.WorkingNumberOfMines > 0)
+            if (cell.CellState == CellState.Opened && cell.ComputeNumberOfMines() > 0)
             {
                 OpenValidNeighbours(cell);
 
                 return GameState.Advance;
             }
 
-            if (IsMine(cell))
+            if (cell.IsMine())
             {
                 cell.CellState = CellState.Mine;
                 cell.IsDirty = true;
@@ -133,28 +168,7 @@ namespace Minesweeper.Engine
             }
         }
 
-        private void OpenCellInternal(Cell cell, bool openNeighbours = true)
-        {
-            cell.CellState = CellState.Opened;
-
-            cell.IsDirty = true;
-
-            if (openNeighbours && cell.WorkingNumberOfMines == 0)
-            {
-                var validNeighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched);
-                foreach (var neighbour in validNeighbours)
-                {
-                    OpenCellInternal(neighbour);
-                }
-            }
-        }
-
         #region Checks
-
-        private bool IsMine(Cell cell)
-        {
-            return cell.CellType == CellType.Mine && cell.CellState != CellState.FlaggedAsMine;
-        }
 
         private bool IsEndGame()
         {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
@@ -18,6 +17,7 @@ namespace Minesweeper.Ui.ViewModels
 
 		private readonly IEventAggregator _eventAggregator;
 	    private IWorldManager _worldManager;
+        private bool _isFirstMove = true;
 
 	    public ObservableCollection<CellViewModel> Cells
 	    {
@@ -57,6 +57,7 @@ namespace Minesweeper.Ui.ViewModels
 		    _worldManager = new WorldManager(GameConfiguration);
 		    InitializeCells();
 		    NotifyView();
+            _isFirstMove = true;
 	    }
 
 	    private void NotifyView()
@@ -106,6 +107,12 @@ namespace Minesweeper.Ui.ViewModels
 
 	    private void OnCellClicked(Cell cell)
 	    {
+            if (_isFirstMove && (cell.IsMine() || cell.ComputeNumberOfMines() != 0))
+            {
+                _worldManager.ReorganizeCells(cell);
+                _isFirstMove = false;
+            }
+
 		    _worldManager.OpenCell(cell);
 
 		    RedrawWorld();
