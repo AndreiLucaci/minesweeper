@@ -75,7 +75,7 @@ namespace Minesweeper.Ui.ViewModels
 		{
 			if (Application.Current.MainWindow != null)
 			{
-				Application.Current.MainWindow.Height = height + ExtraSpace;
+				Application.Current.MainWindow.Height = height + ExtraSpace + 100;
 			}
 		}
 

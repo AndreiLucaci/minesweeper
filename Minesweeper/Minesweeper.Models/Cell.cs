@@ -7,22 +7,11 @@ namespace Minesweeper.Models
 {
 	public class Cell : IEquatable<Cell>
 	{
-		private HashSet<Cell> _neighbours;
-		public Point Coordinates { get; set; }
+        public Point Coordinates { get; set; }
 
-		public HashSet<Cell> Neighbours
-		{
-			get => _neighbours;
-			set
-			{
-				_neighbours = value;
-				OriginalNumberOfMines = WorkingNumberOfMines = ComputeNumberOfMinesWithoutFlags();
-			}
-		}
+        public HashSet<Cell> Neighbours { get; set; }
 
-		public CellType CellType { get; set; }
-
-		public bool IsOpened { get; set; }
+        public CellType CellType { get; set; }
 
 		public bool IsDirty { get; set; }
 
@@ -37,9 +26,6 @@ namespace Minesweeper.Models
 		public int NumberOfAdjacentMinesWithFlags => ComputeNumberOfMinesWithFlags();
 		public int NumberOfAdjacentFlags => ComputeNumberOfFlags();
 
-		public int WorkingNumberOfMines { get; set; }
-		public int OriginalNumberOfMines { get; set; }
-
 		public int ComputeFlagNumberOfMines()
 		{
 			return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
@@ -48,6 +34,11 @@ namespace Minesweeper.Models
 		{
 			return Neighbours.Count(x => x.CellType == CellType.Mine);
 		}
+
+        public bool IsMine()
+        {
+            return this.CellType == CellType.Mine && this.CellState != CellState.FlaggedAsMine;
+        }
 
 		public int ComputeNumberOfFlaggedMines()
 		{
