@@ -92,19 +92,13 @@ namespace Minesweeper.Engine
                 {
                     cell.CellState = CellState.Opened;
 
-                    if (cell.ComputeFlagNumberOfMines() == 0)
+                    if (cell.ComputeNumberOfMines() == 0)
                     {
                         var validNeighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched);
                         foreach (var i in validNeighbours)
                         {
                             OpenSingleCell(i);
                         }
-                    }
-
-                    var neighbours = cell.Neighbours.Where(x => x.CellState == CellState.Untouched && x.CellType == CellType.EmptyCell && x.ComputeFlagNumberOfMines() == 0);
-                    foreach (var i in neighbours)
-                    {
-                        OpenSingleCell(i);
                     }
                 }
 

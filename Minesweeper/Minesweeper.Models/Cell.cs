@@ -50,6 +50,11 @@ namespace Minesweeper.Models
             return Neighbours.Count(x => x.CellState == CellState.Untouched);
         }
 
+	    public bool IsCovered()
+	    {
+	        return Neighbours.All(x => x.CellState == CellState.Opened && x.CellType == CellType.EmptyCell);
+	    }
+
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as Cell);

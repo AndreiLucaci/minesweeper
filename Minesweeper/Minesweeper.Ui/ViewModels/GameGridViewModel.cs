@@ -116,23 +116,23 @@ namespace Minesweeper.Ui.ViewModels
 		    _worldManager.OpenCell(cell);
 
 		    RedrawWorld();
-	    }
+        }
 
-	    private void OnCellFlagged(Cell cell)
+        private void OnCellFlagged(Cell cell)
 	    {
 		    _worldManager.FlagCell(cell);
 
 		    RedrawWorld();
 	    }
 
-	    private void RedrawWorld()
+        private void RedrawWorld()
 	    {
-		    foreach (var worldManagerCell in _worldManager.Cells.Where(x => x.IsDirty))
-		    {
-			    _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
-		    }
+            foreach (var worldManagerCell in _worldManager.Cells.Where(x => x.IsDirty))
+            {
+                _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
+            }
 
-			_worldManager.ResetDirty();
-	    }
+            _worldManager.ResetDirty();
+        }
     }
 }

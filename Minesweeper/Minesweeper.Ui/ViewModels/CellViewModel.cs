@@ -68,8 +68,10 @@ namespace Minesweeper.Ui.ViewModels
 			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
 		}
 
-		private void OnCellRedrawn(Cell cell)
-		{
+	    public void OnCellRedrawn(Cell cell = null)
+	    {
+	        cell = cell ?? Cell;
+
 			if (cell.Equals(Cell))
 			{
 				Redrawn();
