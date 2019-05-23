@@ -47,5 +47,22 @@
 			<Setter Property="Background" Value="LightGray"></Setter>
 			<Setter Property="Foreground" Value="Black"></Setter>
 		</Style>
-	</prism:PrismApplication.Resources>
+
+        <Image x:Key="Mine0" Source="../Images/0.gif"></Image>
+	    <Image x:Key="Mine1" Source="../Images/1.gif"></Image>
+	    <Image x:Key="Mine2" Source="../Images/2.gif"></Image>
+	    <Image x:Key="Mine3" Source="../Images/3.gif"></Image>
+	    <Image x:Key="Mine4" Source="../Images/4.gif"></Image>
+	    <Image x:Key="Mine5" Source="../Images/5.gif"></Image>
+	    <Image x:Key="Mine6" Source="../Images/6.gif"></Image>
+	    <Image x:Key="Mine7" Source="../Images/7.gif"></Image>
+	    <Image x:Key="Mine8" Source="../Images/8.gif"></Image>
+        
+	    <Image x:Key="Mine" Source="../Images/mine.gif"></Image>
+	    <Image x:Key="MineExploded" Source="../Images/mineexploded.gif"></Image>
+        <Image x:Key="MineFlagged" Source="../Images/mineflagged.gif"></Image>
+	    <Image x:Key="MineMissFlag" Source="../Images/minemissflag.gif"></Image>
+        
+	    <Image x:Key="Untouched" Source="../Images/untouched.gif"></Image>
+    </prism:PrismApplication.Resources>
 </prism:PrismApplication>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using CommonServiceLocator;
 using Minesweeper.Models;
 using Minesweeper.Ui.Constants;
@@ -15,10 +16,11 @@ namespace Minesweeper.Ui.ViewModels
 
 		private Cell _cell;
 		private Style _style;
+	    private Image _cellImage;
 
-		private readonly IEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
 
-		public CellViewModel()
+	    public CellViewModel()
 		{
 			ClickCommand = new DelegateCommand(OnClick);
 			FlagCommand = new DelegateCommand(OnFlag);
@@ -58,7 +60,13 @@ namespace Minesweeper.Ui.ViewModels
 			set => SetProperty(ref _style, value, nameof(Style));
 		}
 
-		private void SubscribeToEvents()
+	    public Image CellImage
+	    {
+	        get => _cellImage;
+	        set => SetProperty(ref _cellImage, value, nameof(CellImage));
+	    }
+
+	    private void SubscribeToEvents()
 		{
 			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
 		}
@@ -116,18 +124,21 @@ namespace Minesweeper.Ui.ViewModels
 		private void SetUntouched()
 		{
 			Style = null;
-			Display = string.Empty;
+		    CellImage = CellStyles.UntouchedImage;
+            Display = string.Empty;
 		}
 
 		private void SetMine()
 		{
 			Style = CellStyles.MineStyle;
+		    CellImage = CellStyles.MineExplodedImage;
 			Display = string.Empty;
-		}
+        }
 
 		private void SetFlag()
 		{
 			Style = CellStyles.FlaggedStyle;
+		    CellImage = CellStyles.FlagImage;
 			Display = string.Empty;
 		}
 
@@ -139,29 +150,40 @@ namespace Minesweeper.Ui.ViewModels
 			{
 				case 0:
 					Style = CellStyles.OpenStyle;
+				    CellImage = CellStyles.Mine0Image;
 					break;
 				case 1:
 					Style = CellStyles.OneMineStyle;
-					break;
+				    CellImage = CellStyles.Mine1Image;
+                    break;
 				case 2:
 					Style = CellStyles.TwoMineStyle;
-					break;
+				    CellImage = CellStyles.Mine2Image;
+                    break;
 				case 3:
 					Style = CellStyles.ThreeMineStyle;
-					break;
+				    CellImage = CellStyles.Mine3Image;
+                    break;
 				case 4:
 					Style = CellStyles.FourMineStyle;
-					break;
+				    CellImage = CellStyles.Mine4Image;
+                    break;
 				case 5:
 					Style = CellStyles.FiveMineStyle;
-					break;
+				    CellImage = CellStyles.Mine5Image;
+                    break;
 				case 6:
 					Style = CellStyles.SixMineStyle;
-					break;
+				    CellImage = CellStyles.Mine6Image;
+                    break;
 				case 7:
 					Style = CellStyles.SevenMineStyle;
-					break;
-			}
+				    CellImage = CellStyles.Mine7Image;
+                    break;
+                case 8:
+                    CellImage = CellStyles.Mine8Image;
+                    break;
+            }
 
 			Display = mines == 0 ? string.Empty : mines.ToString();
 		}
