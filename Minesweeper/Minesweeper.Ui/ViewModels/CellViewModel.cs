@@ -168,17 +168,7 @@ namespace Minesweeper.Ui.ViewModels
 
 		private int ComputeNumberOfMines()
 		{
-			var mines = Cell.ComputeNumberOfMines();
-			var perfectFlagged = Cell.ComputeNumberOfFlaggedMines();
-
-			var unopenedNeighbours = Cell.ComputeNumberOfUnopenedNeighbours();
-
-			if (unopenedNeighbours == 0 && mines - perfectFlagged == 0)
-			{
-				return 0;
-			}
-
-			return mines;
+		    return Cell.ComputeNumberOfMines();
 		}
 	}
 }

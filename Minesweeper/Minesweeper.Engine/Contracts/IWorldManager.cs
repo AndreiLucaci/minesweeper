@@ -14,6 +14,9 @@ namespace Minesweeper.Engine.Contracts
 		HashSet<Cell> Cells { get; set; }
 
 		void ResetDirty();
+
         void ReorganizeCells(Cell cell);
-    }
+
+	    bool IsGameEndedWithSuccess();
+	}
 }

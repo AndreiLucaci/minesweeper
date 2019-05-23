@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Minesweeper.Engine.Contracts;
@@ -22,10 +23,25 @@ namespace Minesweeper.Engine
         {
             Cells = new HashSet<Cell>(_configuration.Width * _configuration.Height);
 
-            InitializeCells();
-            InitializeNeighbours();
+            MethodTimer mt;
 
-            ReorderCells();
+            using (mt = new MethodTimer())
+            {
+                InitializeCells();
+            }
+            Debug.WriteLine(mt.Time(nameof(InitializeCells)));
+
+            using (mt = new MethodTimer())
+            {
+                InitializeNeighbours();
+            }
+            Debug.WriteLine(mt.Time(nameof(InitializeNeighbours)));
+
+            using (mt = new MethodTimer())
+            {
+                ReorderCells();
+            }
+            Debug.WriteLine(mt.Time(nameof(ReorderCells)));
         }
 
         public void ReorganizeCells(Cell cell)
@@ -48,6 +64,11 @@ namespace Minesweeper.Engine
                     }
                 }
             }
+        }
+
+        public bool IsGameEndedWithSuccess()
+        {
+            return Cells.Where(x => x.CellType == CellType.EmptyCell).All(x => x.CellState == CellState.Opened);
         }
 
         private bool SwitchCells(Cell cell1, Cell cell2)

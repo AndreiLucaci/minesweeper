@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Threading;
 using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Ui.Constants;
@@ -67,7 +68,7 @@ namespace Minesweeper.Ui.ViewModels
 		{
 			if (Application.Current.MainWindow != null)
 			{
-				Application.Current.MainWindow.Width = width + ExtraSpace;
+                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Width = width + ExtraSpace, DispatcherPriority.Render);
 			}
 		}
 
@@ -75,7 +76,7 @@ namespace Minesweeper.Ui.ViewModels
 		{
 			if (Application.Current.MainWindow != null)
 			{
-				Application.Current.MainWindow.Height = height + ExtraSpace + 100;
+                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Height = height + ExtraSpace + 100, DispatcherPriority.Render);
 			}
 		}
 
