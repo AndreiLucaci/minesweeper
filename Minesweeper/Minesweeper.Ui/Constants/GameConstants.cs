@@ -2,7 +2,7 @@
 {
 	public class GameConstants
 	{
-		public const int GameViewWidth = 24;
-		public const int GameViewHeight = 24;
+		public const int GameViewWidth = 20;
+		public const int GameViewHeight = 20;
 	}
 }

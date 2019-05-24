@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using CommonServiceLocator;
 using Minesweeper.Models;
 using Minesweeper.Ui.Constants;
@@ -15,10 +17,12 @@ namespace Minesweeper.Ui.ViewModels
 
 		private Cell _cell;
 		private Style _style;
+	    private Image _cellImage;
 
-		private readonly IEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
+	    private BitmapImage _cellImageBitmap;
 
-		public CellViewModel()
+	    public CellViewModel()
 		{
 			ClickCommand = new DelegateCommand(OnClick);
 			FlagCommand = new DelegateCommand(OnFlag);
@@ -52,13 +56,19 @@ namespace Minesweeper.Ui.ViewModels
 		public DelegateCommand ClickCommand { get; set; }
 		public DelegateCommand FlagCommand { get; set; }
 
-		public Style Style
-		{
-			get => _style;
-			set => SetProperty(ref _style, value, nameof(Style));
-		}
+	    public Image CellImage
+	    {
+	        get => _cellImage;
+	        set => SetProperty(ref _cellImage, value, nameof(CellImage));
+	    }
 
-		private void SubscribeToEvents()
+	    public BitmapImage CellImageBitmap
+	    {
+	        get => _cellImageBitmap;
+	        set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
+	    }
+
+	    private void SubscribeToEvents()
 		{
 			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
 		}
@@ -68,8 +78,10 @@ namespace Minesweeper.Ui.ViewModels
 			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
 		}
 
-		private void OnCellRedrawn(Cell cell)
-		{
+	    public void OnCellRedrawn(Cell cell = null)
+	    {
+	        cell = cell ?? Cell;
+
 			if (cell.Equals(Cell))
 			{
 				Redrawn();
@@ -113,20 +125,20 @@ namespace Minesweeper.Ui.ViewModels
 
 		private void SetUntouched()
 		{
-			Style = null;
-			Display = string.Empty;
+		    CellImageBitmap = CellStyles.UntouchedImagePath;
+            Display = string.Empty;
 		}
 
 		private void SetMine()
 		{
-			Style = CellStyles.MineStyle;
-			Display = string.Empty;
-		}
+		    CellImageBitmap = CellStyles.MineExplodedImagePath;
+            Display = string.Empty;
+        }
 
 		private void SetFlag()
 		{
-			Style = CellStyles.FlaggedStyle;
-			Display = string.Empty;
+		    CellImageBitmap = CellStyles.FlagImagePath;
+            Display = string.Empty;
 		}
 
 		private void SetOpen()
@@ -136,47 +148,40 @@ namespace Minesweeper.Ui.ViewModels
 			switch (mines)
 			{
 				case 0:
-					Style = CellStyles.OpenStyle;
+				    CellImageBitmap = CellStyles.Mine0ImagePath;
 					break;
 				case 1:
-					Style = CellStyles.OneMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine1ImagePath;
+                    break;
 				case 2:
-					Style = CellStyles.TwoMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine2ImagePath;
+                    break;
 				case 3:
-					Style = CellStyles.ThreeMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine3ImagePath;
+                    break;
 				case 4:
-					Style = CellStyles.FourMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine4ImagePath;
+                    break;
 				case 5:
-					Style = CellStyles.FiveMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine5ImagePath;
+                    break;
 				case 6:
-					Style = CellStyles.SixMineStyle;
-					break;
+				    CellImageBitmap = CellStyles.Mine6ImagePath;
+                    break;
 				case 7:
-					Style = CellStyles.SevenMineStyle;
-					break;
-			}
+				    CellImageBitmap = CellStyles.Mine7ImagePath;
+                    break;
+                case 8:
+                    CellImageBitmap = CellStyles.Mine8ImagePath;
+                    break;
+            }
 
 			Display = mines == 0 ? string.Empty : mines.ToString();
 		}
 
 		private int ComputeNumberOfMines()
 		{
-			var mines = Cell.ComputeNumberOfMines();
-			var perfectFlagged = Cell.ComputeNumberOfFlaggedMines();
-
-			var unopenedNeighbours = Cell.ComputeNumberOfUnopenedNeighbours();
-
-			if (unopenedNeighbours == 0 && mines - perfectFlagged == 0)
-			{
-				return 0;
-			}
-
-			return mines;
+		    return Cell.ComputeNumberOfMines();
 		}
 	}
 }

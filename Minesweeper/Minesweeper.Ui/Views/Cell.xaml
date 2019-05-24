@@ -10,12 +10,36 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewModels:CellViewModel,IsDesignTimeCreatable=True}"
 			Height="{Binding Height}" Width="{Binding Width}">
-	<Grid Height="{Binding Height}" Width="{Binding Width}">
-		<Button Content="{Binding Display, Mode=OneWay}" Style="{Binding Style}">
-			<Button.InputBindings>
-				<MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" />
-				<MouseBinding Gesture="RightClick" Command="{Binding FlagCommand}" />
-			</Button.InputBindings>
-		</Button>
-	</Grid>
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="0"
+                                BorderBrush="Transparent" 
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Height="{Binding Height}" Width="{Binding Width}">
+        <Button Style="{StaticResource ButtonStyle}">
+            <Image Source="{Binding CellImageBitmap}" Width="16" Height="16" Stretch="Uniform"/>
+            <Button.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" />
+                <MouseBinding Gesture="RightClick" Command="{Binding FlagCommand}" />
+            </Button.InputBindings>
+        </Button>
+    </Grid>
 </UserControl>

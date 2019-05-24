@@ -13,126 +13,135 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameGridViewModel : BindableBase
     {
-	    private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
+        private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
 
-		private readonly IEventAggregator _eventAggregator;
-	    private IWorldManager _worldManager;
+        private readonly IEventAggregator _eventAggregator;
+        private IWorldManager _worldManager;
         private bool _isFirstMove = true;
 
-	    public ObservableCollection<CellViewModel> Cells
-	    {
-		    get { return _cells; }
-		    set { SetProperty(ref _cells, value, nameof(Cells)); }
-	    }
+        public ObservableCollection<CellViewModel> Cells
+        {
+            get { return _cells; }
+            set { SetProperty(ref _cells, value, nameof(Cells)); }
+        }
 
-		public int GameWidth
-		{
-			get { return GameConfiguration.Width * GameConstants.GameViewWidth; }
-		}
+        public int GameWidth
+        {
+            get { return GameConfiguration.Width * GameConstants.GameViewWidth; }
+        }
 
-	    public int GameHeight
-	    {
-		    get { return GameConfiguration.Height * GameConstants.GameViewHeight; }
-	    }
+        public int GameHeight
+        {
+            get { return GameConfiguration.Height * GameConstants.GameViewHeight; }
+        }
 
-	    public GameConfiguration GameConfiguration { get; set; }
+        public GameConfiguration GameConfiguration { get; set; }
 
-	    public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
-	    {
-		    Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
-		    Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
+        public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
+        {
+            Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
+            Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
 
-		    _eventAggregator = eventAggregator;
+            _eventAggregator = eventAggregator;
 
-		    var configurationService = gameConfigurationService;
-		    GameConfiguration = configurationService.DefaultConfiguration;
+            var configurationService = gameConfigurationService;
+            GameConfiguration = configurationService.DefaultConfiguration;
 
-		    StartNewGame();
+            StartNewGame();
 
-		    SubscribeToEvents();
-	    }
+            SubscribeToEvents();
+        }
 
-	    private void StartNewGame()
-	    {
-		    _worldManager = new WorldManager(GameConfiguration);
-		    InitializeCells();
-		    NotifyView();
+        private void StartNewGame()
+        {
+            _worldManager = new WorldManager(GameConfiguration);
+            InitializeCells();
+            NotifyView();
             _isFirstMove = true;
-	    }
 
-	    private void NotifyView()
-	    {
-		    RaisePropertyChanged(nameof(GameWidth));
-		    RaisePropertyChanged(nameof(GameHeight));
+            RedrawWorld(true);
+        }
 
-			_eventAggregator.GetEvent<ResizeWidthEvent>().Publish(GameWidth);
-			_eventAggregator.GetEvent<ResizeHeightEvent>().Publish(GameHeight);
-	    }
+        private void NotifyView()
+        {
+            RaisePropertyChanged(nameof(GameWidth));
+            RaisePropertyChanged(nameof(GameHeight));
 
-	    private void OnStartNewGame(GameConfiguration gameConfiguration)
-	    {
-		    GameConfiguration = gameConfiguration;
+            _eventAggregator.GetEvent<ResizeWidthEvent>().Publish(GameWidth);
+            _eventAggregator.GetEvent<ResizeHeightEvent>().Publish(GameHeight);
+        }
 
-		    StartNewGame();
-	    }
+        private void OnStartNewGame(GameConfiguration gameConfiguration)
+        {
+            GameConfiguration = gameConfiguration;
 
-	    ~GameGridViewModel()
-	    {
-		    UnsubscribeToEvents();
-	    }
+            StartNewGame();
+        }
 
-	    private void SubscribeToEvents()
-	    {
-		    _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
-		    _eventAggregator.GetEvent<CellFlagEvent>().Subscribe(OnCellFlagged);
-		    _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
-	    }
+        ~GameGridViewModel()
+        {
+            UnsubscribeToEvents();
+        }
 
-	    private void UnsubscribeToEvents()
-	    {
-		    _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
-		    _eventAggregator.GetEvent<CellFlagEvent>().Unsubscribe(OnCellFlagged);
-		    _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
-		}
+        private void SubscribeToEvents()
+        {
+            _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
+            _eventAggregator.GetEvent<CellFlagEvent>().Subscribe(OnCellFlagged);
+            _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
+        }
 
-		private void InitializeCells()
-	    {
-			_worldManager.InitializeWorld();
+        private void UnsubscribeToEvents()
+        {
+            _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
+            _eventAggregator.GetEvent<CellFlagEvent>().Unsubscribe(OnCellFlagged);
+            _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
+        }
 
-			Cells = new ObservableCollection<CellViewModel>(_worldManager.Cells.Select(x => new CellViewModel
-			{
-				Cell = x
-			}));
-	    }
+        private void InitializeCells()
+        {
+            _worldManager.InitializeWorld();
 
-	    private void OnCellClicked(Cell cell)
-	    {
+            Cells = new ObservableCollection<CellViewModel>(_worldManager.Cells.Select(x => new CellViewModel
+            {
+                Cell = x
+            }));
+        }
+
+        private void OnCellClicked(Cell cell)
+        {
             if (_isFirstMove && (cell.IsMine() || cell.ComputeNumberOfMines() != 0))
             {
                 _worldManager.ReorganizeCells(cell);
                 _isFirstMove = false;
             }
 
-		    _worldManager.OpenCell(cell);
+            _worldManager.OpenCell(cell);
 
-		    RedrawWorld();
-	    }
+            RedrawWorld();
+        }
 
-	    private void OnCellFlagged(Cell cell)
-	    {
-		    _worldManager.FlagCell(cell);
+        private void OnCellFlagged(Cell cell)
+        {
+            _worldManager.FlagCell(cell);
 
-		    RedrawWorld();
-	    }
+            GetCellViewModel(cell).OnCellRedrawn();
+        }
 
-	    private void RedrawWorld()
-	    {
-		    foreach (var worldManagerCell in _worldManager.Cells.Where(x => x.IsDirty))
-		    {
-			    _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
-		    }
+        private void RedrawWorld(bool forceRedraw = false)
+        {
+            var cells = forceRedraw ? _worldManager.Cells : _worldManager.Cells.Where(x => x.IsDirty);
 
-			_worldManager.ResetDirty();
-	    }
+            foreach (var worldManagerCell in cells)
+            {
+                GetCellViewModel(worldManagerCell).OnCellRedrawn();
+            }
+
+            _worldManager.ResetDirty();
+        }
+
+        private CellViewModel GetCellViewModel(Cell cell)
+        {
+            return Cells.Single(x => x.Cell.Equals(cell));
+        }
     }
 }
