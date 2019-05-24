@@ -54,10 +54,10 @@ namespace Minesweeper.Ui.ViewModels
 
         private void StartNewGame()
         {
+            _isFirstMove = true;
             _worldManager = new WorldManager(GameConfiguration);
             InitializeCells();
             NotifyView();
-            _isFirstMove = true;
 
             RedrawWorld(true);
         }
@@ -109,9 +109,13 @@ namespace Minesweeper.Ui.ViewModels
 
         private void OnCellClicked(Cell cell)
         {
-            if (_isFirstMove && (cell.IsMine() || cell.ComputeNumberOfMines() != 0))
+            if (_isFirstMove)
             {
-                _worldManager.ReorganizeCells(cell);
+                if (cell.CellType == CellType.Mine || cell.ComputeNumberOfMines() != 0)
+                {
+                    _worldManager.ReorganizeCells(cell);
+                }
+
                 _isFirstMove = false;
             }
 

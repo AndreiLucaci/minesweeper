@@ -122,7 +122,6 @@ namespace Minesweeper.Engine
                         case CellType.Mine:
                             cell.CellState = CellState.Mine;
                             cell.IsDirty = true;
-
                             return GameState.GameOver;
                         case CellType.EmptyCell:
                             OpenCellInner(cell);
@@ -148,8 +147,15 @@ namespace Minesweeper.Engine
         private void OpenCellInner(Cell cell)
         {
             cell.IsDirty = true;
-            cell.CellState = CellState.Opened;
 
+            if (cell.CellType == CellType.Mine)
+            {
+                cell.CellState = CellState.Mine;
+
+                return;
+            }
+
+            cell.CellState = CellState.Opened;
             if (cell.ComputeNumberOfMines() == 0)
             {
                 foreach (var cellNeighbour in cell.Neighbours.Where(x => x.CellState == CellState.Untouched))

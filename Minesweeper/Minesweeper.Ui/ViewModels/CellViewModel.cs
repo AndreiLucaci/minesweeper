@@ -108,14 +108,14 @@ namespace Minesweeper.Ui.ViewModels
 		{
 			switch (Cell.CellState)
 			{
-				case CellState.Opened:
+			    case CellState.Mine:
+			        SetMine();
+			        break;
+                case CellState.Opened:
 					SetOpen();
 					break;
 				case CellState.FlaggedAsMine:
 					SetFlag();
-					break;
-				case CellState.Mine:
-					SetMine();
 					break;
 				default:
 					SetUntouched();
