@@ -161,10 +161,10 @@ namespace Minesweeper.Engine
         {
             var neighbours = cell.Neighbours.ToList();
 
-            var mineNeighbours = neighbours.Where(x => x.CellType == CellType.Mine).ToList();
-            var flaggedNeighbours = neighbours.Where(x => x.CellState == CellState.FlaggedAsMine).ToList();
+            var mineCount = cell.ComputeNumberOfMines();
+            var flagCount = cell.ComputeNumberOfFlags();
 
-            if (mineNeighbours.Count - flaggedNeighbours.Count == 0)
+            if (mineCount - flagCount == 0)
             {
                 var untouchedNeighbours = neighbours.Where(x => x.CellState == CellState.Untouched).ToList();
 

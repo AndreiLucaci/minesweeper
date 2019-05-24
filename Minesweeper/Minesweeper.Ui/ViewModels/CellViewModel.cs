@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using CommonServiceLocator;
 using Minesweeper.Models;
 using Minesweeper.Ui.Constants;
@@ -19,6 +20,7 @@ namespace Minesweeper.Ui.ViewModels
 	    private Image _cellImage;
 
         private readonly IEventAggregator _eventAggregator;
+	    private BitmapImage _cellImageBitmap;
 
 	    public CellViewModel()
 		{
@@ -54,16 +56,16 @@ namespace Minesweeper.Ui.ViewModels
 		public DelegateCommand ClickCommand { get; set; }
 		public DelegateCommand FlagCommand { get; set; }
 
-		public Style Style
-		{
-			get => _style;
-			set => SetProperty(ref _style, value, nameof(Style));
-		}
-
 	    public Image CellImage
 	    {
 	        get => _cellImage;
 	        set => SetProperty(ref _cellImage, value, nameof(CellImage));
+	    }
+
+	    public BitmapImage CellImageBitmap
+	    {
+	        get => _cellImageBitmap;
+	        set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
 	    }
 
 	    private void SubscribeToEvents()
@@ -123,23 +125,20 @@ namespace Minesweeper.Ui.ViewModels
 
 		private void SetUntouched()
 		{
-			Style = null;
-		    CellImage = CellStyles.UntouchedImage;
+		    CellImageBitmap = CellStyles.UntouchedImagePath;
             Display = string.Empty;
 		}
 
 		private void SetMine()
 		{
-			Style = CellStyles.MineStyle;
-		    CellImage = CellStyles.MineExplodedImage;
-			Display = string.Empty;
+		    CellImageBitmap = CellStyles.MineExplodedImagePath;
+            Display = string.Empty;
         }
 
 		private void SetFlag()
 		{
-			Style = CellStyles.FlaggedStyle;
-		    CellImage = CellStyles.FlagImage;
-			Display = string.Empty;
+		    CellImageBitmap = CellStyles.FlagImagePath;
+            Display = string.Empty;
 		}
 
 		private void SetOpen()
@@ -149,39 +148,31 @@ namespace Minesweeper.Ui.ViewModels
 			switch (mines)
 			{
 				case 0:
-					Style = CellStyles.OpenStyle;
-				    CellImage = CellStyles.Mine0Image;
+				    CellImageBitmap = CellStyles.Mine0ImagePath;
 					break;
 				case 1:
-					Style = CellStyles.OneMineStyle;
-				    CellImage = CellStyles.Mine1Image;
+				    CellImageBitmap = CellStyles.Mine1ImagePath;
                     break;
 				case 2:
-					Style = CellStyles.TwoMineStyle;
-				    CellImage = CellStyles.Mine2Image;
+				    CellImageBitmap = CellStyles.Mine2ImagePath;
                     break;
 				case 3:
-					Style = CellStyles.ThreeMineStyle;
-				    CellImage = CellStyles.Mine3Image;
+				    CellImageBitmap = CellStyles.Mine3ImagePath;
                     break;
 				case 4:
-					Style = CellStyles.FourMineStyle;
-				    CellImage = CellStyles.Mine4Image;
+				    CellImageBitmap = CellStyles.Mine4ImagePath;
                     break;
 				case 5:
-					Style = CellStyles.FiveMineStyle;
-				    CellImage = CellStyles.Mine5Image;
+				    CellImageBitmap = CellStyles.Mine5ImagePath;
                     break;
 				case 6:
-					Style = CellStyles.SixMineStyle;
-				    CellImage = CellStyles.Mine6Image;
+				    CellImageBitmap = CellStyles.Mine6ImagePath;
                     break;
 				case 7:
-					Style = CellStyles.SevenMineStyle;
-				    CellImage = CellStyles.Mine7Image;
+				    CellImageBitmap = CellStyles.Mine7ImagePath;
                     break;
                 case 8:
-                    CellImage = CellStyles.Mine8Image;
+                    CellImageBitmap = CellStyles.Mine8ImagePath;
                     break;
             }
 

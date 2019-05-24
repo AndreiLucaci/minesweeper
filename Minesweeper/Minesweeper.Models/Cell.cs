@@ -30,19 +30,20 @@ namespace Minesweeper.Models
 		{
 			return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
 		}
-		public int ComputeNumberOfMines()
-		{
-			return Neighbours.Count(x => x.CellType == CellType.Mine);
-		}
-
+        
         public bool IsMine()
         {
             return this.CellType == CellType.Mine && this.CellState != CellState.FlaggedAsMine;
         }
 
-		public int ComputeNumberOfFlaggedMines()
+	    public int ComputeNumberOfMines()
+	    {
+	        return Neighbours.Count(x => x.CellType == CellType.Mine);
+	    }
+
+        public int ComputeNumberOfFlags()
 		{
-			return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine && x.CellType == CellType.Mine);
+			return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine);
 		}
 
         public int ComputeNumberOfUnopenedNeighbours()
@@ -93,13 +94,6 @@ namespace Minesweeper.Models
 			var numberOfMines = Neighbours.Count(neighbour => neighbour.CellType == CellType.Mine);
 
 			return numberOfMines;
-		}
-
-		private int ComputeNumberOfFlags()
-		{
-			var numberOfFlags = Neighbours.Count(neighbour => neighbour.CellState == CellState.FlaggedAsMine);
-
-			return numberOfFlags;
 		}
 	}
 }

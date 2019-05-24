@@ -58,6 +58,8 @@ namespace Minesweeper.Ui.ViewModels
             InitializeCells();
             NotifyView();
             _isFirstMove = true;
+
+            RedrawWorld(true);
         }
 
         private void NotifyView()
@@ -125,14 +127,21 @@ namespace Minesweeper.Ui.ViewModels
             RedrawWorld();
         }
 
-        private void RedrawWorld()
+        private void RedrawWorld(bool forceRedraw = false)
         {
-            foreach (var worldManagerCell in _worldManager.Cells.Where(x => x.IsDirty))
+            var cells = forceRedraw ? _worldManager.Cells : _worldManager.Cells.Where(x => x.IsDirty);
+
+            foreach (var worldManagerCell in cells)
             {
-                _eventAggregator.GetEvent<CellRedrawEvent>().Publish(worldManagerCell);
+                GetCellViewModel(worldManagerCell).OnCellRedrawn();
             }
 
             _worldManager.ResetDirty();
+        }
+
+        private CellViewModel GetCellViewModel(Cell cell)
+        {
+            return Cells.Single(x => x.Cell.Equals(cell));
         }
     }
 }
