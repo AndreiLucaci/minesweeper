@@ -124,7 +124,7 @@ namespace Minesweeper.Ui.ViewModels
         {
             _worldManager.FlagCell(cell);
 
-            RedrawWorld();
+            GetCellViewModel(cell).OnCellRedrawn();
         }
 
         private void RedrawWorld(bool forceRedraw = false)
