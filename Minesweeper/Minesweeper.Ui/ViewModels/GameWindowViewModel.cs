@@ -12,7 +12,7 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameWindowViewModel : BindableBase
     {
-        private const int ExtraSpace = 20;
+        private const int ExtraSpace = 30;
         private readonly IEventAggregator _eventAggregator;
         private readonly IGameConfigurationService _gameConfigurationService;
         private int _height;

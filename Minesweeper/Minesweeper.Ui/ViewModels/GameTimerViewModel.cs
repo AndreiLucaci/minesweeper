@@ -90,125 +90,67 @@ namespace Minesweeper.Ui.ViewModels
                 switch (i)
                 {
                     case 0:
-                        RedrawSlot1(digit);
+                        RedrawSlot(1, digit);
                         break;
                     case 1:
-                        RedrawSlot2(digit);
+                        RedrawSlot(2, digit);
                         break;
                     case 2:
-                        RedrawSlot3(digit);
+                        RedrawSlot(3, digit);
                         break;
                 }
             }
         }
 
-        private void RedrawSlot1(int digit)
+        private void RedrawSlot(int slot, int digit)
         {
             switch (digit)
             {
                 case 0:
-                    Slot1Image = DigitStyles.Tile0;
+                    RedrawSlot(slot, DigitStyles.Tile0);
                     break;
                 case 1:
-                    Slot1Image = DigitStyles.Tile1;
+                    RedrawSlot(slot, DigitStyles.Tile1);
                     break;
                 case 2:
-                    Slot1Image = DigitStyles.Tile2;
+                    RedrawSlot(slot, DigitStyles.Tile2);
                     break;
                 case 3:
-                    Slot1Image = DigitStyles.Tile3;
+                    RedrawSlot(slot, DigitStyles.Tile3);
                     break;
                 case 4:
-                    Slot1Image = DigitStyles.Tile4;
+                    RedrawSlot(slot, DigitStyles.Tile4);
                     break;
                 case 5:
-                    Slot1Image = DigitStyles.Tile5;
+                    RedrawSlot(slot, DigitStyles.Tile5);
                     break;
                 case 6:
-                    Slot1Image = DigitStyles.Tile6;
+                    RedrawSlot(slot, DigitStyles.Tile6);
                     break;
                 case 7:
-                    Slot1Image = DigitStyles.Tile7;
+                    RedrawSlot(slot, DigitStyles.Tile7);
                     break;
                 case 8:
-                    Slot1Image = DigitStyles.Tile8;
+                    RedrawSlot(slot, DigitStyles.Tile8);
                     break;
                 case 9:
-                    Slot1Image = DigitStyles.Tile9;
+                    RedrawSlot(slot, DigitStyles.Tile9);
                     break;
             }
         }
-
-        private void RedrawSlot2(int digit)
+        
+        private void RedrawSlot(int slot, BitmapImage tile)
         {
-            switch (digit)
+            switch (slot)
             {
-                case 0:
-                    Slot2Image = DigitStyles.Tile0;
-                    break;
                 case 1:
-                    Slot2Image = DigitStyles.Tile1;
+                    Slot1Image = tile;
                     break;
                 case 2:
-                    Slot2Image = DigitStyles.Tile2;
+                    Slot2Image = tile;
                     break;
                 case 3:
-                    Slot2Image = DigitStyles.Tile3;
-                    break;
-                case 4:
-                    Slot2Image = DigitStyles.Tile4;
-                    break;
-                case 5:
-                    Slot2Image = DigitStyles.Tile5;
-                    break;
-                case 6:
-                    Slot2Image = DigitStyles.Tile6;
-                    break;
-                case 7:
-                    Slot2Image = DigitStyles.Tile7;
-                    break;
-                case 8:
-                    Slot2Image = DigitStyles.Tile8;
-                    break;
-                case 9:
-                    Slot2Image = DigitStyles.Tile9;
-                    break;
-            }
-        }
-
-        private void RedrawSlot3(int digit)
-        {
-            switch (digit)
-            {
-                case 0:
-                    Slot3Image = DigitStyles.Tile0;
-                    break;
-                case 1:
-                    Slot3Image = DigitStyles.Tile1;
-                    break;
-                case 2:
-                    Slot3Image = DigitStyles.Tile2;
-                    break;
-                case 3:
-                    Slot3Image = DigitStyles.Tile3;
-                    break;
-                case 4:
-                    Slot3Image = DigitStyles.Tile4;
-                    break;
-                case 5:
-                    Slot3Image = DigitStyles.Tile5;
-                    break;
-                case 6:
-                    Slot3Image = DigitStyles.Tile6;
-                    break;
-                case 7:
-                    Slot3Image = DigitStyles.Tile7;
-                    break;
-                case 8:
-                    Slot3Image = DigitStyles.Tile8;
-                    break;
-                case 9:
-                    Slot3Image = DigitStyles.Tile9;
+                    Slot3Image = tile;
                     break;
             }
         }
@@ -241,9 +183,9 @@ namespace Minesweeper.Ui.ViewModels
 
         private void DrawInitial()
         {
-            RedrawSlot1(0);
-            RedrawSlot2(0);
-            RedrawSlot3(0);
+            RedrawSlot(1, 0);
+            RedrawSlot(2, 0);
+            RedrawSlot(3, 0);
         }
     }
 }
