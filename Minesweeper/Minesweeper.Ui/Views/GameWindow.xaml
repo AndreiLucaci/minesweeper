@@ -49,8 +49,8 @@
 
         <Grid Name="Grid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <views:GameHeader Grid.Row="0" />
             <views:GameGrid Grid.Row="1" />

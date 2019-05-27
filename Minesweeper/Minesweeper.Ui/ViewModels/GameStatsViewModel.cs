@@ -6,21 +6,20 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameStatsViewModel : BaseDialogViewModel
     {
+        private readonly GameStats _gameStats;
         private string _stats;
-
-        private readonly Minesweeper.Models.GameStats _gameStats;
-
-        public string Stats
-        {
-            get => _stats;
-            set => SetProperty(ref _stats, value, nameof(Stats));
-        }
 
         public GameStatsViewModel(GameStats gameStats)
         {
             _gameStats = gameStats;
 
             ShowStats();
+        }
+
+        public string Stats
+        {
+            get => _stats;
+            set => SetProperty(ref _stats, value, nameof(Stats));
         }
 
         private void ShowStats()
@@ -33,6 +32,7 @@ namespace Minesweeper.Ui.ViewModels
                 _gameStats.DefusedMines,
                 _gameStats.ExplodedMines,
                 _gameStats.UntouchedMines,
+                _gameStats.WrongFlaggedMines,
                 _gameStats.Configuration.Name
             );
 

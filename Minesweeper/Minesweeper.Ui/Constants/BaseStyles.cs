@@ -5,9 +5,13 @@ namespace Minesweeper.Ui.Constants
 {
     public class BaseStyles
     {
-        public static BitmapImage SurprisedFace { get; } = LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper surprised.png");
+        public static BitmapImage SurprisedFace { get; } =
+            LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper surprised.png");
+
         public static BitmapImage WinFace { get; } = LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper win.png");
-        public static BitmapImage LooseFace { get; } = LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper dead.png");
+
+        public static BitmapImage LooseFace { get; } =
+            LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper dead.png");
 
         protected static BitmapImage LoadImage(string path)
         {

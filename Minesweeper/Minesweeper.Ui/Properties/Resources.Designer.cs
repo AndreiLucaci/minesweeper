@@ -77,7 +77,8 @@ namespace Minesweeper.Ui.Properties {
         ///Number of Flagged mines: {2}.
         ///Number of Exploded mines: {3}.
         ///Number of Untouched mines: {4}.
-        ///Configuration: {5}..
+        ///Number of Miss flagged mines: {5}.
+        ///Configuration: {6}..
         /// </summary>
         internal static string GameStats {
             get {

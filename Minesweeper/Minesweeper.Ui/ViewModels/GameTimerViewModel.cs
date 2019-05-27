@@ -12,10 +12,9 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameTimerViewModel : BindableBase
     {
+        public static int ElapsedSeconds;
         private readonly IEventAggregator _eventAggregator;
         private readonly DispatcherTimer _timer;
-
-        public static int ElapsedSeconds;
 
         private BitmapImage _slot1Image;
         private BitmapImage _slot2Image;
@@ -139,7 +138,7 @@ namespace Minesweeper.Ui.ViewModels
                     break;
             }
         }
-        
+
         private void RedrawSlot(int slot, BitmapImage tile)
         {
             switch (slot)

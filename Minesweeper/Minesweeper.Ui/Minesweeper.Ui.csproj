@@ -95,7 +95,6 @@
     <Compile Include="Events\EndGameEvent.cs" />
     <Compile Include="Events\GameMineExplodedEvent.cs" />
     <Compile Include="Events\GameNextStateEvent.cs" />
-    <Compile Include="Events\GameStatsEvent.cs" />
     <Compile Include="Events\GameWinEvent.cs" />
     <Compile Include="Events\ResetGameEvent.cs" />
     <Compile Include="Events\ResizeHeightEvent.cs" />
@@ -270,9 +269,6 @@
   <ItemGroup>
     <Resource Include="Images\minesweeper dead.png" />
     <Resource Include="Images\minesweeper win.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\fooh - Copy.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\fooh.gif" />

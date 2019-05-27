@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         Name="AboutUsWindow"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen"             
+        WindowStartupLocation="CenterScreen"
         mvvm:ViewModelLocator.AutoWireViewModel="True"
         d:DataContext="{d:DesignInstance Type=viewModels:GameAboutUsViewModel,IsDesignTimeCreatable=True}"
         Title="About us" Height="200" Width="600">
@@ -25,31 +25,33 @@ The game source files can be found here:
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
-        <Image helpers:EnableDragHelper.EnableDrag="True" 
+        <Image helpers:EnableDragHelper.EnableDrag="True"
                Margin="4 0"
                Source="{Binding Logo}"
-               Grid.Row="0" 
-               Grid.Column="0"></Image>
+               Grid.Row="0"
+               Grid.Column="0" />
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" helpers:EnableDragHelper.EnableDrag="True" ></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*" helpers:EnableDragHelper.EnableDrag="True" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label helpers:EnableDragHelper.EnableDrag="True" Content="Minesweeper" FontFamily="Lucida Sans" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"></Label>
+            <Label helpers:EnableDragHelper.EnableDrag="True" Content="Minesweeper" FontFamily="Lucida Sans"
+                   FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" />
 
-            <TextBlock Grid.Row="1" Text="" TextWrapping="Wrap" Width="380" TextAlignment="Justify"/>
+            <TextBlock Grid.Row="1" Text="" TextWrapping="Wrap" Width="380" TextAlignment="Justify" />
 
-            <TextBox Text="{StaticResource AboutUs}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="2">
-            </TextBox>
+            <TextBox Text="{StaticResource AboutUs}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap"
+                     Margin="2" />
 
-            <Button Content="Close AboutUs window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}" CommandParameter="{Binding ElementName=AboutUsWindow}"></Button>
+            <Button Content="Close AboutUs window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}"
+                    CommandParameter="{Binding ElementName=AboutUsWindow}" />
         </Grid>
     </Grid>
 </Window>
