@@ -148,7 +148,7 @@ namespace Minesweeper.Ui.ViewModels
             var elapsedTime = GameTimerViewModel.ElapsedSeconds;
 
             EndGameEvents(gameState);
-            ShowGameStats(gameState, elapsedTime, defusedMines.Count, explodedMines.Count, untouchedMines.Count);
+            ShowGameStats(gameState, elapsedTime, defusedMines.Count, explodedMines.Count, untouchedMines.Count, wrongFlaggedMines.Count);
         }
 
         private void ProcessEndgameMines(List<Cell> untouchedMines, List<Cell> wrongFlaggedMines)
@@ -169,7 +169,7 @@ namespace Minesweeper.Ui.ViewModels
         }
 
         private void ShowGameStats(GameState gameState, int elapsedTime, int defusedMines, int explodedMines,
-            int untouchedMines)
+            int untouchedMines, int wrongFlagged)
         {
             var gameStats = new GameStats
             {
@@ -178,7 +178,8 @@ namespace Minesweeper.Ui.ViewModels
                 TimeElapsed = elapsedTime,
                 DefusedMines = defusedMines,
                 ExplodedMines = explodedMines,
-                UntouchedMines = untouchedMines
+                UntouchedMines = untouchedMines,
+                WrongFlaggedMines = wrongFlagged
             };
 
             var gameStatsWindow = new Views.GameStats {DataContext = new GameStatsViewModel(gameStats)};

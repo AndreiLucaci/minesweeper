@@ -12,6 +12,8 @@ namespace Minesweeper.Models
 
         public int UntouchedMines { get; set; }
 
+        public int WrongFlaggedMines { get; set; }
+
         public int TimeElapsed { get; set; }
 
         public GameConfiguration Configuration { get; set; }

@@ -32,6 +32,7 @@ namespace Minesweeper.Ui.ViewModels
                 _gameStats.DefusedMines,
                 _gameStats.ExplodedMines,
                 _gameStats.UntouchedMines,
+                _gameStats.WrongFlaggedMines,
                 _gameStats.Configuration.Name
             );
 
