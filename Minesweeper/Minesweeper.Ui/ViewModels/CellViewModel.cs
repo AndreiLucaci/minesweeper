@@ -11,177 +11,170 @@ using Prism.Mvvm;
 
 namespace Minesweeper.Ui.ViewModels
 {
-	public class CellViewModel : BindableBase
-	{
-		private string _display;
-
-		private Cell _cell;
-		private Style _style;
-	    private Image _cellImage;
-
+    public class CellViewModel : BindableBase
+    {
         private readonly IEventAggregator _eventAggregator;
-	    private BitmapImage _cellImageBitmap;
 
-	    public CellViewModel()
-		{
-			ClickCommand = new DelegateCommand(OnClick);
-			FlagCommand = new DelegateCommand(OnFlag);
-			
-			_eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+        private Cell _cell;
+        private Image _cellImage;
+        private BitmapImage _cellImageBitmap;
+        private string _display;
+        private Style _style;
 
-			SubscribeToEvents();
-		}
+        public CellViewModel()
+        {
+            ClickCommand = new DelegateCommand(OnClick);
+            FlagCommand = new DelegateCommand(OnFlag);
 
-		~CellViewModel()
-		{
-			UnsubscribeToEvents();
-		}
-		
-		public int Height { get; } = GameConstants.GameViewHeight;
+            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
-		public int Width { get; } = GameConstants.GameViewWidth;
+            SubscribeToEvents();
+        }
 
-		public Cell Cell
-		{
-			get => _cell;
-			set => SetProperty(ref _cell, value, nameof(Cell));
-		}
+        public int Height { get; } = GameConstants.GameViewHeight;
 
-		public string Display
-		{
-			get => _display;
-			set => SetProperty(ref _display, value, nameof(Display));
-		}
+        public int Width { get; } = GameConstants.GameViewWidth;
 
-		public DelegateCommand ClickCommand { get; set; }
-		public DelegateCommand FlagCommand { get; set; }
+        public Cell Cell
+        {
+            get => _cell;
+            set => SetProperty(ref _cell, value, nameof(Cell));
+        }
 
-	    public Image CellImage
-	    {
-	        get => _cellImage;
-	        set => SetProperty(ref _cellImage, value, nameof(CellImage));
-	    }
+        public string Display
+        {
+            get => _display;
+            set => SetProperty(ref _display, value, nameof(Display));
+        }
 
-	    public BitmapImage CellImageBitmap
-	    {
-	        get => _cellImageBitmap;
-	        set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
-	    }
+        public DelegateCommand ClickCommand { get; set; }
+        public DelegateCommand FlagCommand { get; set; }
 
-	    private void SubscribeToEvents()
-		{
-			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
-		}
+        public Image CellImage
+        {
+            get => _cellImage;
+            set => SetProperty(ref _cellImage, value, nameof(CellImage));
+        }
 
-		private void UnsubscribeToEvents()
-		{
-			_eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
-		}
+        public BitmapImage CellImageBitmap
+        {
+            get => _cellImageBitmap;
+            set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
+        }
 
-	    public void OnCellRedrawn(Cell cell = null)
-	    {
-	        cell = cell ?? Cell;
+        ~CellViewModel()
+        {
+            UnsubscribeToEvents();
+        }
 
-			if (cell.Equals(Cell))
-			{
-				Redrawn();
-			}
-		}
+        private void SubscribeToEvents()
+        {
+            _eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
+        }
 
-		private void OnClick()
-		{
-			if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
-			{
-				_eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
-			}
-		}
+        private void UnsubscribeToEvents()
+        {
+            _eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
+        }
 
-		private void OnFlag()
-		{
-			if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
-			{
-				_eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
-			}
-		}
+        public void OnCellRedrawn(Cell cell = null)
+        {
+            cell = cell ?? Cell;
 
-		private void Redrawn()
-		{
-			switch (Cell.CellState)
-			{
-			    case CellState.Mine:
-			        SetMine();
-			        break;
+            if (cell.Equals(Cell))
+                Redrawn();
+        }
+
+        private void OnClick()
+        {
+            if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
+                _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
+        }
+
+        private void OnFlag()
+        {
+            if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
+                _eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
+        }
+
+        private void Redrawn()
+        {
+            switch (Cell.CellState)
+            {
+                case CellState.Mine:
+                    SetMine();
+                    break;
                 case CellState.Opened:
-					SetOpen();
-					break;
-				case CellState.FlaggedAsMine:
-					SetFlag();
-					break;
-				default:
-					SetUntouched();
-					break;
-			}
-		}
+                    SetOpen();
+                    break;
+                case CellState.FlaggedAsMine:
+                    SetFlag();
+                    break;
+                default:
+                    SetUntouched();
+                    break;
+            }
+        }
 
-		private void SetUntouched()
-		{
-		    CellImageBitmap = CellStyles.UntouchedImagePath;
-            Display = string.Empty;
-		}
-
-		private void SetMine()
-		{
-		    CellImageBitmap = CellStyles.MineExplodedImagePath;
+        private void SetUntouched()
+        {
+            CellImageBitmap = CellStyles.UntouchedImagePath;
             Display = string.Empty;
         }
 
-		private void SetFlag()
-		{
-		    CellImageBitmap = CellStyles.FlagImagePath;
+        private void SetMine()
+        {
+            CellImageBitmap = CellStyles.MineExplodedImagePath;
             Display = string.Empty;
-		}
+        }
 
-		private void SetOpen()
-		{
-			var mines = ComputeNumberOfMines();
+        private void SetFlag()
+        {
+            CellImageBitmap = CellStyles.FlagImagePath;
+            Display = string.Empty;
+        }
 
-			switch (mines)
-			{
-				case 0:
-				    CellImageBitmap = CellStyles.Mine0ImagePath;
-					break;
-				case 1:
-				    CellImageBitmap = CellStyles.Mine1ImagePath;
+        private void SetOpen()
+        {
+            var mines = ComputeNumberOfMines();
+
+            switch (mines)
+            {
+                case 0:
+                    CellImageBitmap = CellStyles.Mine0ImagePath;
                     break;
-				case 2:
-				    CellImageBitmap = CellStyles.Mine2ImagePath;
+                case 1:
+                    CellImageBitmap = CellStyles.Mine1ImagePath;
                     break;
-				case 3:
-				    CellImageBitmap = CellStyles.Mine3ImagePath;
+                case 2:
+                    CellImageBitmap = CellStyles.Mine2ImagePath;
                     break;
-				case 4:
-				    CellImageBitmap = CellStyles.Mine4ImagePath;
+                case 3:
+                    CellImageBitmap = CellStyles.Mine3ImagePath;
                     break;
-				case 5:
-				    CellImageBitmap = CellStyles.Mine5ImagePath;
+                case 4:
+                    CellImageBitmap = CellStyles.Mine4ImagePath;
                     break;
-				case 6:
-				    CellImageBitmap = CellStyles.Mine6ImagePath;
+                case 5:
+                    CellImageBitmap = CellStyles.Mine5ImagePath;
                     break;
-				case 7:
-				    CellImageBitmap = CellStyles.Mine7ImagePath;
+                case 6:
+                    CellImageBitmap = CellStyles.Mine6ImagePath;
+                    break;
+                case 7:
+                    CellImageBitmap = CellStyles.Mine7ImagePath;
                     break;
                 case 8:
                     CellImageBitmap = CellStyles.Mine8ImagePath;
                     break;
             }
 
-			Display = mines == 0 ? string.Empty : mines.ToString();
-		}
+            Display = mines == 0 ? string.Empty : mines.ToString();
+        }
 
-		private int ComputeNumberOfMines()
-		{
-		    return Cell.ComputeNumberOfMines();
-		}
-	}
+        private int ComputeNumberOfMines()
+        {
+            return Cell.ComputeNumberOfMines();
+        }
+    }
 }

@@ -3,20 +3,19 @@ using Minesweeper.Models;
 
 namespace Minesweeper.Engine.Contracts
 {
-	public interface IWorldManager
-	{
-		void InitializeWorld();
+    public interface IWorldManager
+    {
+        HashSet<Cell> Cells { get; set; }
+        void InitializeWorld();
 
-		GameState OpenCell(Cell cell);
+        GameState OpenCell(Cell cell);
 
-		void FlagCell(Cell cell);
+        void FlagCell(Cell cell);
 
-		HashSet<Cell> Cells { get; set; }
-
-		void ResetDirty();
+        void ResetDirty();
 
         void ReorganizeCells(Cell cell);
 
-	    bool IsGameEndedWithSuccess();
-	}
+        bool IsGameEndedWithSuccess();
+    }
 }

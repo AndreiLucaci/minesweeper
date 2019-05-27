@@ -15,10 +15,23 @@ namespace Minesweeper.Ui.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly DispatcherTimer _timer;
 
-        private int _counter = 0;
+        private int _counter;
         private BitmapImage _slot1Image;
         private BitmapImage _slot2Image;
         private BitmapImage _slot3Image;
+
+        public GameTimerViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+
+            SubscribeEvents();
+
+            DrawInitial();
+        }
 
         public BitmapImage Slot3Image
         {
@@ -36,19 +49,6 @@ namespace Minesweeper.Ui.ViewModels
         {
             get => _slot1Image;
             set => SetProperty(ref _slot1Image, value, nameof(Slot1Image));
-        }
-
-        public GameTimerViewModel(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-
-            SubscribeEvents();
-
-            DrawInitial();
         }
 
         ~GameTimerViewModel()

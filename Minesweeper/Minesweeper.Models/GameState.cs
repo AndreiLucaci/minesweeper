@@ -1,14 +1,14 @@
 ﻿namespace Minesweeper.Models
 {
-	public enum GameState
-	{
-		Advance,
+    public enum GameState
+    {
+        Advance,
 
-		GameOver,
+        GameOver,
 
-		/// <summary>
-		/// Avengers, yeah
-		/// </summary>
-		EndGame
-	}
+        /// <summary>
+        ///     Avengers, yeah
+        /// </summary>
+        EndGame
+    }
 }

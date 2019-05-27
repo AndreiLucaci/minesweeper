@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Ui.Events
 {
-	public class ResizeWidthEvent : ResizeWindowEvent
-	{
-	}
+    public class ResizeWidthEvent : ResizeWindowEvent
+    {
+    }
 }

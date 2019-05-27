@@ -13,25 +13,12 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameGridViewModel : BindableBase
     {
+        private readonly IEventAggregator _eventAggregator;
         private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
 
-        private readonly IEventAggregator _eventAggregator;
-        private IWorldManager _worldManager;
+        private bool _isEndGame;
         private bool _isFirstMove = true;
-
-        private bool _isEndGame = false;
-
-        public ObservableCollection<CellViewModel> Cells
-        {
-            get => _cells;
-            set => SetProperty(ref _cells, value, nameof(Cells));
-        }
-
-        public int GameWidth => GameConfiguration.Width * GameConstants.GameViewWidth;
-
-        public int GameHeight => GameConfiguration.Height * GameConstants.GameViewHeight;
-
-        public GameConfiguration GameConfiguration { get; set; }
+        private IWorldManager _worldManager;
 
         public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
         {
@@ -47,6 +34,18 @@ namespace Minesweeper.Ui.ViewModels
 
             SubscribeToEvents();
         }
+
+        public ObservableCollection<CellViewModel> Cells
+        {
+            get => _cells;
+            set => SetProperty(ref _cells, value, nameof(Cells));
+        }
+
+        public int GameWidth => GameConfiguration.Width * GameConstants.GameViewWidth;
+
+        public int GameHeight => GameConfiguration.Height * GameConstants.GameViewHeight;
+
+        public GameConfiguration GameConfiguration { get; set; }
 
         private void StartNewGame()
         {
@@ -117,9 +116,7 @@ namespace Minesweeper.Ui.ViewModels
             if (_isFirstMove)
             {
                 if (cell.CellType == CellType.Mine || cell.ComputeNumberOfMines() != 0)
-                {
                     _worldManager.ReorganizeCells(cell);
-                }
 
                 _isFirstMove = false;
 
@@ -173,9 +170,7 @@ namespace Minesweeper.Ui.ViewModels
             var cells = forceRedraw ? _worldManager.Cells : _worldManager.Cells.Where(x => x.IsDirty);
 
             foreach (var worldManagerCell in cells)
-            {
                 GetCellViewModel(worldManagerCell).OnCellRedrawn();
-            }
 
             _worldManager.ResetDirty();
         }

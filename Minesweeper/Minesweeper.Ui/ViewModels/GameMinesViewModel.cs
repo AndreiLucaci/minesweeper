@@ -13,11 +13,11 @@ namespace Minesweeper.Ui.ViewModels
     public class GameMinesViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        private BitmapImage _slot1Image;
-        private BitmapImage _slot2Image;
         private GameConfiguration _gameConfiguration;
 
         private int _numberOfMines;
+        private BitmapImage _slot1Image;
+        private BitmapImage _slot2Image;
 
         public GameMinesViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
         {
@@ -29,6 +29,18 @@ namespace Minesweeper.Ui.ViewModels
             Redraw();
 
             SubscribeEvents();
+        }
+
+        public BitmapImage Slot2Image
+        {
+            get => _slot2Image;
+            set => SetProperty(ref _slot2Image, value, nameof(Slot2Image));
+        }
+
+        public BitmapImage Slot1Image
+        {
+            get => _slot1Image;
+            set => SetProperty(ref _slot1Image, value, nameof(Slot1Image));
         }
 
         ~GameMinesViewModel()
@@ -48,7 +60,6 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<UpdateMinesNumberEvent>().Unsubscribe(OnUpdateMinesNumber);
             _eventAggregator.GetEvent<RestartGameEvent>().Unsubscribe(OnRestartGame);
             _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
-
         }
 
         private void OnRestartGame()
@@ -95,21 +106,7 @@ namespace Minesweeper.Ui.ViewModels
             }
 
             if (digits.Count == 1)
-            {
                 RedrawSlot2(0);
-            }
-        }
-
-        public BitmapImage Slot2Image
-        {
-            get => _slot2Image;
-            set => SetProperty(ref _slot2Image, value, nameof(Slot2Image));
-        }
-
-        public BitmapImage Slot1Image
-        {
-            get => _slot1Image;
-            set => SetProperty(ref _slot1Image, value, nameof(Slot1Image));
         }
 
         private IEnumerable<int> GetDigits()

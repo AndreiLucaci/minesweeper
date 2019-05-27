@@ -3,7 +3,7 @@ using Prism.Events;
 
 namespace Minesweeper.Ui.Events
 {
-	public class CellFlagEvent : PubSubEvent<Cell>
-	{
-	}
+    public class CellFlagEvent : PubSubEvent<Cell>
+    {
+    }
 }
