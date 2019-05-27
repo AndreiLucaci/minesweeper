@@ -1,0 +1,85 @@
+﻿<Window x:Class="Minesweeper.Ui.Views.GameRules"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper.Ui.Views"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:properties="clr-namespace:Minesweeper.Ui.Properties"
+        xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
+        xmlns:helpers="clr-namespace:Minesweeper.Ui.Helpers"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        Name="AboutUsWindow"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"             
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        d:DataContext="{d:DesignInstance Type=viewModels:GameAboutUsViewModel,IsDesignTimeCreatable=True}"
+        Title="About us" Height="530" Width="750">
+    <Window.Resources>
+        <system:String x:Key="AboutUs" xml:space="preserve">Instructions:
+1. Left-click an untouched cell to open it. 
+	If the cell is an empty cell, it will open. 
+		If there aren't any mines around it, it will open its neighbour cells as well. 
+	If the cell is a mine, you've lost the game.
+2. Left-click an opened cell with number will open its neighbour cells. 
+	To open the neighbours, the cell should have the mines around it flagged first.
+3. Right-click 
+	a. an untouched cell will flag it.
+	b. a flagged cell will unflag it.
+	A flag cell represents a possible mine. 
+	
+Win the game:
+	If all the empty cells are opened.
+	
+Loose the game:
+	If you click a mine.
+	If you open a neighbour which is a mine (you flagged the wrong cells).
+
+Header:
+	1. New Game - start a new game based on predefined configurations:
+		a. Beginner: 8x8 with 10 mines.
+		b. Advanced: 16x16 with 40 mines.
+		c. Expert: 24X24 with 99 mines.
+	2. Help - information about the program
+		a. AboutUs
+		b. Rules (you are here)
+</system:String>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Image helpers:EnableDragHelper.EnableDrag="True" Source="{Binding Logo}" Grid.Row="0" Grid.Column="0"></Image>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" helpers:EnableDragHelper.EnableDrag="True" ></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label helpers:EnableDragHelper.EnableDrag="True" Content="Rules" FontFamily="Lucida Sans" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0"></Label>
+
+            <TextBlock Grid.Row="1" Text="" TextWrapping="Wrap" Width="380" TextAlignment="Justify"/>
+
+            <TextBox Text="{StaticResource AboutUs}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="2">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasValidURI}" Value="True">
+                                <Setter Property="TextDecorations" Value="Underline"/>
+                                <Setter Property="Foreground" Value="#FF2A6DCD"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <Button Content="Close Rules window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}" CommandParameter="{Binding ElementName=AboutUsWindow}"></Button>
+        </Grid>
+    </Grid>
+</Window>

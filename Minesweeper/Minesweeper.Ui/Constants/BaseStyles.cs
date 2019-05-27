@@ -5,6 +5,8 @@ namespace Minesweeper.Ui.Constants
 {
     public class BaseStyles
     {
+        public static BitmapImage Logo { get; } = LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper surprised.png");
+
         protected static BitmapImage LoadImage(string path)
         {
             var bitmap = new BitmapImage();

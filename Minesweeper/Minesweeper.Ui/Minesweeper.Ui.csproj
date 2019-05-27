@@ -105,13 +105,19 @@
     <Compile Include="Events\StartTimerEvent.cs" />
     <Compile Include="Events\StopTimerEvent.cs" />
     <Compile Include="Events\UpdateMinesNumberEvent.cs" />
+    <Compile Include="Helpers\EnableDraggerHelper.cs" />
     <Compile Include="Models\Pair.cs" />
+    <Compile Include="ViewModels\GameRulesViewModel.cs" />
+    <Compile Include="ViewModels\GameAboutUsViewModel.cs" />
     <Compile Include="ViewModels\GameFaceViewModel.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
     <Compile Include="ViewModels\GameMinesViewModel.cs" />
     <Compile Include="ViewModels\GameTimerViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="ViewModels\GameHeaderViewModel.cs" />
+    <Compile Include="Views\GameAboutUs.xaml.cs">
+      <DependentUpon>GameAboutUs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameCell.xaml.cs">
       <DependentUpon>GameCell.xaml</DependentUpon>
     </Compile>
@@ -122,6 +128,10 @@
     <Compile Include="Views\GameHeader.xaml.cs">
       <DependentUpon>GameHeader.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\GameAboutUs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameMines.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameRules.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +169,9 @@
     </Compile>
     <Compile Include="Views\GameMines.xaml.cs">
       <DependentUpon>GameMines.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameRules.xaml.cs">
+      <DependentUpon>GameRules.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameTimer.xaml.cs">
       <DependentUpon>GameTimer.xaml</DependentUpon>
@@ -240,9 +257,7 @@
       <Name>Minesweeper.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Images\fooh - Copy.gif" />
   </ItemGroup>
@@ -254,6 +269,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\fooh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\minesweeper surprised.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,7 @@ using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Ui.Constants;
 using Minesweeper.Ui.Events;
+using Minesweeper.Ui.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -33,6 +34,12 @@ namespace Minesweeper.Ui.ViewModels
             ExpertNewGameCommand =
                 new DelegateCommand(() => StartNewGame(gameConfigurationService.ExpertConfiguration));
 
+            AboutUsCommand = 
+                new DelegateCommand(() => new GameAboutUs().Show());
+
+            RulesCommand = 
+                new DelegateCommand(() => new GameRules().Show());
+
             SetUpInitialWindowSize();
 
             SubscribeEvents();
@@ -53,6 +60,9 @@ namespace Minesweeper.Ui.ViewModels
         public DelegateCommand BeginnerNewGameCommand { get; }
         public DelegateCommand AdvancedNewGameCommand { get; }
         public DelegateCommand ExpertNewGameCommand { get; }
+
+        public DelegateCommand AboutUsCommand { get; }
+        public DelegateCommand RulesCommand { get; }
 
         ~GameWindowViewModel()
         {
