@@ -8,7 +8,7 @@ using Prism.Unity;
 namespace Minesweeper.Ui
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : PrismApplication
     {
@@ -21,9 +21,9 @@ namespace Minesweeper.Ui
         {
             var window = ServiceLocator.Current.GetInstance<GameWindow>();
 
-	        window.DataContext = ServiceLocator.Current.GetInstance<GameWindowViewModel>();
+            window.DataContext = ServiceLocator.Current.GetInstance<GameWindowViewModel>();
 
-			return window;
+            return window;
         }
     }
 }

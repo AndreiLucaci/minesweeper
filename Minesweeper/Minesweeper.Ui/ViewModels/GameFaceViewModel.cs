@@ -24,11 +24,6 @@ namespace Minesweeper.Ui.ViewModels
             DrawSmile();
         }
 
-        ~GameFaceViewModel()
-        {
-            UnsubscribeEvents();
-        }
-
         public DelegateCommand StartNewGameCommand { get; }
         public DelegateCommand AmazedFaceCommand { get; }
 
@@ -36,6 +31,11 @@ namespace Minesweeper.Ui.ViewModels
         {
             get => _faceImage;
             set => SetProperty(ref _faceImage, value, nameof(FaceImage));
+        }
+
+        ~GameFaceViewModel()
+        {
+            UnsubscribeEvents();
         }
 
         private void OnStartNewGameCommand()

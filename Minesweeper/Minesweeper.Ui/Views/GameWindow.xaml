@@ -11,30 +11,30 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
         Title="GameWindow" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
-	<DockPanel>
-		<Menu Width="Auto" Height="20" DockPanel.Dock="Top">
-			<MenuItem Header="_New Game">
-				<MenuItem Header="_Beginner" Command="{Binding BeginnerNewGameCommand}">
-					<MenuItem.ToolTip>
-						<ToolTip>Starts a new game on Beginner level.</ToolTip>
-					</MenuItem.ToolTip>
-				</MenuItem>
-				<MenuItem Header="_Advanced" Command="{Binding AdvancedNewGameCommand}">
-					<MenuItem.ToolTip>
-						<ToolTip>Starts a new game on Advanced level.</ToolTip>
-					</MenuItem.ToolTip>
-				</MenuItem>
-				<MenuItem Header="_Expert" Command="{Binding ExpertNewGameCommand}">
-					<MenuItem.ToolTip>
-						<ToolTip>Starts a new game on Expert level.</ToolTip>
-					</MenuItem.ToolTip>
-				</MenuItem>
-			</MenuItem>
-		</Menu>
+    <DockPanel>
+        <Menu Width="Auto" Height="20" DockPanel.Dock="Top">
+            <MenuItem Header="_New Game">
+                <MenuItem Header="_Beginner" Command="{Binding BeginnerNewGameCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Starts a new game on Beginner level.</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Advanced" Command="{Binding AdvancedNewGameCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Starts a new game on Advanced level.</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Expert" Command="{Binding ExpertNewGameCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Starts a new game on Expert level.</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
 
-		<Grid Name="Grid">
-            <views:GameHeader></views:GameHeader>
-			<views:GameGrid></views:GameGrid>
-		</Grid>
-	</DockPanel>
+        <Grid Name="Grid">
+            <views:GameHeader />
+            <views:GameGrid />
+        </Grid>
+    </DockPanel>
 </Window>

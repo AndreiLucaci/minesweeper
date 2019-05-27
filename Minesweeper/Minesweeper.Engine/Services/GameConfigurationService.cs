@@ -9,6 +9,6 @@ namespace Minesweeper.Engine.Services
         public GameConfiguration AdvancedConfiguration { get; } = new GameConfiguration(16, 16, 40);
         public GameConfiguration ExpertConfiguration { get; } = new GameConfiguration(24, 24, 99);
 
-	    public GameConfiguration DefaultConfiguration => BeginnerConfiguration;
+        public GameConfiguration DefaultConfiguration => BeginnerConfiguration;
     }
 }

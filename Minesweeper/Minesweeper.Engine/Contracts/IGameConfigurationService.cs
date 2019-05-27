@@ -7,6 +7,6 @@ namespace Minesweeper.Engine.Contracts
         GameConfiguration BeginnerConfiguration { get; }
         GameConfiguration AdvancedConfiguration { get; }
         GameConfiguration ExpertConfiguration { get; }
-		GameConfiguration DefaultConfiguration { get; }
+        GameConfiguration DefaultConfiguration { get; }
     }
 }

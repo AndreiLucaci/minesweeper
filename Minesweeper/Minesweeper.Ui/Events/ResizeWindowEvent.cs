@@ -2,7 +2,7 @@
 
 namespace Minesweeper.Ui.Events
 {
-	public class ResizeWindowEvent : PubSubEvent<int>
-	{
-	}
+    public class ResizeWindowEvent : PubSubEvent<int>
+    {
+    }
 }

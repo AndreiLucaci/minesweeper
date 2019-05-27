@@ -5,95 +5,95 @@ using Minesweeper.Infrastructure;
 
 namespace Minesweeper.Models
 {
-	public class Cell : IEquatable<Cell>
-	{
+    public class Cell : IEquatable<Cell>
+    {
         public Point Coordinates { get; set; }
 
         public HashSet<Cell> Neighbours { get; set; }
 
         public CellType CellType { get; set; }
 
-		public bool IsDirty { get; set; }
+        public bool IsDirty { get; set; }
 
-		public CellState CellState { get; set; } = CellState.Untouched;
+        public CellState CellState { get; set; } = CellState.Untouched;
 
-		public override string ToString()
-		{
-			return $"{{x: {Coordinates.X}, y: {Coordinates.Y}}} - {CellType} - {CellState}";
-		}
+        public int NumberOfAdjacentMines => ComputeNumberOfMinesWithoutFlags();
+        public int NumberOfAdjacentMinesWithFlags => ComputeNumberOfMinesWithFlags();
+        public int NumberOfAdjacentFlags => ComputeNumberOfFlags();
 
-		public int NumberOfAdjacentMines => ComputeNumberOfMinesWithoutFlags();
-		public int NumberOfAdjacentMinesWithFlags => ComputeNumberOfMinesWithFlags();
-		public int NumberOfAdjacentFlags => ComputeNumberOfFlags();
-
-		public int ComputeFlagNumberOfMines()
-		{
-			return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
-		}
-        
-        public bool IsMine()
+        public bool Equals(Cell other)
         {
-            return this.CellType == CellType.Mine && this.CellState != CellState.FlaggedAsMine;
+            return other != null &&
+                   EqualityComparer<Point>.Default.Equals(Coordinates, other.Coordinates);
         }
 
-	    public int ComputeNumberOfMines()
-	    {
-	        return Neighbours.Count(x => x.CellType == CellType.Mine);
-	    }
+        public override string ToString()
+        {
+            return $"{{x: {Coordinates.X}, y: {Coordinates.Y}}} - {CellType} - {CellState}";
+        }
+
+        public int ComputeFlagNumberOfMines()
+        {
+            return Neighbours.Where(x => x.CellState == CellState.Untouched).Count(x => x.CellType == CellType.Mine);
+        }
+
+        public bool IsMine()
+        {
+            return CellType == CellType.Mine && CellState != CellState.FlaggedAsMine;
+        }
+
+        public int ComputeNumberOfMines()
+        {
+            return Neighbours.Count(x => x.CellType == CellType.Mine);
+        }
 
         public int ComputeNumberOfFlags()
-		{
-			return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine);
-		}
+        {
+            return Neighbours.Count(x => x.CellState == CellState.FlaggedAsMine);
+        }
 
         public int ComputeNumberOfUnopenedNeighbours()
         {
             return Neighbours.Count(x => x.CellState == CellState.Untouched);
         }
 
-	    public bool IsCovered()
-	    {
-	        return Neighbours.All(x => x.CellState == CellState.Opened && x.CellType == CellType.EmptyCell);
-	    }
+        public bool IsCovered()
+        {
+            return Neighbours.All(x => x.CellState == CellState.Opened && x.CellType == CellType.EmptyCell);
+        }
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Cell);
-		}
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Cell);
+        }
 
-		public bool Equals(Cell other)
-		{
-			return other != null &&
-				   EqualityComparer<Point>.Default.Equals(Coordinates, other.Coordinates);
-		}
+        public override int GetHashCode()
+        {
+            return Coordinates != null ? Coordinates.GetHashCode() : 0;
+        }
 
-		public override int GetHashCode()
-		{
-			return (Coordinates != null ? Coordinates.GetHashCode() : 0);
-		}
+        public static bool operator ==(Cell cell1, Cell cell2)
+        {
+            return EqualityComparer<Cell>.Default.Equals(cell1, cell2);
+        }
 
-		public static bool operator ==(Cell cell1, Cell cell2)
-		{
-			return EqualityComparer<Cell>.Default.Equals(cell1, cell2);
-		}
+        public static bool operator !=(Cell cell1, Cell cell2)
+        {
+            return !(cell1 == cell2);
+        }
 
-		public static bool operator !=(Cell cell1, Cell cell2)
-		{
-			return !(cell1 == cell2);
-		}
+        private int ComputeNumberOfMinesWithFlags()
+        {
+            var numberOfMines = Math.Abs(NumberOfAdjacentMines - NumberOfAdjacentFlags);
 
-		private int ComputeNumberOfMinesWithFlags()
-		{
-			var numberOfMines = Math.Abs(NumberOfAdjacentMines - NumberOfAdjacentFlags);
+            return numberOfMines;
+        }
 
-			return numberOfMines;
-		}
+        private int ComputeNumberOfMinesWithoutFlags()
+        {
+            var numberOfMines = Neighbours.Count(neighbour => neighbour.CellType == CellType.Mine);
 
-		private int ComputeNumberOfMinesWithoutFlags()
-		{
-			var numberOfMines = Neighbours.Count(neighbour => neighbour.CellType == CellType.Mine);
-
-			return numberOfMines;
-		}
-	}
+            return numberOfMines;
+        }
+    }
 }

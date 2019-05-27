@@ -10,92 +10,93 @@ using Prism.Mvvm;
 
 namespace Minesweeper.Ui.ViewModels
 {
-	public class GameWindowViewModel : BindableBase
-	{
-		private readonly IGameConfigurationService _gameConfigurationService;
-		private readonly IEventAggregator _eventAggregator;
-		private const int ExtraSpace = 100;
-		private int _width;
-		private int _height;
+    public class GameWindowViewModel : BindableBase
+    {
+        private const int ExtraSpace = 100;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IGameConfigurationService _gameConfigurationService;
+        private int _height;
+        private int _width;
 
-		public int Width
-		{
-			get { return _width; }
-			set { SetProperty(ref _width, value, nameof(Width)); }
-		}
+        public GameWindowViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
+        {
+            Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
+            Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
 
-		public int Height
-		{
-			get { return _height; }
-			set { SetProperty(ref _height, value, nameof(Height)); }
-		}
+            _gameConfigurationService = gameConfigurationService;
+            _eventAggregator = eventAggregator;
 
-		public GameWindowViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
-		{
-			Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
-			Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
+            BeginnerNewGameCommand =
+                new DelegateCommand(() => StartNewGame(gameConfigurationService.BeginnerConfiguration));
+            AdvancedNewGameCommand =
+                new DelegateCommand(() => StartNewGame(gameConfigurationService.AdvancedConfiguration));
+            ExpertNewGameCommand =
+                new DelegateCommand(() => StartNewGame(gameConfigurationService.ExpertConfiguration));
 
-			_gameConfigurationService = gameConfigurationService;
-			_eventAggregator = eventAggregator;
+            SetUpInitialWindowSize();
 
-			BeginnerNewGameCommand = new DelegateCommand(() => StartNewGame(gameConfigurationService.BeginnerConfiguration));
-			AdvancedNewGameCommand = new DelegateCommand(() => StartNewGame(gameConfigurationService.AdvancedConfiguration));
-			ExpertNewGameCommand = new DelegateCommand(() => StartNewGame(gameConfigurationService.ExpertConfiguration));
+            SubscribeEvents();
+        }
 
-			SetUpInitialWindowSize();
+        public int Width
+        {
+            get => _width;
+            set => SetProperty(ref _width, value, nameof(Width));
+        }
 
-			SubscribeEvents();
-		}
+        public int Height
+        {
+            get => _height;
+            set => SetProperty(ref _height, value, nameof(Height));
+        }
 
-		~GameWindowViewModel()
-		{
-			UnsubscribeEvents();
-		}
+        public DelegateCommand BeginnerNewGameCommand { get; }
+        public DelegateCommand AdvancedNewGameCommand { get; }
+        public DelegateCommand ExpertNewGameCommand { get; }
 
-		private void SubscribeEvents()
-		{
-			_eventAggregator.GetEvent<ResizeWidthEvent>().Subscribe(OnResizeWidthEvent);
-			_eventAggregator.GetEvent<ResizeHeightEvent>().Subscribe(OnResizeHeightEvent);
-		}
+        ~GameWindowViewModel()
+        {
+            UnsubscribeEvents();
+        }
 
-		private void UnsubscribeEvents()
-		{
-			_eventAggregator.GetEvent<ResizeWidthEvent>().Unsubscribe(OnResizeWidthEvent);
-			_eventAggregator.GetEvent<ResizeHeightEvent>().Unsubscribe(OnResizeHeightEvent);
-		}
+        private void SubscribeEvents()
+        {
+            _eventAggregator.GetEvent<ResizeWidthEvent>().Subscribe(OnResizeWidthEvent);
+            _eventAggregator.GetEvent<ResizeHeightEvent>().Subscribe(OnResizeHeightEvent);
+        }
 
-		private void OnResizeWidthEvent(int width)
-		{
-			if (Application.Current.MainWindow != null)
-			{
-                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Width = width + ExtraSpace, DispatcherPriority.Render);
-			}
-		}
+        private void UnsubscribeEvents()
+        {
+            _eventAggregator.GetEvent<ResizeWidthEvent>().Unsubscribe(OnResizeWidthEvent);
+            _eventAggregator.GetEvent<ResizeHeightEvent>().Unsubscribe(OnResizeHeightEvent);
+        }
 
-		private void OnResizeHeightEvent(int height)
-		{
-			if (Application.Current.MainWindow != null)
-			{
-                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Height = height + ExtraSpace + 100, DispatcherPriority.Render);
-			}
-		}
+        private void OnResizeWidthEvent(int width)
+        {
+            if (Application.Current.MainWindow != null)
+                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Width = width + ExtraSpace,
+                    DispatcherPriority.Render);
+        }
 
-		public DelegateCommand BeginnerNewGameCommand { get; }
-		public DelegateCommand AdvancedNewGameCommand { get; }
-		public DelegateCommand ExpertNewGameCommand { get; }
+        private void OnResizeHeightEvent(int height)
+        {
+            if (Application.Current.MainWindow != null)
+                Dispatcher.CurrentDispatcher.Invoke(
+                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 100, DispatcherPriority.Render);
+        }
 
-		private void StartNewGame(GameConfiguration gameConfiguration)
-		{
-			_eventAggregator.GetEvent<StartNewGameEvent>().Publish(gameConfiguration);
-		}
+        private void StartNewGame(GameConfiguration gameConfiguration)
+        {
+            _eventAggregator.GetEvent<StartNewGameEvent>().Publish(gameConfiguration);
+        }
 
-		private void SetUpInitialWindowSize()
-		{
-			Width = _gameConfigurationService.DefaultConfiguration.Width * GameConstants.GameViewWidth;
-			Height = _gameConfigurationService.DefaultConfiguration.Height * GameConstants.GameViewHeight;
+        private void SetUpInitialWindowSize()
+        {
+            Width = _gameConfigurationService.DefaultConfiguration.Width * GameConstants.GameViewWidth;
+            Height = _gameConfigurationService.DefaultConfiguration.Height * GameConstants.GameViewHeight;
 
-			OnResizeWidthEvent(Width);
-			OnResizeHeightEvent(Height);
-		}
-	}
+            OnResizeWidthEvent(Width);
+            OnResizeHeightEvent(Height);
+        }
+    }
 }

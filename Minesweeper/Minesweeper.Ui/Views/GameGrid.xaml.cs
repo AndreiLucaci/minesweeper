@@ -3,7 +3,7 @@
 namespace Minesweeper.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for GameGrid.xaml
+    ///     Interaction logic for GameGrid.xaml
     /// </summary>
     public partial class GameGrid : UserControl
     {
