@@ -34,7 +34,14 @@
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About">
-                    <ToolTip>Information about the creator of the game</ToolTip>
+                    <MenuItem.ToolTip>
+                        <ToolTip>Information about the creator of the game</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Rules">
+                    <MenuItem.ToolTip>
+                        <ToolTip>The rules of the game</ToolTip>
+                    </MenuItem.ToolTip>
                 </MenuItem>
             </MenuItem>
         </Menu>

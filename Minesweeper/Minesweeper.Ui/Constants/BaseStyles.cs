@@ -10,7 +10,7 @@ namespace Minesweeper.Ui.Constants
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri(path);
+            bitmap.UriSource = new Uri(path, UriKind.Relative);
             bitmap.EndInit();
 
             return bitmap;
