@@ -121,4 +121,13 @@
   <data name="fooh1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\fooh.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GameStats" xml:space="preserve">
+    <value>Results:
+Status: {0}.
+Time: {1} seconds.
+Number of Flagged mines: {2}.
+Number of Exploded mines: {3}.
+Number of Untouched mines: {4}.
+Configuration: {5}.</value>
+  </data>
 </root>

@@ -9,18 +9,16 @@ namespace Minesweeper.Engine
 {
     public class WorldManager : IWorldManager
     {
-        private readonly GameConfiguration _configuration;
-
         public WorldManager(GameConfiguration configuration)
         {
-            _configuration = configuration;
+            CurrentGameConfiguration = configuration;
         }
 
         public HashSet<Cell> Cells { get; set; }
 
         public void InitializeWorld()
         {
-            Cells = new HashSet<Cell>(_configuration.Width * _configuration.Height);
+            Cells = new HashSet<Cell>(CurrentGameConfiguration.Width * CurrentGameConfiguration.Height);
 
             MethodTimer mt;
 
@@ -45,8 +43,8 @@ namespace Minesweeper.Engine
 
         public void ReorganizeCells(Cell cell)
         {
-            for (var i = 1; i < _configuration.Width - 1; i++)
-            for (var j = 1; j < _configuration.Height - 1; j++)
+            for (var i = 1; i < CurrentGameConfiguration.Width - 1; i++)
+            for (var j = 1; j < CurrentGameConfiguration.Height - 1; j++)
             {
                 var cellAt = Cells.Single(x => x.Coordinates.Equals(new Point(i, j)));
                 if (cellAt.CellType == CellType.EmptyCell && cellAt.ComputeNumberOfMines() == 0)
@@ -64,6 +62,23 @@ namespace Minesweeper.Engine
         public bool IsGameEndedWithSuccess()
         {
             return IsEndGame();
+        }
+
+        public GameConfiguration CurrentGameConfiguration { get; }
+
+        public IEnumerable<Cell> ComputeDefusedMines()
+        {
+            return Cells.Where(x => x.CellType == CellType.Mine && x.CellState == CellState.FlaggedAsMine);
+        }
+
+        public IEnumerable<Cell> ComputeExplodedMines()
+        {
+            return Cells.Where(x => x.CellType == CellType.Mine && x.CellState == CellState.Mine);
+        }
+
+        public IEnumerable<Cell> ComputeUntouchedMines()
+        {
+            return Cells.Where(x => x.CellType == CellType.Mine && x.CellState == CellState.Untouched);
         }
 
         public void FlagCell(Cell cell)
@@ -201,10 +216,10 @@ namespace Minesweeper.Engine
         {
             var coordinateRandomizer = new CoordinateRandomiser();
 
-            var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(_configuration);
+            var randomPoints = coordinateRandomizer.GenerateRandomCoordinates(CurrentGameConfiguration);
 
-            for (var i = 0; i < _configuration.Width; i++)
-            for (var j = 0; j < _configuration.Height; j++)
+            for (var i = 0; i < CurrentGameConfiguration.Width; i++)
+            for (var j = 0; j < CurrentGameConfiguration.Height; j++)
             {
                 var point = new Point(i, j);
                 var cell = new Cell

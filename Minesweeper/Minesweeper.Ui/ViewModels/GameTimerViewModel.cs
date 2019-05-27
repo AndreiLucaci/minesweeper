@@ -15,7 +15,8 @@ namespace Minesweeper.Ui.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly DispatcherTimer _timer;
 
-        private int _counter;
+        public static int ElapsedSeconds;
+
         private BitmapImage _slot1Image;
         private BitmapImage _slot2Image;
         private BitmapImage _slot3Image;
@@ -74,7 +75,7 @@ namespace Minesweeper.Ui.ViewModels
 
         private void OnTimerTick(object sender, EventArgs eventArgs)
         {
-            _counter++;
+            ElapsedSeconds++;
 
             Redraw();
         }
@@ -157,7 +158,7 @@ namespace Minesweeper.Ui.ViewModels
 
         private void OnStopTimer()
         {
-            _counter = 0;
+            ElapsedSeconds = 0;
 
             _timer.Stop();
         }
@@ -178,7 +179,7 @@ namespace Minesweeper.Ui.ViewModels
 
         private IEnumerable<int> GetDigits()
         {
-            return _counter.ToString().Select(x => int.Parse(x.ToString()));
+            return ElapsedSeconds.ToString().Select(x => int.Parse(x.ToString()));
         }
 
         private void DrawInitial()

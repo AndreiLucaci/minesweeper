@@ -1,12 +1,11 @@
-﻿<Window x:Class="Minesweeper.Ui.Views.GameAboutUs"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window x:Class="Minesweeper.Ui.Views.GameStats"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Minesweeper.Ui.Views"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:properties="clr-namespace:Minesweeper.Ui.Properties"
-        xmlns:mvvm="http://prismlibrary.com/"
         xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
         xmlns:helpers="clr-namespace:Minesweeper.Ui.Helpers"
         mc:Ignorable="d"
@@ -14,15 +13,8 @@
         Name="AboutUsWindow"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"             
-        mvvm:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext="{d:DesignInstance Type=viewModels:GameAboutUsViewModel,IsDesignTimeCreatable=True}"
-        Title="About us" Height="200" Width="600">
-    <Window.Resources>
-        <system:String x:Key="AboutUs" xml:space="preserve">Created by Andrei Lucaci based on the original minesweeper computer game created by Curt Johnson for OS/2, and ported to Microsoft Windows by Robert Donner. 
-
-The game source files can be found here: 
-        https://github.com/AndreiLucaci/minesweeper</system:String>
-    </Window.Resources>
+        d:DataContext="{d:DesignInstance Type=viewModels:GameStatsViewModel,IsDesignTimeCreatable=True}"
+        Title="About us" Height="240" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
@@ -34,7 +26,7 @@ The game source files can be found here:
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" helpers:EnableDragHelper.EnableDrag="True" ></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -42,10 +34,11 @@ The game source files can be found here:
 
             <TextBlock Grid.Row="1" Text="" TextWrapping="Wrap" Width="380" TextAlignment="Justify"/>
 
-            <TextBox Text="{StaticResource AboutUs}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="2">
+            <TextBox FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="10" Text="{Binding Stats}">
             </TextBox>
 
-            <Button Content="Close AboutUs window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}" CommandParameter="{Binding ElementName=AboutUsWindow}"></Button>
+            <Button Content="Close stats window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}" CommandParameter="{Binding ElementName=AboutUsWindow}"></Button>
         </Grid>
     </Grid>
 </Window>
+

@@ -69,5 +69,20 @@ namespace Minesweeper.Ui.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results:
+        ///Status: {0}.
+        ///Time: {1} seconds.
+        ///Number of Flagged mines: {2}.
+        ///Number of Exploded mines: {3}.
+        ///Number of Untouched mines: {4}.
+        ///Configuration: {5}..
+        /// </summary>
+        internal static string GameStats {
+            get {
+                return ResourceManager.GetString("GameStats", resourceCulture);
+            }
+        }
     }
 }

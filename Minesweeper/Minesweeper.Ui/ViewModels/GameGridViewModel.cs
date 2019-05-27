@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
@@ -132,21 +133,53 @@ namespace Minesweeper.Ui.ViewModels
 
         private void ProcessGameState(GameState gameState)
         {
+            if (gameState == GameState.Advance)
+            {
+                return;
+            }
+
+            _isEndGame = true;
+            
+            var defusedMines = _worldManager.ComputeDefusedMines().ToList();
+            var explodedMines = _worldManager.ComputeExplodedMines().ToList();
+            var untouchedMines = _worldManager.ComputeUntouchedMines().ToList();
+            var elapsedTime = GameTimerViewModel.ElapsedSeconds;
+
+            EndGameEvents(gameState);
+            ShowGameStats(gameState, elapsedTime, defusedMines.Count, explodedMines.Count, untouchedMines.Count);
+        }
+
+        private void ShowGameStats(GameState gameState, int elapsedTime, int defusedMines, int explodedMines,
+            int untouchedMines)
+        {
+            var gameStats = new GameStats
+            {
+                IsWin = gameState == GameState.EndGame,
+                Configuration = _worldManager.CurrentGameConfiguration,
+                TimeElapsed = elapsedTime,
+                DefusedMines = defusedMines,
+                ExplodedMines = explodedMines,
+                UntouchedMines = untouchedMines
+            };
+
+            var gameStatsWindow = new Views.GameStats {DataContext = new GameStatsViewModel(gameStats)};
+
+            gameStatsWindow.ShowDialog();
+        }
+
+        private void EndGameEvents(GameState gameState)
+        {
             switch (gameState)
             {
-                case GameState.Advance:
-                    break;
                 case GameState.GameOver:
                     _eventAggregator.GetEvent<GameMineExplodedEvent>().Publish();
-                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
-                    _isEndGame = true;
                     break;
                 case GameState.EndGame:
                     _eventAggregator.GetEvent<GameWinEvent>().Publish();
-                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
-                    _isEndGame = true;
                     break;
             }
+
+            _eventAggregator.GetEvent<StopTimerEvent>().Publish();
         }
 
         private void OnRestartGame()

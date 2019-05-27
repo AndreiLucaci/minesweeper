@@ -15,10 +15,10 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"             
         mvvm:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext="{d:DesignInstance Type=viewModels:GameAboutUsViewModel,IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance Type=viewModels:GameRulesViewModel,IsDesignTimeCreatable=True}"
         Title="About us" Height="530" Width="750">
     <Window.Resources>
-        <system:String x:Key="AboutUs" xml:space="preserve">Instructions:
+        <system:String x:Key="Rules" xml:space="preserve">Instructions:
 1. Left-click an untouched cell to open it. 
 	If the cell is an empty cell, it will open. 
 		If there aren't any mines around it, it will open its neighbour cells as well. 
@@ -43,7 +43,7 @@ Header:
 		b. Advanced: 16x16 with 40 mines.
 		c. Expert: 24X24 with 99 mines.
 	2. Help - information about the program
-		a. AboutUs
+		a. Rules
 		b. Rules (you are here)
 </system:String>
     </Window.Resources>
@@ -66,17 +66,7 @@ Header:
 
             <TextBlock Grid.Row="1" Text="" TextWrapping="Wrap" Width="380" TextAlignment="Justify"/>
 
-            <TextBox Text="{StaticResource AboutUs}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="2">
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding HasValidURI}" Value="True">
-                                <Setter Property="TextDecorations" Value="Underline"/>
-                                <Setter Property="Foreground" Value="#FF2A6DCD"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
+            <TextBox Text="{StaticResource Rules}" FontFamily="Lucida Sans" Grid.Row="1" TextWrapping="Wrap" Margin="2">
             </TextBox>
 
             <Button Content="Close Rules window" Grid.Row="2" Margin="100 10" Command="{Binding CloseWindow}" CommandParameter="{Binding ElementName=AboutUsWindow}"></Button>
