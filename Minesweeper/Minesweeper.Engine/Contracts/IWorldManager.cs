@@ -8,6 +8,8 @@ namespace Minesweeper.Engine.Contracts
     {
         HashSet<Cell> Cells { get; set; }
 
+        GameConfiguration CurrentGameConfiguration { get; }
+
         void InitializeWorld();
 
         GameState OpenCell(Cell cell);
@@ -19,8 +21,6 @@ namespace Minesweeper.Engine.Contracts
         void ReorganizeCells(Cell cell);
 
         bool IsGameEndedWithSuccess();
-
-        GameConfiguration CurrentGameConfiguration { get; }
 
         IEnumerable<Cell> ComputeDefusedMines();
 

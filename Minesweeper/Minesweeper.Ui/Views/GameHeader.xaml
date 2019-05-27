@@ -22,6 +22,6 @@
 
         <local:GameMines Grid.Row="0" Grid.Column="0" Padding="7 0 0 0" />
         <local:GameFace Grid.Row="0" Grid.Column="1" />
-        <local:GameTimer Grid.Row="0" Grid.Column="2" Padding="0 0 7 0"/>
+        <local:GameTimer Grid.Row="0" Grid.Column="2" Padding="0 0 7 0" />
     </Grid>
 </UserControl>

@@ -1,8 +1,9 @@
-﻿using Prism.Events;
+﻿using Minesweeper.Models;
+using Prism.Events;
 
 namespace Minesweeper.Ui.Events
 {
-    public class GameStatsEvent : PubSubEvent<Minesweeper.Models.GameStats>
+    public class GameStatsEvent : PubSubEvent<GameStats>
     {
     }
 }

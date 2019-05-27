@@ -4,7 +4,7 @@ namespace Minesweeper.Ui.Constants
 {
     public class CellStyles : BaseStyles
     {
-        public static BitmapImage Mine0ImagePath { get; } = 
+        public static BitmapImage Mine0ImagePath { get; } =
             LoadImage($@"/Minesweeper.Ui;component/Images/0.gif");
 
         public static BitmapImage Mine1ImagePath { get; } =
@@ -40,7 +40,7 @@ namespace Minesweeper.Ui.Constants
         public static BitmapImage MineExplodedImagePath { get; } =
             LoadImage($@"/Minesweeper.Ui;component/Images/mineexploded.gif");
 
-        public static BitmapImage MineWrongFlagPath { get; }  =
+        public static BitmapImage MineWrongFlagPath { get; } =
             LoadImage($@"/Minesweeper.Ui;component/Images/minemissflag.gif");
 
         public static BitmapImage UntouchedImagePath { get; } =

@@ -34,10 +34,10 @@ namespace Minesweeper.Ui.ViewModels
             ExpertNewGameCommand =
                 new DelegateCommand(() => StartNewGame(gameConfigurationService.ExpertConfiguration));
 
-            AboutUsCommand = 
+            AboutUsCommand =
                 new DelegateCommand(() => new GameAboutUs().ShowDialog());
 
-            RulesCommand = 
+            RulesCommand =
                 new DelegateCommand(() => new GameRules().ShowDialog());
 
             SetUpInitialWindowSize();

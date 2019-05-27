@@ -13,44 +13,35 @@ namespace Minesweeper.Ui.Helpers
                 typeof(EnableDragHelper),
                 new PropertyMetadata(default(bool), OnLoaded));
 
-        private static void OnLoaded(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void OnLoaded(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            if (!(dependencyObject is UIElement uiElement) || (dependencyPropertyChangedEventArgs.NewValue is bool) == false)
-            {
+            if (!(dependencyObject is UIElement uiElement) ||
+                dependencyPropertyChangedEventArgs.NewValue is bool == false)
                 return;
-            }
-            if ((bool)dependencyPropertyChangedEventArgs.NewValue == true)
-            {
+            if ((bool) dependencyPropertyChangedEventArgs.NewValue)
                 uiElement.MouseMove += UIElementOnMouseMove;
-            }
             else
-            {
                 uiElement.MouseMove -= UIElementOnMouseMove;
-            }
-
         }
 
         private static void UIElementOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
         {
             if (sender is UIElement uiElement)
-            {
                 if (mouseEventArgs.LeftButton == MouseButtonState.Pressed)
                 {
                     DependencyObject parent = uiElement;
                     var avoidInfiniteLoop = 0;
-                    while ((parent is Window) == false)
+                    while (parent is Window == false)
                     {
                         parent = VisualTreeHelper.GetParent(parent);
                         avoidInfiniteLoop++;
                         if (avoidInfiniteLoop == 1000)
-                        {
                             return;
-                        }
                     }
                     var window = parent as Window;
                     window.DragMove();
                 }
-            }
         }
 
         public static void SetEnableDrag(DependencyObject element, bool value)
@@ -60,7 +51,7 @@ namespace Minesweeper.Ui.Helpers
 
         public static bool GetEnableDrag(DependencyObject element)
         {
-            return (bool)element.GetValue(EnableDragProperty);
+            return (bool) element.GetValue(EnableDragProperty);
         }
     }
 }

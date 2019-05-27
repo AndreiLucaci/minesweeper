@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Minesweeper.Engine;
@@ -135,12 +134,10 @@ namespace Minesweeper.Ui.ViewModels
         private void ProcessGameState(GameState gameState)
         {
             if (gameState == GameState.Advance)
-            {
                 return;
-            }
 
             _isEndGame = true;
-            
+
             var defusedMines = _worldManager.ComputeDefusedMines().ToList();
             var explodedMines = _worldManager.ComputeExplodedMines().ToList();
             var untouchedMines = _worldManager.ComputeUntouchedMines().ToList();
