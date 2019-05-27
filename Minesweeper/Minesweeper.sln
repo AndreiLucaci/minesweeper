@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Ui", "Minesweeper.Ui\Minesweeper.Ui.csproj", "{DF610DDF-9BB2-4B7C-8302-60FCEE918ED1}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Models", "Minesweeper.Models\Minesweeper.Models.csproj", "{F03894A8-7EA4-4800-9A60-BCA901EE9432}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Infrastructure", "Minesweeper.Infrastructure\Minesweeper.Infrastructure.csproj", "{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Minesweeper.SetupWizzard", "Minesweeper.SetupWizzard\Minesweeper.SetupWizzard.vdproj", "{EDC0AD6B-A072-4689-BFCC-13D10AF263CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,8 @@ Global
 		{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69C5991B-E126-4E7A-98D4-7C98E3A13AD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDC0AD6B-A072-4689-BFCC-13D10AF263CB}.Debug|Any CPU.ActiveCfg = Debug
+		{EDC0AD6B-A072-4689-BFCC-13D10AF263CB}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
