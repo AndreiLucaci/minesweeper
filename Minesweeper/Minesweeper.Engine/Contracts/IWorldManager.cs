@@ -27,5 +27,7 @@ namespace Minesweeper.Engine.Contracts
         IEnumerable<Cell> ComputeExplodedMines();
 
         IEnumerable<Cell> ComputeUntouchedMines();
+
+        IEnumerable<Cell> ComputeWrongFlaggedMines();
     }
 }
