@@ -107,17 +107,17 @@
     <Compile Include="ViewModels\GameTimerViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="ViewModels\GameHeaderViewModel.cs" />
-    <Compile Include="Views\Cell.xaml.cs">
-      <DependentUpon>Cell.xaml</DependentUpon>
+    <Compile Include="Views\GameCell.xaml.cs">
+      <DependentUpon>GameCell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CellViewModel.cs" />
+    <Compile Include="ViewModels\GameCellViewModel.cs" />
     <Compile Include="Views\GameFace.xaml.cs">
       <DependentUpon>GameFace.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameHeader.xaml.cs">
       <DependentUpon>GameHeader.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Cell.xaml">
+    <Page Include="Views\GameCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

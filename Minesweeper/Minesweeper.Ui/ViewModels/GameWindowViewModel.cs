@@ -12,7 +12,7 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameWindowViewModel : BindableBase
     {
-        private const int ExtraSpace = 100;
+        private const int ExtraSpace = 20;
         private readonly IEventAggregator _eventAggregator;
         private readonly IGameConfigurationService _gameConfigurationService;
         private int _height;
@@ -82,7 +82,7 @@ namespace Minesweeper.Ui.ViewModels
         {
             if (Application.Current.MainWindow != null)
                 Dispatcher.CurrentDispatcher.Invoke(
-                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 100, DispatcherPriority.Render);
+                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 90, DispatcherPriority.Render);
         }
 
         private void StartNewGame(GameConfiguration gameConfiguration)

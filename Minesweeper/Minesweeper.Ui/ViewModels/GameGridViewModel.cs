@@ -14,7 +14,7 @@ namespace Minesweeper.Ui.ViewModels
     public class GameGridViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
+        private ObservableCollection<GameCellViewModel> _cells = new ObservableCollection<GameCellViewModel>();
 
         private bool _isEndGame;
         private bool _isFirstMove = true;
@@ -35,7 +35,7 @@ namespace Minesweeper.Ui.ViewModels
             SubscribeToEvents();
         }
 
-        public ObservableCollection<CellViewModel> Cells
+        public ObservableCollection<GameCellViewModel> Cells
         {
             get => _cells;
             set => SetProperty(ref _cells, value, nameof(Cells));
@@ -103,7 +103,7 @@ namespace Minesweeper.Ui.ViewModels
         {
             _worldManager.InitializeWorld();
 
-            Cells = new ObservableCollection<CellViewModel>(_worldManager.Cells.Select(x => new CellViewModel
+            Cells = new ObservableCollection<GameCellViewModel>(_worldManager.Cells.Select(x => new GameCellViewModel
             {
                 Cell = x
             }));
@@ -175,7 +175,7 @@ namespace Minesweeper.Ui.ViewModels
             _worldManager.ResetDirty();
         }
 
-        private CellViewModel GetCellViewModel(Cell cell)
+        private GameCellViewModel GetCellViewModel(Cell cell)
         {
             return Cells.Single(x => x.Cell.Equals(cell));
         }

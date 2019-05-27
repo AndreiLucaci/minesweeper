@@ -9,6 +9,8 @@
         xmlns:views="clr-namespace:Minesweeper.Ui.Views"
         xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
         d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
         Title="GameWindow" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
     <DockPanel>
@@ -33,8 +35,12 @@
         </Menu>
 
         <Grid Name="Grid">
-            <views:GameHeader />
-            <views:GameGrid />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <views:GameHeader Grid.Row="0" />
+            <views:GameGrid Grid.Row="1" />
         </Grid>
     </DockPanel>
 </Window>
