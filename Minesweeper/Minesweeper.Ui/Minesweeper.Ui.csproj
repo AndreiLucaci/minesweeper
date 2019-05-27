@@ -13,6 +13,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -29,9 +31,12 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;Install-CleanReferencesTarget</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>fooh.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -90,6 +95,7 @@
     <Compile Include="Events\EndGameEvent.cs" />
     <Compile Include="Events\GameMineExplodedEvent.cs" />
     <Compile Include="Events\GameNextStateEvent.cs" />
+    <Compile Include="Events\GameStatsEvent.cs" />
     <Compile Include="Events\GameWinEvent.cs" />
     <Compile Include="Events\ResetGameEvent.cs" />
     <Compile Include="Events\ResizeHeightEvent.cs" />
@@ -100,24 +106,36 @@
     <Compile Include="Events\StartTimerEvent.cs" />
     <Compile Include="Events\StopTimerEvent.cs" />
     <Compile Include="Events\UpdateMinesNumberEvent.cs" />
+    <Compile Include="Helpers\EnableDraggerHelper.cs" />
     <Compile Include="Models\Pair.cs" />
+    <Compile Include="ViewModels\BaseDialogViewModel.cs" />
+    <Compile Include="ViewModels\GameRulesViewModel.cs" />
+    <Compile Include="ViewModels\GameAboutUsViewModel.cs" />
     <Compile Include="ViewModels\GameFaceViewModel.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
     <Compile Include="ViewModels\GameMinesViewModel.cs" />
+    <Compile Include="ViewModels\GameStatsViewModel.cs" />
     <Compile Include="ViewModels\GameTimerViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
     <Compile Include="ViewModels\GameHeaderViewModel.cs" />
-    <Compile Include="Views\Cell.xaml.cs">
-      <DependentUpon>Cell.xaml</DependentUpon>
+    <Compile Include="Views\GameAboutUs.xaml.cs">
+      <DependentUpon>GameAboutUs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CellViewModel.cs" />
+    <Compile Include="Views\GameCell.xaml.cs">
+      <DependentUpon>GameCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\GameCellViewModel.cs" />
     <Compile Include="Views\GameFace.xaml.cs">
       <DependentUpon>GameFace.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameHeader.xaml.cs">
       <DependentUpon>GameHeader.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\Cell.xaml">
+    <Page Include="Views\GameAboutUs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +148,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameMines.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameRules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,6 +176,12 @@
     </Compile>
     <Compile Include="Views\GameMines.xaml.cs">
       <DependentUpon>GameMines.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameRules.xaml.cs">
+      <DependentUpon>GameRules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameStats.xaml.cs">
+      <DependentUpon>GameStats.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameTimer.xaml.cs">
       <DependentUpon>GameTimer.xaml</DependentUpon>
@@ -191,90 +223,35 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\0.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\1.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\2.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\3.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\4.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\5.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\6.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\7.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\8.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\untouched.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\mine.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\mineexploded.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\mineflagged.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\minemissflag.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\fdead.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\fsmile.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\fwin.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\notchecked.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t0.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t1.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t2.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t3.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t4.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t5.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t6.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t7.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t8.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\t9.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="fooh.ico" />
+    <Resource Include="Images\0.gif" />
+    <Resource Include="Images\1.gif" />
+    <Resource Include="Images\2.gif" />
+    <Resource Include="Images\3.gif" />
+    <Resource Include="Images\4.gif" />
+    <Resource Include="Images\5.gif" />
+    <Resource Include="Images\6.gif" />
+    <Resource Include="Images\7.gif" />
+    <Resource Include="Images\8.gif" />
+    <Resource Include="Images\untouched.gif" />
+    <Resource Include="Images\mine.gif" />
+    <Resource Include="Images\mineexploded.gif" />
+    <Resource Include="Images\mineflagged.gif" />
+    <Resource Include="Images\minemissflag.gif" />
+    <Resource Include="Images\fdead.gif" />
+    <Resource Include="Images\fsmile.gif" />
+    <Resource Include="Images\fwin.gif" />
+    <Resource Include="Images\notchecked.gif" />
+    <Resource Include="Images\t0.gif" />
+    <Resource Include="Images\t1.gif" />
+    <Resource Include="Images\t2.gif" />
+    <Resource Include="Images\t3.gif" />
+    <Resource Include="Images\t4.gif" />
+    <Resource Include="Images\t5.gif" />
+    <Resource Include="Images\t6.gif" />
+    <Resource Include="Images\t7.gif" />
+    <Resource Include="Images\t8.gif" />
+    <Resource Include="Images\t9.gif" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minesweeper.Engine\Minesweeper.Engine.csproj">
@@ -291,7 +268,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\" />
+    <Resource Include="Images\minesweeper dead.png" />
+    <Resource Include="Images\minesweeper win.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fooh - Copy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fooh.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fooh.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\fooh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\minesweeper surprised.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,10 +8,13 @@
         xmlns:controls="clr-namespace:Minesweeper.Ui.Views"
         xmlns:views="clr-namespace:Minesweeper.Ui.Views"
         xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
+        xmlns:helpers="clr-namespace:Minesweeper.Ui.Helpers"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStyle="ThreeDBorderWindow"
         d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
-        Title="GameWindow" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
-    <DockPanel>
+        Title="Minesweeper" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
+    <DockPanel helpers:EnableDragHelper.EnableDrag="True">
         <Menu Width="Auto" Height="20" DockPanel.Dock="Top">
             <MenuItem Header="_New Game">
                 <MenuItem Header="_Beginner" Command="{Binding BeginnerNewGameCommand}">
@@ -30,11 +33,27 @@
                     </MenuItem.ToolTip>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding AboutUsCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>Information about the creator of the game</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Rules" Command="{Binding RulesCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>The rules of the game</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
         </Menu>
 
         <Grid Name="Grid">
-            <views:GameHeader />
-            <views:GameGrid />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <views:GameHeader Grid.Row="0" />
+            <views:GameGrid Grid.Row="1" />
         </Grid>
     </DockPanel>
 </Window>

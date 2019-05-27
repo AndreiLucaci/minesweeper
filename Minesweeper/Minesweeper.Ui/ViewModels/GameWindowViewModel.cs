@@ -4,6 +4,7 @@ using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Ui.Constants;
 using Minesweeper.Ui.Events;
+using Minesweeper.Ui.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -12,7 +13,7 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameWindowViewModel : BindableBase
     {
-        private const int ExtraSpace = 100;
+        private const int ExtraSpace = 30;
         private readonly IEventAggregator _eventAggregator;
         private readonly IGameConfigurationService _gameConfigurationService;
         private int _height;
@@ -32,6 +33,12 @@ namespace Minesweeper.Ui.ViewModels
                 new DelegateCommand(() => StartNewGame(gameConfigurationService.AdvancedConfiguration));
             ExpertNewGameCommand =
                 new DelegateCommand(() => StartNewGame(gameConfigurationService.ExpertConfiguration));
+
+            AboutUsCommand = 
+                new DelegateCommand(() => new GameAboutUs().ShowDialog());
+
+            RulesCommand = 
+                new DelegateCommand(() => new GameRules().ShowDialog());
 
             SetUpInitialWindowSize();
 
@@ -53,6 +60,9 @@ namespace Minesweeper.Ui.ViewModels
         public DelegateCommand BeginnerNewGameCommand { get; }
         public DelegateCommand AdvancedNewGameCommand { get; }
         public DelegateCommand ExpertNewGameCommand { get; }
+
+        public DelegateCommand AboutUsCommand { get; }
+        public DelegateCommand RulesCommand { get; }
 
         ~GameWindowViewModel()
         {
@@ -82,7 +92,7 @@ namespace Minesweeper.Ui.ViewModels
         {
             if (Application.Current.MainWindow != null)
                 Dispatcher.CurrentDispatcher.Invoke(
-                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 100, DispatcherPriority.Render);
+                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 90, DispatcherPriority.Render);
         }
 
         private void StartNewGame(GameConfiguration gameConfiguration)

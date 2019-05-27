@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
@@ -14,7 +15,7 @@ namespace Minesweeper.Ui.ViewModels
     public class GameGridViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        private ObservableCollection<CellViewModel> _cells = new ObservableCollection<CellViewModel>();
+        private ObservableCollection<GameCellViewModel> _cells = new ObservableCollection<GameCellViewModel>();
 
         private bool _isEndGame;
         private bool _isFirstMove = true;
@@ -35,7 +36,7 @@ namespace Minesweeper.Ui.ViewModels
             SubscribeToEvents();
         }
 
-        public ObservableCollection<CellViewModel> Cells
+        public ObservableCollection<GameCellViewModel> Cells
         {
             get => _cells;
             set => SetProperty(ref _cells, value, nameof(Cells));
@@ -103,7 +104,7 @@ namespace Minesweeper.Ui.ViewModels
         {
             _worldManager.InitializeWorld();
 
-            Cells = new ObservableCollection<CellViewModel>(_worldManager.Cells.Select(x => new CellViewModel
+            Cells = new ObservableCollection<GameCellViewModel>(_worldManager.Cells.Select(x => new GameCellViewModel
             {
                 Cell = x
             }));
@@ -132,21 +133,53 @@ namespace Minesweeper.Ui.ViewModels
 
         private void ProcessGameState(GameState gameState)
         {
+            if (gameState == GameState.Advance)
+            {
+                return;
+            }
+
+            _isEndGame = true;
+            
+            var defusedMines = _worldManager.ComputeDefusedMines().ToList();
+            var explodedMines = _worldManager.ComputeExplodedMines().ToList();
+            var untouchedMines = _worldManager.ComputeUntouchedMines().ToList();
+            var elapsedTime = GameTimerViewModel.ElapsedSeconds;
+
+            EndGameEvents(gameState);
+            ShowGameStats(gameState, elapsedTime, defusedMines.Count, explodedMines.Count, untouchedMines.Count);
+        }
+
+        private void ShowGameStats(GameState gameState, int elapsedTime, int defusedMines, int explodedMines,
+            int untouchedMines)
+        {
+            var gameStats = new GameStats
+            {
+                IsWin = gameState == GameState.EndGame,
+                Configuration = _worldManager.CurrentGameConfiguration,
+                TimeElapsed = elapsedTime,
+                DefusedMines = defusedMines,
+                ExplodedMines = explodedMines,
+                UntouchedMines = untouchedMines
+            };
+
+            var gameStatsWindow = new Views.GameStats {DataContext = new GameStatsViewModel(gameStats)};
+
+            gameStatsWindow.ShowDialog();
+        }
+
+        private void EndGameEvents(GameState gameState)
+        {
             switch (gameState)
             {
-                case GameState.Advance:
-                    break;
                 case GameState.GameOver:
                     _eventAggregator.GetEvent<GameMineExplodedEvent>().Publish();
-                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
-                    _isEndGame = true;
                     break;
                 case GameState.EndGame:
                     _eventAggregator.GetEvent<GameWinEvent>().Publish();
-                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
-                    _isEndGame = true;
                     break;
             }
+
+            _eventAggregator.GetEvent<StopTimerEvent>().Publish();
         }
 
         private void OnRestartGame()
@@ -175,7 +208,7 @@ namespace Minesweeper.Ui.ViewModels
             _worldManager.ResetDirty();
         }
 
-        private CellViewModel GetCellViewModel(Cell cell)
+        private GameCellViewModel GetCellViewModel(Cell cell)
         {
             return Cells.Single(x => x.Cell.Equals(cell));
         }

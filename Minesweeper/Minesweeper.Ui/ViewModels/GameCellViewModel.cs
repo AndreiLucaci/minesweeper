@@ -11,7 +11,7 @@ using Prism.Mvvm;
 
 namespace Minesweeper.Ui.ViewModels
 {
-    public class CellViewModel : BindableBase
+    public class GameCellViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
 
@@ -21,7 +21,7 @@ namespace Minesweeper.Ui.ViewModels
         private string _display;
         private Style _style;
 
-        public CellViewModel()
+        public GameCellViewModel()
         {
             ClickCommand = new DelegateCommand(OnClick);
             FlagCommand = new DelegateCommand(OnFlag);
@@ -62,7 +62,7 @@ namespace Minesweeper.Ui.ViewModels
             set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
         }
 
-        ~CellViewModel()
+        ~GameCellViewModel()
         {
             UnsubscribeToEvents();
         }

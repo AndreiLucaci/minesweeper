@@ -3,11 +3,11 @@
 namespace Minesweeper.Ui.Views
 {
     /// <summary>
-    ///     Interaction logic for Cell.xaml
+    ///     Interaction logic for GameCell.xaml
     /// </summary>
-    public partial class Cell : UserControl
+    public partial class GameCell : UserControl
     {
-        public Cell()
+        public GameCell()
         {
             InitializeComponent();
         }
