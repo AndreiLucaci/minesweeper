@@ -33,6 +33,7 @@
 		</Menu>
 
 		<Grid Name="Grid">
+            <views:GameHeader></views:GameHeader>
 			<views:GameGrid></views:GameGrid>
 		</Grid>
 	</DockPanel>

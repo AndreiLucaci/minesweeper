@@ -68,7 +68,7 @@ namespace Minesweeper.Engine
 
         public bool IsGameEndedWithSuccess()
         {
-            return Cells.Where(x => x.CellType == CellType.EmptyCell).All(x => x.CellState == CellState.Opened);
+            return IsEndGame();
         }
 
         private bool SwitchCells(Cell cell1, Cell cell2)
@@ -114,8 +114,11 @@ namespace Minesweeper.Engine
                     {
                         OpenValidNeighbours(cell);
                     }
-
-                    return GameState.Advance;
+                    if (IsMineExploded())
+                    {
+                        return GameState.GameOver;
+                    }
+                    break;
                 case CellState.Untouched:
                     switch (cell.CellType)
                     {
@@ -183,6 +186,12 @@ namespace Minesweeper.Engine
         private bool CanFlag(Cell cell)
         {
             return cell.CellState == CellState.FlaggedAsMine || cell.CellState == CellState.Untouched;
+        }
+
+        private bool IsMineExploded()
+        {
+            return Cells.Where(x => x.CellType == CellType.Mine).Any(x =>
+                x.CellState != CellState.Untouched && x.CellState != CellState.FlaggedAsMine);
         }
 
         #endregion Checks

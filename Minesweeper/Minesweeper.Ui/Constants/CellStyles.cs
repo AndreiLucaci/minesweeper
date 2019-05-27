@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace Minesweeper.Ui.Constants
 {
-	public class CellStyles
+	public class CellStyles : BaseStyles
 	{
 	    public static BitmapImage Mine0ImagePath { get; } = LoadImage($@"{AppDomain.CurrentDomain.BaseDirectory}\Images\0.gif");
 	    public static BitmapImage Mine1ImagePath { get; } = LoadImage($@"{AppDomain.CurrentDomain.BaseDirectory}\Images\1.gif");
@@ -21,16 +21,5 @@ namespace Minesweeper.Ui.Constants
 	    public static BitmapImage MineFlaggedImagePath { get; }  = LoadImage($@"{AppDomain.CurrentDomain.BaseDirectory}\Images\8.gif");
 
         public static BitmapImage UntouchedImagePath { get; }    = LoadImage($@"{AppDomain.CurrentDomain.BaseDirectory}\Images\untouched.gif");
-
-	    private static BitmapImage LoadImage(string path)
-	    {
-	        var bitmap = new BitmapImage();
-
-	        bitmap.BeginInit();
-	        bitmap.UriSource = new Uri(path);
-	        bitmap.EndInit();
-
-	        return bitmap;
-	    }
     }
 }
