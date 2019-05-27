@@ -81,6 +81,11 @@ namespace Minesweeper.Engine
             return Cells.Where(x => x.CellType == CellType.Mine && x.CellState == CellState.Untouched);
         }
 
+        public IEnumerable<Cell> ComputeWrongFlaggedMines()
+        {
+            return Cells.Where(x => x.CellType == CellType.EmptyCell && x.CellState == CellState.FlaggedAsMine);
+        }
+
         public void FlagCell(Cell cell)
         {
             if (CanFlag(cell))

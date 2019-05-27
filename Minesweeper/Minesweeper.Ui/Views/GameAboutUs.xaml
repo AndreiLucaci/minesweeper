@@ -29,7 +29,11 @@ The game source files can be found here:
             <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Image helpers:EnableDragHelper.EnableDrag="True" Source="{Binding Logo}" Grid.Row="0" Grid.Column="0"></Image>
+        <Image helpers:EnableDragHelper.EnableDrag="True" 
+               Margin="4 0"
+               Source="{Binding Logo}"
+               Grid.Row="0" 
+               Grid.Column="0"></Image>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

@@ -40,6 +40,9 @@ namespace Minesweeper.Ui.Constants
         public static BitmapImage MineExplodedImagePath { get; } =
             LoadImage($@"/Minesweeper.Ui;component/Images/mineexploded.gif");
 
+        public static BitmapImage MineWrongFlagPath { get; }  =
+            LoadImage($@"/Minesweeper.Ui;component/Images/minemissflag.gif");
+
         public static BitmapImage UntouchedImagePath { get; } =
             LoadImage($@"/Minesweeper.Ui;component/Images/untouched.gif");
     }

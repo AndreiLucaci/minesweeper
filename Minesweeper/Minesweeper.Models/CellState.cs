@@ -6,6 +6,8 @@
         Opened,
         Neighbour,
         FlaggedAsMine,
+        MissFlag,
+        UntouchedMine,
         Mine
     }
 }

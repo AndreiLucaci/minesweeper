@@ -21,7 +21,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <ColumnDefinition Width="4*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Image helpers:EnableDragHelper.EnableDrag="True" Source="{Binding Logo}" Grid.Row="0" Grid.Column="0"></Image>
+        <Image helpers:EnableDragHelper.EnableDrag="True" Source="{Binding Logo}" Margin="4 0" Grid.Row="0" Grid.Column="0"></Image>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

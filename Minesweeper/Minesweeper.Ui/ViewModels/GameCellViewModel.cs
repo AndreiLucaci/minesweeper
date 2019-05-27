@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 using CommonServiceLocator;
 using Minesweeper.Models;
 using Minesweeper.Ui.Constants;
@@ -16,10 +14,7 @@ namespace Minesweeper.Ui.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         private Cell _cell;
-        private Image _cellImage;
         private BitmapImage _cellImageBitmap;
-        private string _display;
-        private Style _style;
 
         public GameCellViewModel()
         {
@@ -41,20 +36,8 @@ namespace Minesweeper.Ui.ViewModels
             set => SetProperty(ref _cell, value, nameof(Cell));
         }
 
-        public string Display
-        {
-            get => _display;
-            set => SetProperty(ref _display, value, nameof(Display));
-        }
-
         public DelegateCommand ClickCommand { get; set; }
         public DelegateCommand FlagCommand { get; set; }
-
-        public Image CellImage
-        {
-            get => _cellImage;
-            set => SetProperty(ref _cellImage, value, nameof(CellImage));
-        }
 
         public BitmapImage CellImageBitmap
         {
@@ -110,28 +93,41 @@ namespace Minesweeper.Ui.ViewModels
                 case CellState.FlaggedAsMine:
                     SetFlag();
                     break;
+                case CellState.MissFlag:
+                    SetMissFlag();
+                    break;
+                case CellState.UntouchedMine:
+                    SetUntouchedMine();
+                    break;
                 default:
                     SetUntouched();
                     break;
             }
         }
 
+        private void SetUntouchedMine()
+        {
+            CellImageBitmap = CellStyles.MineImagePath;
+        }
+
+        private void SetMissFlag()
+        {
+            CellImageBitmap = CellStyles.MineWrongFlagPath;
+        }
+
         private void SetUntouched()
         {
             CellImageBitmap = CellStyles.UntouchedImagePath;
-            Display = string.Empty;
         }
 
         private void SetMine()
         {
             CellImageBitmap = CellStyles.MineExplodedImagePath;
-            Display = string.Empty;
         }
 
         private void SetFlag()
         {
             CellImageBitmap = CellStyles.FlagImagePath;
-            Display = string.Empty;
         }
 
         private void SetOpen()
@@ -168,8 +164,6 @@ namespace Minesweeper.Ui.ViewModels
                     CellImageBitmap = CellStyles.Mine8ImagePath;
                     break;
             }
-
-            Display = mines == 0 ? string.Empty : mines.ToString();
         }
 
         private int ComputeNumberOfMines()

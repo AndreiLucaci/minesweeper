@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Minesweeper.Engine;
@@ -143,10 +144,31 @@ namespace Minesweeper.Ui.ViewModels
             var defusedMines = _worldManager.ComputeDefusedMines().ToList();
             var explodedMines = _worldManager.ComputeExplodedMines().ToList();
             var untouchedMines = _worldManager.ComputeUntouchedMines().ToList();
+            var wrongFlaggedMines = _worldManager.ComputeWrongFlaggedMines().ToList();
+
+            ProcessEndgameMines(untouchedMines, wrongFlaggedMines);
+
             var elapsedTime = GameTimerViewModel.ElapsedSeconds;
 
             EndGameEvents(gameState);
             ShowGameStats(gameState, elapsedTime, defusedMines.Count, explodedMines.Count, untouchedMines.Count);
+        }
+
+        private void ProcessEndgameMines(List<Cell> untouchedMines, List<Cell> wrongFlaggedMines)
+        {
+            untouchedMines.ForEach(x =>
+            {
+                x.IsDirty = true;
+                x.CellState = CellState.UntouchedMine;
+            });
+
+            wrongFlaggedMines.ForEach(x =>
+            {
+                x.IsDirty = true;
+                x.CellState = CellState.MissFlag;
+            });
+
+            RedrawWorld();
         }
 
         private void ShowGameStats(GameState gameState, int elapsedTime, int defusedMines, int explodedMines,
