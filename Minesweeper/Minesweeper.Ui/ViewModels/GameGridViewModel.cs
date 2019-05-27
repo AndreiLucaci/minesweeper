@@ -19,21 +19,17 @@ namespace Minesweeper.Ui.ViewModels
         private IWorldManager _worldManager;
         private bool _isFirstMove = true;
 
+        private bool _isEndGame = false;
+
         public ObservableCollection<CellViewModel> Cells
         {
-            get { return _cells; }
-            set { SetProperty(ref _cells, value, nameof(Cells)); }
+            get => _cells;
+            set => SetProperty(ref _cells, value, nameof(Cells));
         }
 
-        public int GameWidth
-        {
-            get { return GameConfiguration.Width * GameConstants.GameViewWidth; }
-        }
+        public int GameWidth => GameConfiguration.Width * GameConstants.GameViewWidth;
 
-        public int GameHeight
-        {
-            get { return GameConfiguration.Height * GameConstants.GameViewHeight; }
-        }
+        public int GameHeight => GameConfiguration.Height * GameConstants.GameViewHeight;
 
         public GameConfiguration GameConfiguration { get; set; }
 
@@ -54,12 +50,17 @@ namespace Minesweeper.Ui.ViewModels
 
         private void StartNewGame()
         {
+            _isFirstMove = true;
+            _isEndGame = false;
+
             _worldManager = new WorldManager(GameConfiguration);
+
             InitializeCells();
             NotifyView();
-            _isFirstMove = true;
 
             RedrawWorld(true);
+
+            _eventAggregator.GetEvent<ResetGameEvent>().Publish();
         }
 
         private void NotifyView()
@@ -88,6 +89,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<CellClickEvent>().Subscribe(OnCellClicked);
             _eventAggregator.GetEvent<CellFlagEvent>().Subscribe(OnCellFlagged);
             _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
+            _eventAggregator.GetEvent<RestartGameEvent>().Subscribe(OnRestartGame);
         }
 
         private void UnsubscribeToEvents()
@@ -95,6 +97,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<CellClickEvent>().Unsubscribe(OnCellClicked);
             _eventAggregator.GetEvent<CellFlagEvent>().Unsubscribe(OnCellFlagged);
             _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
+            _eventAggregator.GetEvent<RestartGameEvent>().Unsubscribe(OnRestartGame);
         }
 
         private void InitializeCells()
@@ -109,20 +112,58 @@ namespace Minesweeper.Ui.ViewModels
 
         private void OnCellClicked(Cell cell)
         {
-            if (_isFirstMove && (cell.IsMine() || cell.ComputeNumberOfMines() != 0))
+            if (_isEndGame) return;
+
+            if (_isFirstMove)
             {
-                _worldManager.ReorganizeCells(cell);
+                if (cell.CellType == CellType.Mine || cell.ComputeNumberOfMines() != 0)
+                {
+                    _worldManager.ReorganizeCells(cell);
+                }
+
                 _isFirstMove = false;
+
+                _eventAggregator.GetEvent<StartTimerEvent>().Publish();
             }
 
-            _worldManager.OpenCell(cell);
+            var result = _worldManager.OpenCell(cell);
 
             RedrawWorld();
+
+            ProcessGameState(result);
+        }
+
+        private void ProcessGameState(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.Advance:
+                    break;
+                case GameState.GameOver:
+                    _eventAggregator.GetEvent<GameMineExplodedEvent>().Publish();
+                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
+                    _isEndGame = true;
+                    break;
+                case GameState.EndGame:
+                    _eventAggregator.GetEvent<GameWinEvent>().Publish();
+                    _eventAggregator.GetEvent<StopTimerEvent>().Publish();
+                    _isEndGame = true;
+                    break;
+            }
+        }
+
+        private void OnRestartGame()
+        {
+            StartNewGame();
         }
 
         private void OnCellFlagged(Cell cell)
         {
+            if (_isEndGame) return;
+
             _worldManager.FlagCell(cell);
+
+            _eventAggregator.GetEvent<UpdateMinesNumberEvent>().Publish(cell.CellState == CellState.FlaggedAsMine);
 
             GetCellViewModel(cell).OnCellRedrawn();
         }

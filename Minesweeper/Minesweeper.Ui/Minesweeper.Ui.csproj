@@ -78,29 +78,62 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants\BaseStyles.cs" />
     <Compile Include="Constants\BrushesStyles.cs" />
+    <Compile Include="Constants\FaceStyles.cs" />
     <Compile Include="Constants\GameConstants.cs" />
     <Compile Include="Constants\CellStyles.cs" />
+    <Compile Include="Constants\DigitStyles.cs" />
     <Compile Include="Events\CellClickEvent.cs" />
     <Compile Include="Events\CellFlagEvent.cs" />
     <Compile Include="Events\CellRedrawEvent.cs" />
+    <Compile Include="Events\EndGameEvent.cs" />
+    <Compile Include="Events\GameMineExplodedEvent.cs" />
     <Compile Include="Events\GameNextStateEvent.cs" />
+    <Compile Include="Events\GameWinEvent.cs" />
+    <Compile Include="Events\ResetGameEvent.cs" />
     <Compile Include="Events\ResizeHeightEvent.cs" />
     <Compile Include="Events\ResizeWidthEvent.cs" />
     <Compile Include="Events\ResizeWindowEvent.cs" />
+    <Compile Include="Events\RestartGameEvent.cs" />
     <Compile Include="Events\StartNewGameEvent.cs" />
+    <Compile Include="Events\StartTimerEvent.cs" />
+    <Compile Include="Events\StopTimerEvent.cs" />
+    <Compile Include="Events\UpdateMinesNumberEvent.cs" />
     <Compile Include="Models\Pair.cs" />
+    <Compile Include="ViewModels\GameFaceViewModel.cs" />
     <Compile Include="ViewModels\GameGridViewModel.cs" />
+    <Compile Include="ViewModels\GameMinesViewModel.cs" />
+    <Compile Include="ViewModels\GameTimerViewModel.cs" />
     <Compile Include="ViewModels\GameWindowViewModel.cs" />
+    <Compile Include="ViewModels\GameHeaderViewModel.cs" />
     <Compile Include="Views\Cell.xaml.cs">
       <DependentUpon>Cell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CellViewModel.cs" />
+    <Compile Include="Views\GameFace.xaml.cs">
+      <DependentUpon>GameFace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameHeader.xaml.cs">
+      <DependentUpon>GameHeader.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\Cell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GameFace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameMines.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameTimer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,10 +148,20 @@
     <Compile Include="Views\GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameMines.xaml.cs">
+      <DependentUpon>GameMines.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameTimer.xaml.cs">
+      <DependentUpon>GameTimer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\GameHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
