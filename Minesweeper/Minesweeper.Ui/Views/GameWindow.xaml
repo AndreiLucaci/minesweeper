@@ -10,9 +10,9 @@
         xmlns:viewModels="clr-namespace:Minesweeper.Ui.ViewModels"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        WindowStyle="ToolWindow"
+        WindowStyle="ThreeDBorderWindow"
         d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
-        Title="GameWindow" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
+        Title="Minesweeper" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
     <DockPanel>
         <Menu Width="Auto" Height="20" DockPanel.Dock="Top">
             <MenuItem Header="_New Game">
@@ -30,6 +30,11 @@
                     <MenuItem.ToolTip>
                         <ToolTip>Starts a new game on Expert level.</ToolTip>
                     </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About">
+                    <ToolTip>Information about the creator of the game</ToolTip>
                 </MenuItem>
             </MenuItem>
         </Menu>
