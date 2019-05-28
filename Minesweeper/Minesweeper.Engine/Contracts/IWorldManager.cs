@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Minesweeper.Infrastructure;
 using Minesweeper.Models;
 
@@ -6,7 +7,7 @@ namespace Minesweeper.Engine.Contracts
 {
     public interface IWorldManager
     {
-        HashSet<Cell> Cells { get; set; }
+        Cell[,] Cells { get; set; }
 
         GameConfiguration CurrentGameConfiguration { get; }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using Minesweeper.Engine;
 using Minesweeper.Engine.Contracts;
@@ -20,6 +21,7 @@ namespace Minesweeper.Ui.ViewModels
         private bool _isEndGame;
         private bool _isFirstMove = true;
         private IWorldManager _worldManager;
+        private GameCellViewModel[,] _innerRepresentationOfCells;
 
         public GameGridViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
         {
@@ -56,6 +58,7 @@ namespace Minesweeper.Ui.ViewModels
             _worldManager = new WorldManager(GameConfiguration);
 
             InitializeCells();
+
             NotifyView();
 
             RedrawWorld(true);
@@ -103,11 +106,20 @@ namespace Minesweeper.Ui.ViewModels
         private void InitializeCells()
         {
             _worldManager.InitializeWorld();
+            _innerRepresentationOfCells = new GameCellViewModel[_worldManager.CurrentGameConfiguration.Height, _worldManager.CurrentGameConfiguration.Width];
 
-            Cells = new ObservableCollection<GameCellViewModel>(_worldManager.Cells.Select(x => new GameCellViewModel
+            for (var i = 0; i < _worldManager.CurrentGameConfiguration.Height; i++)
             {
-                Cell = x
-            }));
+                for (var j = 0; j < _worldManager.CurrentGameConfiguration.Width; j++)
+                {
+                    var cell = _worldManager.Cells[i, j];
+                    var cellViewModel = new GameCellViewModel(cell);
+
+                    _innerRepresentationOfCells[cell.Coordinates.X, cell.Coordinates.Y] = cellViewModel;
+                }
+            }
+
+            Cells = new ObservableCollection<GameCellViewModel>(_innerRepresentationOfCells.Cast<GameCellViewModel>());
         }
 
         private void OnCellClicked(Cell cell)
@@ -182,7 +194,7 @@ namespace Minesweeper.Ui.ViewModels
                 WrongFlaggedMines = wrongFlagged
             };
 
-            var gameStatsWindow = new Views.GameStats {DataContext = new GameStatsViewModel(gameStats)};
+            var gameStatsWindow = new Views.GameStats { DataContext = new GameStatsViewModel(gameStats) };
 
             gameStatsWindow.ShowDialog();
         }
@@ -220,17 +232,30 @@ namespace Minesweeper.Ui.ViewModels
 
         private void RedrawWorld(bool forceRedraw = false)
         {
-            var cells = forceRedraw ? _worldManager.Cells : _worldManager.Cells.Where(x => x.IsDirty);
+            for (var i = 0; i < _worldManager.Cells.GetLength(0); i++)
+            {
+                for (var j = 0; j < _worldManager.Cells.GetLength(1); j++)
+                {
+                    var cell = _worldManager.Cells[i, j];
+                    if (forceRedraw)
+                    {
+                        GetCellViewModel(cell).OnCellRedrawn();
+                        continue;
+                    }
 
-            foreach (var worldManagerCell in cells)
-                GetCellViewModel(worldManagerCell).OnCellRedrawn();
+                    if (cell.IsDirty)
+                    {
+                        GetCellViewModel(cell).OnCellRedrawn();
+                    }
 
-            _worldManager.ResetDirty();
+                    cell.IsDirty = false;
+                }
+            }
         }
 
         private GameCellViewModel GetCellViewModel(Cell cell)
         {
-            return Cells.Single(x => x.Cell.Equals(cell));
+            return _innerRepresentationOfCells[cell.Coordinates.X, cell.Coordinates.Y];
         }
     }
 }
