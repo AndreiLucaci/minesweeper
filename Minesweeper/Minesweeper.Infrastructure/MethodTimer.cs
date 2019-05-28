@@ -17,14 +17,14 @@ namespace Minesweeper.Infrastructure
             _watch.Stop();
         }
 
-        public long Time()
+        public decimal Time()
         {
-            return _watch.ElapsedMilliseconds;
+            return _watch.ElapsedMilliseconds / 1000M;
         }
 
         public string Time(string header)
         {
-            return $"{header}: {Time()}";
+            return $"{header}: {Time()} seconds";
         }
     }
 }

@@ -11,19 +11,29 @@ namespace Minesweeper.Ui.ViewModels
 {
     public class GameCellViewModel : BindableBase
     {
-        private readonly IEventAggregator _eventAggregator;
+        private IEventAggregator _eventAggregator;
 
         private Cell _cell;
         private BitmapImage _cellImageBitmap;
 
-        public GameCellViewModel()
+        private IEventAggregator EventAggregator
+        {
+            get
+            {
+                if (_eventAggregator == null)
+                {
+                    _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+                }
+
+                return _eventAggregator;
+            }
+        }
+
+        public GameCellViewModel(Cell cell)
         {
             ClickCommand = new DelegateCommand(OnClick);
             FlagCommand = new DelegateCommand(OnFlag);
-
-            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
-
-            SubscribeToEvents();
+            Cell = cell;
         }
 
         public int Height { get; } = GameConstants.GameViewHeight;
@@ -45,21 +55,6 @@ namespace Minesweeper.Ui.ViewModels
             set => SetProperty(ref _cellImageBitmap, value, nameof(CellImageBitmap));
         }
 
-        ~GameCellViewModel()
-        {
-            UnsubscribeToEvents();
-        }
-
-        private void SubscribeToEvents()
-        {
-            _eventAggregator?.GetEvent<CellRedrawEvent>()?.Subscribe(OnCellRedrawn);
-        }
-
-        private void UnsubscribeToEvents()
-        {
-            _eventAggregator?.GetEvent<CellRedrawEvent>()?.Unsubscribe(OnCellRedrawn);
-        }
-
         public void OnCellRedrawn(Cell cell = null)
         {
             cell = cell ?? Cell;
@@ -71,13 +66,13 @@ namespace Minesweeper.Ui.ViewModels
         private void OnClick()
         {
             if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.Opened)
-                _eventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
+                EventAggregator.GetEvent<CellClickEvent>().Publish(Cell);
         }
 
         private void OnFlag()
         {
             if (Cell.CellState == CellState.Untouched || Cell.CellState == CellState.FlaggedAsMine)
-                _eventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
+                EventAggregator.GetEvent<CellFlagEvent>().Publish(Cell);
         }
 
         private void Redrawn()
