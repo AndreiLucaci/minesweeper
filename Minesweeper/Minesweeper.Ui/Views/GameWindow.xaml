@@ -14,7 +14,7 @@
         WindowStyle="ThreeDBorderWindow"
         d:DataContext="{d:DesignInstance Type=viewModels:GameWindowViewModel,IsDesignTimeCreatable=True}"
         Title="Minesweeper" Width="{Binding Width, Mode=OneWay}" Height="{Binding Height, Mode=OneWay}">
-    <DockPanel helpers:EnableDragHelper.EnableDrag="True">
+    <DockPanel>
         <Menu Width="Auto" Height="20" DockPanel.Dock="Top">
             <MenuItem Header="_New Game">
                 <MenuItem Header="_Beginner" Command="{Binding BeginnerNewGameCommand}">
@@ -42,6 +42,18 @@
                 <MenuItem Header="_Rules" Command="{Binding RulesCommand}">
                     <MenuItem.ToolTip>
                         <ToolTip>The rules of the game</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Skins">
+                <MenuItem Header="_Default" Command="{Binding DefaultSkinCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>The default skin</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Header="_Inverted" Command="{Binding InvertedSkinCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>An inverted skin</ToolTip>
                     </MenuItem.ToolTip>
                 </MenuItem>
             </MenuItem>

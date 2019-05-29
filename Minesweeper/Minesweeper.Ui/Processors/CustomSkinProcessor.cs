@@ -17,7 +17,8 @@ namespace Minesweeper.Ui.Processors
         {
             if (skinType == SkinType.Custom)
             {
-                base.Process();
+                Process();
+                return;
             }
 
             _innerProcessor.Process(skinType);

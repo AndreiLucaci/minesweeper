@@ -4,6 +4,8 @@ using Minesweeper.Engine.Contracts;
 using Minesweeper.Infrastructure;
 using Minesweeper.Ui.Constants;
 using Minesweeper.Ui.Events;
+using Minesweeper.Ui.Models;
+using Minesweeper.Ui.Processors;
 using Minesweeper.Ui.Views;
 using Prism.Commands;
 using Prism.Events;
@@ -15,17 +17,19 @@ namespace Minesweeper.Ui.ViewModels
     {
         private const int ExtraSpace = 30;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ISkinProcessor _skinProcessor;
         private readonly IGameConfigurationService _gameConfigurationService;
         private int _height;
         private int _width;
 
-        public GameWindowViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator)
+        public GameWindowViewModel(IGameConfigurationService gameConfigurationService, IEventAggregator eventAggregator, ISkinProcessor skinProcessor)
         {
             Guard.ArgumentNotNull(gameConfigurationService, nameof(gameConfigurationService));
             Guard.ArgumentNotNull(eventAggregator, nameof(eventAggregator));
 
             _gameConfigurationService = gameConfigurationService;
             _eventAggregator = eventAggregator;
+            _skinProcessor = skinProcessor;
 
             BeginnerNewGameCommand =
                 new DelegateCommand(() => StartNewGame(gameConfigurationService.BeginnerConfiguration));
@@ -39,6 +43,9 @@ namespace Minesweeper.Ui.ViewModels
 
             RulesCommand =
                 new DelegateCommand(() => new GameRules().ShowDialog());
+
+            DefaultSkinCommand = new DelegateCommand(() => OnChangeSkin(SkinType.Default));
+            InvertedSkinCommand = new DelegateCommand(() => OnChangeSkin(SkinType.Inverted));
 
             SetUpInitialWindowSize();
 
@@ -63,6 +70,9 @@ namespace Minesweeper.Ui.ViewModels
 
         public DelegateCommand AboutUsCommand { get; }
         public DelegateCommand RulesCommand { get; }
+
+        public DelegateCommand DefaultSkinCommand { get; }
+        public DelegateCommand InvertedSkinCommand { get; }
 
         ~GameWindowViewModel()
         {
@@ -107,6 +117,13 @@ namespace Minesweeper.Ui.ViewModels
 
             OnResizeWidthEvent(Width);
             OnResizeHeightEvent(Height);
+        }
+
+        private void OnChangeSkin(SkinType skinType)
+        {
+            _skinProcessor.Process(skinType);
+
+            _eventAggregator.GetEvent<SkinChangedEvent>().Publish();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Minesweeper.Infrastructure;
 using Minesweeper.Ui.Constants;
 using Minesweeper.Ui.Events;
+using Minesweeper.Ui.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -12,6 +13,7 @@ namespace Minesweeper.Ui.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private BitmapImage _faceImage;
+        private FaceType _currentFace;
 
         public GameFaceViewModel(IEventAggregator eventAggregator)
         {
@@ -49,6 +51,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
             _eventAggregator.GetEvent<GameWinEvent>().Subscribe(DrawWin);
             _eventAggregator.GetEvent<GameMineExplodedEvent>().Subscribe(DrawDead);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Subscribe(OnSkinChanged);
         }
 
         private void UnsubscribeEvents()
@@ -56,6 +59,12 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
             _eventAggregator.GetEvent<GameWinEvent>().Unsubscribe(DrawWin);
             _eventAggregator.GetEvent<GameMineExplodedEvent>().Unsubscribe(DrawDead);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Unsubscribe(OnSkinChanged);
+        }
+
+        private void OnSkinChanged()
+        {
+            Redraw();
         }
 
         private void OnStartNewGame(GameConfiguration obj)
@@ -66,16 +75,35 @@ namespace Minesweeper.Ui.ViewModels
         private void DrawDead()
         {
             FaceImage = FaceStyles.FaceDead;
+            _currentFace = FaceType.Dead;
         }
 
         private void DrawWin()
         {
             FaceImage = FaceStyles.FaceWin;
+            _currentFace = FaceType.Win;
         }
 
         private void DrawSmile()
         {
             FaceImage = FaceStyles.FaceSmile;
+            _currentFace = FaceType.Smile;
+        }
+
+        private void Redraw()
+        {
+            switch (_currentFace)
+            {
+                case FaceType.Dead:
+                    DrawDead();
+                    break;
+                case FaceType.Smile:
+                    DrawSmile();
+                    break;
+                case FaceType.Win:
+                    DrawWin();
+                    break;
+            }
         }
     }
 }

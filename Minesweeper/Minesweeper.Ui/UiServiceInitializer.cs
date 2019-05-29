@@ -7,7 +7,13 @@ namespace Minesweeper.Ui
     {
         public static IContainerRegistry RegisterWithUiTypes(this IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<ISkinProcessor>(new CustomSkinProcessor(new DefaultSkinProcessor()));
+            containerRegistry.RegisterInstance<ISkinProcessor>(
+                new CustomSkinProcessor(
+                    new InvertedSkinProcessor(
+                        new DefaultSkinProcessor()
+                    )
+                )
+            );
 
             return containerRegistry;
         }

@@ -53,6 +53,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<UpdateMinesNumberEvent>().Subscribe(OnUpdateMinesNumber);
             _eventAggregator.GetEvent<RestartGameEvent>().Subscribe(OnRestartGame);
             _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Subscribe(OnSkinChanged);
         }
 
         private void UnsubscribeEvents()
@@ -60,6 +61,12 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<UpdateMinesNumberEvent>().Unsubscribe(OnUpdateMinesNumber);
             _eventAggregator.GetEvent<RestartGameEvent>().Unsubscribe(OnRestartGame);
             _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Unsubscribe(OnSkinChanged);
+        }
+
+        private void OnSkinChanged()
+        {
+            Redraw();
         }
 
         private void OnRestartGame()

@@ -61,6 +61,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<StartTimerEvent>().Subscribe(OnStartTimer);
             _eventAggregator.GetEvent<StopTimerEvent>().Subscribe(OnStopTimer);
             _eventAggregator.GetEvent<ResetGameEvent>().Subscribe(OnResetGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Subscribe(OnSkinChanged);
 
             _timer.Tick += OnTimerTick;
         }
@@ -70,6 +71,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<StartTimerEvent>().Unsubscribe(OnStartTimer);
             _eventAggregator.GetEvent<StopTimerEvent>().Unsubscribe(OnStopTimer);
             _eventAggregator.GetEvent<ResetGameEvent>().Unsubscribe(OnResetGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Unsubscribe(OnSkinChanged);
         }
 
         private void OnTimerTick(object sender, EventArgs eventArgs)
@@ -77,6 +79,14 @@ namespace Minesweeper.Ui.ViewModels
             ElapsedSeconds++;
 
             Redraw();
+        }
+
+        private void OnSkinChanged()
+        {
+            if (ElapsedSeconds == 0)
+                DrawInitial();
+            else
+                Redraw();
         }
 
         private void Redraw()
@@ -157,13 +167,13 @@ namespace Minesweeper.Ui.ViewModels
 
         private void OnStopTimer()
         {
-            ElapsedSeconds = 0;
-
             _timer.Stop();
         }
 
         private void OnStartTimer()
         {
+            ElapsedSeconds = 0;
+
             DrawInitial();
 
             _timer.Start();
@@ -178,7 +188,7 @@ namespace Minesweeper.Ui.ViewModels
 
         private IEnumerable<int> GetDigits()
         {
-            return ElapsedSeconds.ToString().Select(x => int.Parse(x.ToString()));
+            return ElapsedSeconds.ToString("000").Select(x => int.Parse(x.ToString()));
         }
 
         private void DrawInitial()

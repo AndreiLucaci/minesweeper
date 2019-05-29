@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace Minesweeper.Ui.Constants
 {
@@ -18,5 +19,25 @@ namespace Minesweeper.Ui.Constants
         public static BitmapImage MineExplodedImagePath { get; set; } 
         public static BitmapImage MineWrongFlagPath { get; set; }
         public static BitmapImage UntouchedImagePath { get; set; }
+
+        public static void Invalidate()
+        {
+            Cell0 = null;
+            Cell1 = null;
+            Cell2 = null;
+            Cell3 = null;
+            Cell4 = null;
+            Cell5 = null;
+            Cell6 = null;
+            Cell7 = null;
+            Cell8 = null;
+            MineImagePath = null;
+            FlagImagePath = null;
+            MineExplodedImagePath = null;
+            MineWrongFlagPath = null;
+            UntouchedImagePath = null;
+
+            GC.Collect();
+        }
     }
 }

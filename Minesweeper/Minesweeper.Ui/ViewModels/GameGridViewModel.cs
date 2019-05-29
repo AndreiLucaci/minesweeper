@@ -93,6 +93,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<CellFlagEvent>().Subscribe(OnCellFlagged);
             _eventAggregator.GetEvent<StartNewGameEvent>().Subscribe(OnStartNewGame);
             _eventAggregator.GetEvent<RestartGameEvent>().Subscribe(OnRestartGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Subscribe(OnSkinChanged);
         }
 
         private void UnsubscribeToEvents()
@@ -101,6 +102,7 @@ namespace Minesweeper.Ui.ViewModels
             _eventAggregator.GetEvent<CellFlagEvent>().Unsubscribe(OnCellFlagged);
             _eventAggregator.GetEvent<StartNewGameEvent>().Unsubscribe(OnStartNewGame);
             _eventAggregator.GetEvent<RestartGameEvent>().Unsubscribe(OnRestartGame);
+            _eventAggregator.GetEvent<SkinChangedEvent>().Unsubscribe(OnSkinChanged);
         }
 
         private void InitializeCells()
@@ -217,6 +219,11 @@ namespace Minesweeper.Ui.ViewModels
         private void OnRestartGame()
         {
             StartNewGame();
+        }
+
+        private void OnSkinChanged()
+        {
+            RedrawWorld(true);
         }
 
         private void OnCellFlagged(Cell cell)
