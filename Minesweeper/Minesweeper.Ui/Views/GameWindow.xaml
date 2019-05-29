@@ -56,6 +56,11 @@
                         <ToolTip>An inverted skin</ToolTip>
                     </MenuItem.ToolTip>
                 </MenuItem>
+                <MenuItem Header="_Radiated" Command="{Binding RadiatedSkinCommand}">
+                    <MenuItem.ToolTip>
+                        <ToolTip>An radiated skin</ToolTip>
+                    </MenuItem.ToolTip>
+                </MenuItem>
             </MenuItem>
         </Menu>
 

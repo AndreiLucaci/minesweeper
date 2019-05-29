@@ -46,6 +46,7 @@ namespace Minesweeper.Ui.ViewModels
 
             DefaultSkinCommand = new DelegateCommand(() => OnChangeSkin(SkinType.Default));
             InvertedSkinCommand = new DelegateCommand(() => OnChangeSkin(SkinType.Inverted));
+            RadiatedSkinCommand = new DelegateCommand(() => OnChangeSkin(SkinType.Radiated));
 
             SetUpInitialWindowSize();
 
@@ -73,6 +74,7 @@ namespace Minesweeper.Ui.ViewModels
 
         public DelegateCommand DefaultSkinCommand { get; }
         public DelegateCommand InvertedSkinCommand { get; }
+        public DelegateCommand RadiatedSkinCommand { get; }
 
         ~GameWindowViewModel()
         {
