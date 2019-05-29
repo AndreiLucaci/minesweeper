@@ -13,6 +13,8 @@ namespace Minesweeper.Ui.Constants
         public static BitmapImage LooseFace { get; } =
             LoadImage(@"/Minesweeper.Ui;component/Images/minesweeper dead.png");
 
+        public static BitmapImage Skin { get; } = LoadImage(@"/Minesweeper.Ui;component/Images/skin.png");
+
         protected static BitmapImage LoadImage(string path)
         {
             var bitmap = new BitmapImage();

@@ -107,6 +107,11 @@
     <Compile Include="Events\UpdateMinesNumberEvent.cs" />
     <Compile Include="Helpers\EnableDraggerHelper.cs" />
     <Compile Include="Models\Pair.cs" />
+    <Compile Include="Models\SkinType.cs" />
+    <Compile Include="UiServiceInitializer.cs" />
+    <Compile Include="Processors\BaseSkinProcessor.cs" />
+    <Compile Include="Processors\DefaultSkinProcessor.cs" />
+    <Compile Include="Processors\ISkinProcessor.cs" />
     <Compile Include="ViewModels\BaseDialogViewModel.cs" />
     <Compile Include="ViewModels\GameRulesViewModel.cs" />
     <Compile Include="ViewModels\GameAboutUsViewModel.cs" />
@@ -281,6 +286,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\minesweeper surprised.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\skin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
