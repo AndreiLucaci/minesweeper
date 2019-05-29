@@ -9,8 +9,10 @@ namespace Minesweeper.Ui
         {
             containerRegistry.RegisterInstance<ISkinProcessor>(
                 new CustomSkinProcessor(
-                    new InvertedSkinProcessor(
-                        new DefaultSkinProcessor()
+                    new RadiatedSkinProcessor(
+                        new InvertedSkinProcessor(
+                            new DefaultSkinProcessor()
+                        )
                     )
                 )
             );

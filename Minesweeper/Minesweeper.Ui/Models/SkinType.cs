@@ -4,6 +4,7 @@
     {
         Default,
         Inverted,
+        Radiated,
         Custom
     }
 }

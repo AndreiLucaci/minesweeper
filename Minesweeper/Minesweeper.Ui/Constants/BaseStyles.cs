@@ -22,7 +22,6 @@ namespace Minesweeper.Ui.Constants
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(path, UriKind.Relative);
             bitmap.EndInit();
-            bitmap.Freeze();
 
             return bitmap;
         }
