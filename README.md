@@ -86,9 +86,9 @@ The code metrics shows information about the code. Currently the code's maintain
 
 
 # Known issues:
-- a known issue is the slow loading time for the Expert games. The algorithm that generates the board still needs improvement.
+- ~~a known issue is the slow loading time for the Expert games. The algorithm that generates the board still needs improvement.~~
 
-- code issues: there are still code issues, which will be solved in time:
+- ~~code issues: there are still code issues, which will be solved in time:~~ under implementation
 ![codeIssueImg](https://i.imgur.com/lfKxVHV.png)
 
 # Pllaned features:
