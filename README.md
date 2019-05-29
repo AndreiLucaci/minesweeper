@@ -91,4 +91,8 @@ The code metrics shows information about the code. Currently the code's maintain
 - add save / open games
 - add records / time / configuration
 - add amazed face to the left / right click
-- stability improvements
+- ~~stability improvements~~
+- ~~add skins~~
+- ~~fix code issues~~
+- redesign stats
+- redesign pop-ups
