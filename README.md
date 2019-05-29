@@ -2,6 +2,10 @@
 
 # Implementation of the original game written in C#, WPF, Prism 7.1
 
+## Download latest version (installer - packed) 
+- will install under "C:\Program Files (x86)\Andrei Lucaci\Minesweeper":
+### [Download](https://1drv.ms/u/s!AuLwjdUez7WhikBrYMQ0J9mydkKw)
+
 # Features:
 1. Three original custom boards:
 
