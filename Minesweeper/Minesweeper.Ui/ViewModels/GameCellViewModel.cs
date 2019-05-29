@@ -132,31 +132,31 @@ namespace Minesweeper.Ui.ViewModels
             switch (mines)
             {
                 case 0:
-                    CellImageBitmap = CellStyles.Mine0ImagePath;
+                    CellImageBitmap = CellStyles.Cell0;
                     break;
                 case 1:
-                    CellImageBitmap = CellStyles.Mine1ImagePath;
+                    CellImageBitmap = CellStyles.Cell1;
                     break;
                 case 2:
-                    CellImageBitmap = CellStyles.Mine2ImagePath;
+                    CellImageBitmap = CellStyles.Cell2;
                     break;
                 case 3:
-                    CellImageBitmap = CellStyles.Mine3ImagePath;
+                    CellImageBitmap = CellStyles.Cell3;
                     break;
                 case 4:
-                    CellImageBitmap = CellStyles.Mine4ImagePath;
+                    CellImageBitmap = CellStyles.Cell4;
                     break;
                 case 5:
-                    CellImageBitmap = CellStyles.Mine5ImagePath;
+                    CellImageBitmap = CellStyles.Cell5;
                     break;
                 case 6:
-                    CellImageBitmap = CellStyles.Mine6ImagePath;
+                    CellImageBitmap = CellStyles.Cell6;
                     break;
                 case 7:
-                    CellImageBitmap = CellStyles.Mine7ImagePath;
+                    CellImageBitmap = CellStyles.Cell7;
                     break;
                 case 8:
-                    CellImageBitmap = CellStyles.Mine8ImagePath;
+                    CellImageBitmap = CellStyles.Cell8;
                     break;
             }
         }
