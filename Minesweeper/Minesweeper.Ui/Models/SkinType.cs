@@ -3,6 +3,7 @@
     public enum SkinType
     {
         Default,
+        Inverted,
         Custom
     }
 }

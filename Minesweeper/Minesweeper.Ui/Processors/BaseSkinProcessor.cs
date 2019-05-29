@@ -25,6 +25,8 @@ namespace Minesweeper.Ui.Processors
 
         private void ProcessDigits(Image image)
         {
+            DigitStyles.Invalidate();
+
             DigitStyles.Tile0 = GetPartOfImage(image, PredefinedPositions.DigitPositions.Tile0);
             DigitStyles.Tile1 = GetPartOfImage(image, PredefinedPositions.DigitPositions.Tile1);
             DigitStyles.Tile2 = GetPartOfImage(image, PredefinedPositions.DigitPositions.Tile2);
@@ -39,6 +41,8 @@ namespace Minesweeper.Ui.Processors
 
         private void ProcessCells(Image image)
         {
+            CellStyles.Invalidate();
+
             CellStyles.Cell0 = GetPartOfImage(image, PredefinedPositions.CellPositions.Cell0);
             CellStyles.Cell1 = GetPartOfImage(image, PredefinedPositions.CellPositions.Cell1);
             CellStyles.Cell2 = GetPartOfImage(image, PredefinedPositions.CellPositions.Cell2);
@@ -57,6 +61,8 @@ namespace Minesweeper.Ui.Processors
 
         private void ProcessFaces(Image image)
         {
+            FaceStyles.Invalidate();
+
             FaceStyles.FaceDead = GetPartOfImage(image, PredefinedPositions.FacePositions.FaceDead);
             FaceStyles.FaceSmile = GetPartOfImage(image, PredefinedPositions.FacePositions.FaceSmile);
             FaceStyles.FaceWin = GetPartOfImage(image, PredefinedPositions.FacePositions.FaceWin);

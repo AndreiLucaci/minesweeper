@@ -101,14 +101,17 @@
     <Compile Include="Events\ResizeWidthEvent.cs" />
     <Compile Include="Events\ResizeWindowEvent.cs" />
     <Compile Include="Events\RestartGameEvent.cs" />
+    <Compile Include="Events\SkinChangedEvent.cs" />
     <Compile Include="Events\StartNewGameEvent.cs" />
     <Compile Include="Events\StartTimerEvent.cs" />
     <Compile Include="Events\StopTimerEvent.cs" />
     <Compile Include="Events\UpdateMinesNumberEvent.cs" />
     <Compile Include="Helpers\EnableDraggerHelper.cs" />
+    <Compile Include="Models\FaceType.cs" />
     <Compile Include="Models\Pair.cs" />
     <Compile Include="Models\SkinType.cs" />
     <Compile Include="Processors\CustomSkinProcessor.cs" />
+    <Compile Include="Processors\InvertedSkinProcessor.cs" />
     <Compile Include="Processors\PredefinedPositions.cs" />
     <Compile Include="UiServiceInitializer.cs" />
     <Compile Include="Processors\BaseSkinProcessor.cs" />
@@ -255,6 +258,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\fooh.ico" />
+    <Content Include="Images\inverted.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\skin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
