@@ -107,6 +107,13 @@
     <Compile Include="Events\UpdateMinesNumberEvent.cs" />
     <Compile Include="Helpers\EnableDraggerHelper.cs" />
     <Compile Include="Models\Pair.cs" />
+    <Compile Include="Models\SkinType.cs" />
+    <Compile Include="Processors\CustomSkinProcessor.cs" />
+    <Compile Include="Processors\PredefinedPositions.cs" />
+    <Compile Include="UiServiceInitializer.cs" />
+    <Compile Include="Processors\BaseSkinProcessor.cs" />
+    <Compile Include="Processors\DefaultSkinProcessor.cs" />
+    <Compile Include="Processors\ISkinProcessor.cs" />
     <Compile Include="ViewModels\BaseDialogViewModel.cs" />
     <Compile Include="ViewModels\GameRulesViewModel.cs" />
     <Compile Include="ViewModels\GameAboutUsViewModel.cs" />
@@ -211,6 +218,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -223,34 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="fooh.ico" />
-    <Resource Include="Images\0.gif" />
-    <Resource Include="Images\1.gif" />
-    <Resource Include="Images\2.gif" />
-    <Resource Include="Images\3.gif" />
-    <Resource Include="Images\4.gif" />
-    <Resource Include="Images\5.gif" />
-    <Resource Include="Images\6.gif" />
-    <Resource Include="Images\7.gif" />
-    <Resource Include="Images\8.gif" />
-    <Resource Include="Images\untouched.gif" />
-    <Resource Include="Images\mine.gif" />
-    <Resource Include="Images\mineexploded.gif" />
-    <Resource Include="Images\mineflagged.gif" />
-    <Resource Include="Images\minemissflag.gif" />
-    <Resource Include="Images\fdead.gif" />
-    <Resource Include="Images\fsmile.gif" />
-    <Resource Include="Images\fwin.gif" />
-    <Resource Include="Images\notchecked.gif" />
-    <Resource Include="Images\t0.gif" />
-    <Resource Include="Images\t1.gif" />
-    <Resource Include="Images\t2.gif" />
-    <Resource Include="Images\t3.gif" />
-    <Resource Include="Images\t4.gif" />
-    <Resource Include="Images\t5.gif" />
-    <Resource Include="Images\t6.gif" />
-    <Resource Include="Images\t7.gif" />
-    <Resource Include="Images\t8.gif" />
-    <Resource Include="Images\t9.gif" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minesweeper.Engine\Minesweeper.Engine.csproj">
@@ -271,16 +251,13 @@
     <Resource Include="Images\minesweeper win.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\fooh.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\fooh.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Images\fooh.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\minesweeper surprised.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fooh.ico" />
+    <Content Include="Images\skin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

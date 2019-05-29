@@ -4,13 +4,8 @@ namespace Minesweeper.Ui.Constants
 {
     public class FaceStyles : BaseStyles
     {
-        public static BitmapImage FaceWin { get; } =
-            LoadImage($@"/Minesweeper.Ui;component/Images/fwin.gif");
-
-        public static BitmapImage FaceDead { get; } =
-            LoadImage($@"/Minesweeper.Ui;component/Images/fdead.gif");
-
-        public static BitmapImage FaceSmile { get; } =
-            LoadImage($@"/Minesweeper.Ui;component/Images/fsmile.gif");
+        public static BitmapImage FaceWin { get; set; }
+        public static BitmapImage FaceDead { get; set; }
+        public static BitmapImage FaceSmile { get; set; }
     }
 }
