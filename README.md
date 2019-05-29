@@ -1,6 +1,6 @@
 # Andrei Lucaci's Minesweeper
 
-# Implementation of the original game written in C#, WPF, Prism 7.1
+Implementation of the original game written in C#, WPF, Prism 7.1
 
 ## Download latest version (installer - packed) 
 - will install under "C:\Program Files (x86)\Andrei Lucaci\Minesweeper":
