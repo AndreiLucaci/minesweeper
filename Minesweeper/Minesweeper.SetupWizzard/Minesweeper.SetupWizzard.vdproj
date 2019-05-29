@@ -166,13 +166,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_45D9D852F63ECF5CCE74AAEA873BF694"
+        "OwnerKey" = "8:_F0C52BCED3EF45459E6FEE238A9B85E0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F0C52BCED3EF45459E6FEE238A9B85E0"
+        "OwnerKey" = "8:_52F17F6A299CA160D00A2BA50B46769C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8E6DE501147CDC192EC4930091A0966E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_945FA70CAAA79A3275788ECA4DB8ECAC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -214,25 +226,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_52F17F6A299CA160D00A2BA50B46769C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_4E562629CED75D1FFBC15DE08BE13413"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8E6DE501147CDC192EC4930091A0966E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_945FA70CAAA79A3275788ECA4DB8ECAC"
+        "OwnerKey" = "8:_45D9D852F63ECF5CCE74AAEA873BF694"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -253,6 +253,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -269,6 +285,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -429,6 +461,11 @@
             "AssemblyAsmDisplayName" = "8:Minesweeper.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_52F17F6A299CA160D00A2BA50B46769C"
+                    {
+                    "Name" = "8:Minesweeper.Engine.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Minesweeper.Engine.dll"
             "TargetName" = "8:"
@@ -486,6 +523,11 @@
             "AssemblyAsmDisplayName" = "8:Minesweeper.Models, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_8E6DE501147CDC192EC4930091A0966E"
+                    {
+                    "Name" = "8:Minesweeper.Models.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Minesweeper.Models.dll"
             "TargetName" = "8:"
@@ -512,6 +554,11 @@
             "AssemblyAsmDisplayName" = "8:Minesweeper.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_945FA70CAAA79A3275788ECA4DB8ECAC"
+                    {
+                    "Name" = "8:Minesweeper.Infrastructure.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Minesweeper.Infrastructure.dll"
             "TargetName" = "8:"
@@ -681,7 +728,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Minesweeper"
         "ProductCode" = "8:{2FADED64-20A8-45E2-83C1-115E7C64D147}"
-        "PackageCode" = "8:{DF564445-6885-4FAC-9D02-06FB44E78337}"
+        "PackageCode" = "8:{93D5CEA7-4769-4459-A7D9-9B8F6E2F7884}"
         "UpgradeCode" = "8:{FD1297E4-5872-4795-88F1-5A0F2F028568}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

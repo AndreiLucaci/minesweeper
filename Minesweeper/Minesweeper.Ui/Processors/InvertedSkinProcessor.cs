@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Drawing;
 using Minesweeper.Ui.Models;
 
 namespace Minesweeper.Ui.Processors
@@ -7,7 +7,7 @@ namespace Minesweeper.Ui.Processors
     {
         private readonly ISkinProcessor innerProcessor;
 
-        protected override string Path { get; set; } = $@"{AppDomain.CurrentDomain.BaseDirectory}\Images\inverted.png";
+        protected override Bitmap SkinImage => Properties.Resources.inverted;
 
         public InvertedSkinProcessor(ISkinProcessor innerProcessor)
         {

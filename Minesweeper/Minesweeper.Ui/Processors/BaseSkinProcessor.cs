@@ -10,20 +10,20 @@ namespace Minesweeper.Ui.Processors
 {
     public abstract class BaseSkinProcessor : ISkinProcessor
     {
-        protected abstract string Path { get; set; }
+        protected abstract Bitmap SkinImage { get; }
 
         public abstract void Process(SkinType skinType);
 
         protected void Process()
         {
-            var image = LoadImage(Path);
+            var image = SkinImage;
 
             ProcessDigits(image);
             ProcessCells(image);
             ProcessFaces(image);
         }
 
-        private void ProcessDigits(Image image)
+        private void ProcessDigits(Bitmap image)
         {
             DigitStyles.Invalidate();
 
@@ -39,7 +39,7 @@ namespace Minesweeper.Ui.Processors
             DigitStyles.Tile9 = GetPartOfImage(image, PredefinedPositions.DigitPositions.Tile9);
         }
 
-        private void ProcessCells(Image image)
+        private void ProcessCells(Bitmap image)
         {
             CellStyles.Invalidate();
 
@@ -59,7 +59,7 @@ namespace Minesweeper.Ui.Processors
             CellStyles.UntouchedImagePath = GetPartOfImage(image, PredefinedPositions.CellPositions.Untouched);
         }
 
-        private void ProcessFaces(Image image)
+        private void ProcessFaces(Bitmap image)
         {
             FaceStyles.Invalidate();
 
@@ -68,7 +68,7 @@ namespace Minesweeper.Ui.Processors
             FaceStyles.FaceWin = GetPartOfImage(image, PredefinedPositions.FacePositions.FaceWin);
         }
 
-        private BitmapImage GetPartOfImage(Image image, Rectangle rect)
+        private BitmapImage GetPartOfImage(Bitmap image, Rectangle rect)
         {
             var destImg = new Bitmap(rect.Width, rect.Height);
 
@@ -79,7 +79,7 @@ namespace Minesweeper.Ui.Processors
             return Bitmap2BitmapImage(destImg);
         }
 
-        private static void CopyRegionIntoImage(Image srcBitmap, Rectangle srcRegion, ref Bitmap destBitmap, Rectangle destRegion)
+        private static void CopyRegionIntoImage(Bitmap srcBitmap, Rectangle srcRegion, ref Bitmap destBitmap, Rectangle destRegion)
         {
             using (var grD = Graphics.FromImage(destBitmap))
             {
@@ -106,11 +106,6 @@ namespace Minesweeper.Ui.Processors
 
                 return bitmapImage;
             }
-        }
-
-        protected static Image LoadImage(string path)
-        {
-            return Image.FromFile(path);
         }
     }
 }

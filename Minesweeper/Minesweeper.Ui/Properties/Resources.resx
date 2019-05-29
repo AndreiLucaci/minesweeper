@@ -131,4 +131,13 @@ Number of Untouched mines: {4}.
 Number of Miss flagged mines: {5}.
 Configuration: {6}.</value>
   </data>
+  <data name="skin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\skin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="inverted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\inverted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="radiated" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\radiated.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

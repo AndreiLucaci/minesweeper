@@ -259,15 +259,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\fooh.ico" />
-    <Content Include="Images\inverted.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\radiated.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\skin.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Images\inverted.png" />
+    <Resource Include="Images\radiated.png" />
+    <Resource Include="Images\skin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
