@@ -1,4 +1,5 @@
-﻿using Minesweeper.Ui.Models;
+﻿using System.Drawing;
+using Minesweeper.Ui.Models;
 
 namespace Minesweeper.Ui.Processors
 {
@@ -6,7 +7,7 @@ namespace Minesweeper.Ui.Processors
     {
         private ISkinProcessor _innerProcessor { get; }
 
-        protected override string Path { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        protected override Bitmap SkinImage => throw new System.NotImplementedException();
 
         public CustomSkinProcessor(ISkinProcessor innerProcessor)
         {
