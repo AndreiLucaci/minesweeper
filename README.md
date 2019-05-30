@@ -32,16 +32,8 @@ Implementation of the original game written in C#, WPF, Prism 7.1
 
     2. Restart game - displays also game states - middle
         1. Smile - new / ongoing game
-
-        ![smileFaceImg](https://i.imgur.com/kYW1sEm.png)
-
         2. Glasses (cool) - win
-
-        ![winFaceImg](https://i.imgur.com/zCQzI4N.gif)
-
         3. x.x face (dead) - loose
-
-        ![looseFaceImg](https://i.imgur.com/dhMdN63.gif)
 
     3. Timer - right
 
@@ -49,9 +41,7 @@ Implementation of the original game written in C#, WPF, Prism 7.1
 
 4. Stats - after each game you get the stats:
     1. Win:
-        ![winImg](https://i.imgur.com/Wyb2qDl.png)
     2. Loose:
-        ![looseImg](https://i.imgur.com/P2TjyHz.png)
 
     
     
