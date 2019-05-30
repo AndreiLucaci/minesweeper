@@ -17,13 +17,8 @@ Implementation of the original game written in C#, WPF, Prism 7.1
 2. Information:
 
     ![infoImg](https://i.imgur.com/1Timp2M.png)
-    1. About us:
-
-    ![aboutUsImg](https://i.imgur.com/nTM83CZ.png)
-
-    2. Rules:
-
-    ![rulesImg](https://i.imgur.com/diYA9Fy.png)
+    1. About us
+    2. Rules    
 
 3. Header information:
     1. Number of mines (either valid or flagged) - left
@@ -40,10 +35,7 @@ Implementation of the original game written in C#, WPF, Prism 7.1
     ![timerImg](https://i.imgur.com/OKWVzmv.gif)
 
 4. Stats - after each game you get the stats:
-    1. Win:
-    2. Loose:
-
-    
+   
     
 # Screenshots
 
