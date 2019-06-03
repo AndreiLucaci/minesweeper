@@ -96,15 +96,14 @@ namespace Minesweeper.Ui.ViewModels
         private void OnResizeWidthEvent(int width)
         {
             if (Application.Current.MainWindow != null && Application.Current.MainWindow.Width != width + ExtraSpace)
-                Dispatcher.CurrentDispatcher.Invoke(() => Application.Current.MainWindow.Width = width + ExtraSpace,
-                    DispatcherPriority.Render);
+                Application.Current.MainWindow.Width = width + ExtraSpace;
         }
 
         private void OnResizeHeightEvent(int height)
         {
-            if (Application.Current.MainWindow != null && Application.Current.MainWindow.Height != height + ExtraSpace + 90)
-                Dispatcher.CurrentDispatcher.Invoke(
-                    () => Application.Current.MainWindow.Height = height + ExtraSpace + 90, DispatcherPriority.Render);
+            if (Application.Current.MainWindow != null &&
+                Application.Current.MainWindow.Height != height + ExtraSpace + 90)
+                Application.Current.MainWindow.Height = height + ExtraSpace + 90;
         }
 
         private void StartNewGame(GameConfiguration gameConfiguration)
