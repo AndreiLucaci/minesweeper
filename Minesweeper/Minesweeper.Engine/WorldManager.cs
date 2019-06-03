@@ -28,20 +28,7 @@ namespace Minesweeper.Engine
 
         public void ReorganizeCells(Cell cell)
         {
-            for (var i = 1; i < CurrentGameConfiguration.Height - 1; i++)
-                for (var j = 1; j < CurrentGameConfiguration.Width - 1; j++)
-                {
-                    var cellAt = Cells[i, j];
-                    if (cellAt.CellType == CellType.EmptyCell && cellAt.ComputeNumberOfMines() == 0)
-                    {
-                        SwitchCells(cell, cellAt);
-
-                        foreach (var (first, seocond) in cell.Neighbours.Zip(cellAt.Neighbours, (c1, c2) => (c1, c2)))
-                            SwitchCells(first, seocond);
-
-                        return;
-                    }
-                }
+            ReorganizeCellsInternal(cell);
         }
 
         public bool IsGameEndedWithSuccess()
@@ -125,24 +112,46 @@ namespace Minesweeper.Engine
                 cell.IsDirty = false;
         }
 
-        private bool SwitchCells(Cell cell1, Cell cell2)
-        {
-            var tempState = cell1.CellState;
-            cell1.CellState = cell2.CellState;
-            cell2.CellState = tempState;
-
-            var tempType = cell1.CellType;
-            cell1.CellType = cell2.CellType;
-            cell2.CellType = tempType;
-
-            return true;
-        }
-
         private void OpenValidNeighbours(Cell cell)
         {
             if (cell.ComputeNumberOfMines() - cell.ComputeNumberOfFlags() == 0)
                 foreach (var i in cell.Neighbours.Where(x => x.CellState == CellState.Untouched))
                     OpenCellInner(i);
+        }
+
+        private void ReorganizeCellsInternal(Cell cell)
+        {
+            var mines = new List<Cell>();
+
+            if (cell.CellType == CellType.Mine)
+            {
+                mines.Add(cell);
+            }
+
+            mines.AddRange(cell.Neighbours.Where(x => x.CellType == CellType.Mine));
+
+            mines.ForEach(x => DeneutralizeMine(x, cell));
+        }
+
+        private void DeneutralizeMine(Cell cell, Cell exceptCell)
+        {
+            var cellX = cell.Coordinates.X <= 2 ? cell.Coordinates.X + 3 : 0;
+            var cellY = cell.Coordinates.Y <= 2 ? cell.Coordinates.Y + 3 : 0;
+
+            for (var i = cellX; i < Cells.GetLength(0); i++)
+            {
+                for (var j = cellY; j < Cells.GetLength(1); j++)
+                {
+                    var cellAt = Cells[i, j];
+
+                    if (cellAt.CellType == CellType.EmptyCell && !cellAt.Equals(exceptCell))
+                    {
+                        cellAt.CellType = cell.CellType;
+                        cell.CellType = CellType.EmptyCell;
+                        return;
+                    }
+                }
+            }
         }
 
         private void OpenCellInner(Cell cell)
