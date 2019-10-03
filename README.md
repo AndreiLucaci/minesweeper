@@ -1,4 +1,4 @@
-# Andrei Lucaci's Minesweeper
+# Minesweeper
 
 Implementation of the original game written in C#, WPF, Prism 7.1
 
