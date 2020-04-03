@@ -1,3 +1,6 @@
+# discontinued: 
+### this project has been discotinued - what you see is what you get! Perhaps I'll open this again if I have time time
+
 # Minesweeper
 
 Implementation of the original game written in C#, WPF, Prism 7.1
