@@ -1,5 +1,5 @@
 # discontinued: 
-### this project has been discotinued - what you see is what you get! Perhaps I'll open this again if I have time time
+### this project has been discotinued - what you see is what you get! Perhaps I'll open this again if I have the time
 
 # Minesweeper
 
